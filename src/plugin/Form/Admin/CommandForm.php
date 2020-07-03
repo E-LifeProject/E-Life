@@ -50,16 +50,16 @@ class CommandForm implements Form{
             'content'=>'実行したい項目を選んでください',
             'buttons'=>[
                 [
-                    'text'=>'Ban'
+                    'text'=>'追放'
                 ],
                 [
-                    'text'=>'Pardon'
+                    'text'=>'追放解除'
                 ],
                 [
-                    'text'=>'Whitelist'
+                    'text'=>'ホワイトリスト'
                 ],
                 [
-                    'text'=>'Money'
+                    'text'=>'お金'
                 ]
             ]
         ];

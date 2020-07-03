@@ -15,7 +15,7 @@ class BanCommand implements Form{
             return;
         }
 
-        $target_name = $data[1];
+        $target_name = $data[0];
         $target = Server::getInstance()->getOfflinePlayer($target_name);
         if(!is_null($target) || $target_name === ""){
 	        if(!$target->isOp()){
@@ -33,16 +33,12 @@ class BanCommand implements Form{
     public function jsonSerialize(){
         return[
             'type'=>'custom_form',
-            'title'=>'BanCommand',
+            'title'=>'追放フォーム',
             'content'=>[
-                [
-                    'type'=>'label',
-                    'text'=>"BanCommand"
-                ],
                 [
                     'type'=>'input',
                     'text'=>'対象の名前を入力してください。',
-                    'placeholder'=>'PlayerName'
+                    'placeholder'=>'プレーヤー名'
                 ]
             ]
         ];

@@ -14,9 +14,9 @@ class MoneyCommand implements Form{
             return;
         }
 
-        $dropdown = $data[1];
-        $target_name = $data[2];
-        $amount = $data[3];
+        $dropdown = $data[0];
+        $target_name = $data[1];
+        $amount = $data[2];
 
         $target = Server::getInstance()->getOfflinePlayer($target_name);
         switch ($dropdown) {
@@ -42,29 +42,25 @@ class MoneyCommand implements Form{
     public function jsonSerialize(){
         return[
             'type'=>'custom_form',
-            'title'=>'MoneyCommand',
+            'title'=>'お金管理フォーム',
             'content'=>[
-                [
-                    'type'=>'label',
-                    'text'=>"MoneyCommand"
-                ],
                 [
                 	'type'=>'dropdown',
                 	'text'=>'実行する項目',
                 	'options'=>[
-                		'seemoney',
-                		'setmoney'
+                		'他プレーヤーの所持金の確認',
+                		'他プレーヤーの所持金を変更'
                 	]
                 ],
                 [
                     'type'=>'input',
                     'text'=>'対象の名前を入力してください。',
-                    'placeholder'=>'PlayerName'
+                    'placeholder'=>'プレーヤー名'
                 ],
                 [
                     'type'=>'input',
                     'text'=>"金額を入力してください\n※setmoneyの時のみ",
-                    'placeholder'=>"amount"
+                    'placeholder'=>"金額"
                 ]
             ]
         ];

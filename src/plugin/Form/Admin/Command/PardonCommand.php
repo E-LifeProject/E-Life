@@ -32,16 +32,12 @@ class PardonCommand implements Form{
     public function jsonSerialize(){
         return[
             'type'=>'custom_form',
-            'title'=>'PardonCommand',
+            'title'=>'追放解除フォーム',
             'content'=>[
-                [
-                    'type'=>'label',
-                    'text'=>"PardonCommand"
-                ],
                 [
                     'type'=>'input',
                     'text'=>'対象の名前を入力してください。',
-                    'placeholder'=>'PlayerName'
+                    'placeholder'=>'プレーヤー名'
                 ]
             ]
         ];

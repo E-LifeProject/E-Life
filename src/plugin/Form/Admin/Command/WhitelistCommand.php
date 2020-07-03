@@ -44,26 +44,26 @@ class WhitelistCommand implements Form{
     public function jsonSerialize(){
         return[
             'type'=>'custom_form',
-            'title'=>'WhitelistCommand',
+            'title'=>'ホワイトリスト管理フォーム',
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>"WhitelistCommand\nDropdownが「on」,「off」の時は、名前の記入は入りません"
+                    'text'=>"Dropdownが「有効」,「無効」の時は、名前の記入は入りません"
                 ],
                 [
                 	'type'=>'dropdown',
                 	'text'=>'実行する項目',
                 	'options'=>[
-                        'on',
-                        'off',
-                		'add',
-                		'remove'
+                        '有効',
+                        '無効',
+                		'プレーヤー追加',
+                		'プレーヤー除外'
                 	]
                 ],
                 [
                     'type'=>'input',
                     'text'=>'対象の名前を入力してください。',
-                    'placeholder'=>'PlayerName'
+                    'placeholder'=>'プレーヤー名'
                 ]
             ]
         ];
