@@ -77,13 +77,8 @@ class Event implements Listener{
         //ログインしたらTitle表示 
         $player->addTitle("E-Life鯖へようこそ","Welcome to E-Life",40,40,40);
 
-        //ログインメッセージの表示を自分以外のPlayerのPopUpに表示
-        $event->setJoinMessage("");
-        foreach(Server::getInstance()->getOnlinePlayers() as $player){
-            if($event->getPlayer() !== $player){
-                $player->sendPopUp("§a通知>>".$name."さんがログインしました\n\n");
-            }
-        }
+        //ログインメッセージの変更
+        $event->setJoinMessage("§6[全体通知] §7".$name."さんがE-Lifeにログインしました");
 
         $item = $this->menu->getMenuItem();
         $player->getInventory()->setItem(0, $item);
@@ -94,12 +89,9 @@ class Event implements Listener{
         $player = $event->getPlayer();
         $name = $player->getName();
 
-        //ログアウトメッセージの表示をPopUpに表示
-        $event->setQuitMessage("");
-        foreach(Server::getInstance()->getOnlinePlayers() as $player){
-            $player->sendPopUp("§a通知>>".$name."さんがログアウトしました\n\n");
-        }
-
+        //ログアウトメッセージの変更
+        $event->setQuitMessage("§6[全体通知] §7".$name."さんがE-Lifeからログアウトしました");
+        
         //Jobの変更可能回数をconfigの保存
         $this->main->jobCount->set($name,$this->main->jobCountArray[$name]);
         $this->main->jobCount->save();
