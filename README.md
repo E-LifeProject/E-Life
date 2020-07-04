@@ -2,11 +2,11 @@
 - E-Lifeとは、MinecraftBEサーバーソフトウェアPMMP向けに作成されたPluginです。あなたが自由気ままに生活できる場所を
 - 開発者は自由にコミットする事が出来、新要素の追加については一度報告をお願いします
 
-##　前提プラグイン
+## 前提プラグイン
 - [EconomyAPI](https://github.com/onebone/EconomyS/tree/3.x/EconomyAPI)
 - [EconomyJob](https://github.com/onebone/EconomyS/tree/3.x/EconomyJob)
 
-## コミットスタイル
+##　コミットスタイル
 - コミットは基本的に一つの作業を終えるごとに行ってください
 - コンフリクトを避ける為にコミットするタイミングでプッシュを行ってください
 - コミットメッセージは出来るだけ分かりやすく、簡潔に
