@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace plugin\Item\Original;
 
 use OriginItem;
+use plugin\Form\MainMenu;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\ItemIds;
@@ -21,6 +22,6 @@ class MenuBook extends OriginItem
 	}
 
 	public function onUse(Player $player): void {
-		//TODO; 処理の実装
+		$player->sendForm(new MainMenu());
 	}
 }
