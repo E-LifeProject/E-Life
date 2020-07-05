@@ -40,25 +40,25 @@ class Event implements Listener {
     public function onLogin(PlayerLoginEvent $event){
         $name = $event->getPlayer()->getName();
 
-        $club = ConfigBase::getFor(ConfigList::CLUB);
+	    //E-Clubの加入状況確認
+	    $club = ConfigBase::getFor(ConfigList::CLUB);
+
+	    $club->reload();
         if($club->exists($name)) {
 	        $date1 = new DateTime($club->get($name));
 	        $date2 = new DateTime(date("Y/m/d"));
 	        if($date1 < $date2)
 		        $club->__unset($name);
         }
-        
-        //E-Clubの加入状況確認
-        $this->main->club->reload();
-        if($this->main->club->exists($name)){
-
-        }
 
         //Jobの変更可能回数を記録
-        if(!$this->main->jobCount->exists($name)){
-            $this->main->jobCount->set($name,3);
-            $this->main->jobCount->save();
+	    $job_count = ConfigBase::getFor(ConfigList::JOB_COUNT);
+
+        if(!$job_count->exists($name)) {
+            $job_count->set($name, 3);
+            $job_count->save();
         }
+
         $this->main->jobCountArray[$name] = $this->main->jobCount->get($name);
     }
 
