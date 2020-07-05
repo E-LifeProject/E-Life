@@ -28,8 +28,10 @@ class OriginItemFactory
 	}
 
 	private function registerFor(OriginItem $item): void {
-		if($this->isExist($item))
+		if(!$this->isExist($item)) {
 			$this->origin_items[$item->getCustomName()] = $item;
+			Item::addCreativeItem($item);
+		}
 	}
 
 	public function useFor(Player $player, Item $item): void {

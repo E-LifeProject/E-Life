@@ -8,6 +8,7 @@ use OriginItemFactory;
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
 use plugin\Config\Data\JobCount;
+use plugin\Item\Original\MenuBook;
 use plugin\Main;
 use pocketmine\event\Listener;
 
@@ -76,9 +77,11 @@ class Event implements Listener {
         }
 
         //初回ログインには利用規約への同意確認フォームを送る
-        $this->main->player->reload();
-        if(!$this->main->player->exists($name)){
-            $player->sendForm(new TermsForm($this->main));
+	    $player_config = ConfigBase::getFor(ConfigList::PLAYER);
+
+        $player_config->reload();
+        if(!$player_config->exists($name)) {
+            $player->sendForm(new TermsForm());
         }
 
         //ログインしたらTitle表示
@@ -87,8 +90,7 @@ class Event implements Listener {
         //ログインメッセージの変更
         $event->setJoinMessage("§6[全体通知] §7".$name."さんがE-Lifeにログインしました");
 
-        $item = $this->menu->getMenuItem();
-        $player->getInventory()->setItem(0, $item);
+        $player->getInventory()->setItem(0, new MenuBook());
     }
 
 

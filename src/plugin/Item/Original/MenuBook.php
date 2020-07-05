@@ -7,7 +7,6 @@ namespace plugin\Item\Original;
 use OriginItem;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\item\enchantment\EnchantmentInstance;
-use pocketmine\item\Item;
 use pocketmine\item\ItemIds;
 use pocketmine\Player;
 
@@ -19,8 +18,6 @@ class MenuBook extends OriginItem
 		$this->addEnchantment(new EnchantmentInstance(Enchantment::getEnchantment(26), 5));
 		$this->setCustomName(ItemList::MENU_BOOK_NAME);
 		$this->setLore(ItemList::MENU_BOOK_LORE);
-
-		Item::addCreativeItem($this);
 	}
 
 	public function onUse(Player $player): void {
