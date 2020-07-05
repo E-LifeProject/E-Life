@@ -3,14 +3,9 @@
 namespace plugin\Event;
 
 #Basic
-use pocketmine\Player;
-use pocketmine\Server;
+use OriginItemFactory;
+use plugin\Main;
 use pocketmine\event\Listener;
-use pocketmine\item\ItemIds;
-use pocketmine\block\BlockIds;
-use pocketmine\utils\Config;
-use pocketmine\form\Form;
-
 
 #Event
 use pocketmine\event\player\PlayerJoinEvent;
@@ -24,15 +19,19 @@ use pocketmine\network\mcpe\protocol\InventoryTransactionPacket;
 
 #E-Life
 use plugin\form\TermsForm;
-use plugin\form\MainMenu;
-use plugin\MenuItem;
 
 
-class Event implements Listener{
+class Event implements Listener {
 
-    public function __construct($main){
+	/** @var Main */
+	private $main;
+
+	/** @var OriginItemFactory */
+	private $origin_item_factory;
+
+    public function __construct(Main $main) {
         $this->main = $main;
-        $this->menu = new MenuItem();
+        $this->origin_item_factory = new OriginItemFactory();
     }
 
     public function onLogin(PlayerLoginEvent $event){
@@ -74,8 +73,8 @@ class Event implements Listener{
             $player->sendForm(new TermsForm($this->main));
         }
 
-        //ログインしたらTitle表示 
-        $player->addTitle("E-Life鯖へようこそ","Welcome to E-Life",40,40,40);
+        //ログインしたらTitle表示
+        $player->sendTitle("E-Life鯖へようこそ","Welcome to E-Life",40,40,40);
 
         //ログインメッセージの変更
         $event->setJoinMessage("§6[全体通知] §7".$name."さんがE-Lifeにログインしました");
@@ -100,16 +99,9 @@ class Event implements Listener{
 
     public function onTap(PlayerInteractEvent $event){
         $player = $event->getPlayer();
-        $name = $player->getName();
 
-        //本でタップしたらMainMenuを表示する
-        if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK){
-            $item_name = $event->getItem()->getCustomName();
-            $menu_item_name = $this->menu->getMenu_ItemName();
-            if($item_name === $menu_item_name){
-                $player->sendForm(new MainMenu($this->main));
-            }
-        }
+        if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK)
+        	$this->getOriginItemFactory()->useFor($player, $event->getItem());
     }
 
     public function onReceive(DataPacketReceiveEvent $event){
@@ -123,5 +115,14 @@ class Event implements Listener{
             }
         }
     }
+
+	/** @return Main */
+	private function getMain(): Main {
+		return $this->main;
+	}
+
+	/** @return OriginItemFactory */
+	 private function getOriginItemFactory(): OriginItemFactory {
+		return $this->origin_item_factory;
+	}
 }
-?>
