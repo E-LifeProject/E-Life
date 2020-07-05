@@ -64,4 +64,3 @@ class ShopForm implements Form{
         ];
     }
 }
-?>

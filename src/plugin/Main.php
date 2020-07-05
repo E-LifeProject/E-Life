@@ -17,7 +17,7 @@ use plugin\Task\Club;
 use onebone\economyapi\EconomyAPI;
 
 
-class Main extends PluginBase implements Listener{
+class Main extends PluginBase implements Listener {
 
     public function onEnable(): void {
 
@@ -27,6 +27,7 @@ class Main extends PluginBase implements Listener{
 
         ConfigBase::init($this);
 
+        /** @var EconomyAPI $economy_api */
         $economy_api = ApiLoader::load($this, "EconomyAPI");
 
         //Listenerにイベントを登録
