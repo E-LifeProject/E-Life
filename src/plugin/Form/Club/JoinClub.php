@@ -3,6 +3,8 @@
 namespace plugin\Form\Club;
 
 #Basic
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
 use pocketmine\Player;
 use pocketmine\form\Form;
 
@@ -12,28 +14,30 @@ use onebone\economyapi\EconomyAPI;
 
 class JoinClub implements Form{
 
-    public function __construct($main){
-        $this->main = $main;
-    }
+
     /**
      * E-Clubは重複登録が出来ないので期日が過ぎたら
      * 再度登録してもらうようにして、鯖への参加率を高める
      */
     //Formの処理
     public function handleResponse(Player $player,$data):void{
-        $name = $player->getName();
-        if($data === null){
-            return;
-        }
-        $money = EconomyAPI::getInstance()->mymoney($player);
+	    if($data === null){
+		    return;
+	    }
+
+	    $name = $player->getName();
+	    $money = EconomyAPI::getInstance()->mymoney($player);
+
+	    $club = ConfigBase::getFor(ConfigList::CLUB);
+
         switch($data[1]){
             //10日プランの場合の処理
             case 0:
-                if(!$this->main->club->exists($name)){
+                if(!$club->exists($name)){
                     if($money>=1000){
                         EconomyAPI::getInstance()->reduceMoney($player,1000);
-                        $this->main->club->set($name,date("Y/m/d",strtotime("10 day")));
-                        $this->main->club->save();
+                        $club->set($name,date("Y/m/d",strtotime("10 day")));
+                        $club->save();
                         $player->sendPopUp("§a通知>>20日プランでE-Clubに加入しました\n\n");
                     }else{
                         $player->sendPopUp("§a通知>>所持金が足りません\n\n");
@@ -45,33 +49,33 @@ class JoinClub implements Form{
 
             //20日プランの場合の処理
             case 1:
-                if(!$this->club->exists($name)){
+                if(!$club->exists($name)){
                     if($money>=2000){
                         EconomyAPI::getInstance()->reduceMoney($player,2000);
-                        $this->main->club->set($name,date("Y/m/d",strtotime("20 day")));
-                        $this->main->club->save();
+                        $club->set($name,date("Y/m/d",strtotime("20 day")));
+                        $club->save();
                         $player->sendPopUp("§a通知>>20日プランでE-Clubに加入しました\n\n");
                     }else{
                         $player->sendPopUp("§a通知>>所持金が足りません\n\n");
                     }
                 }else{
-                    $player->sendPopUp("§a通知>>すでに加入されています 期限:".$this->main->club->get($name)."\n\n");
+                    $player->sendPopUp("§a通知>>すでに加入されています 期限:".$club->get($name)."\n\n");
                 }
             break;
 
             //30日プランの場合の処理
             case 2:
-                if(!$this->main->club->exists($name)){
+                if(!$club->exists($name)){
                     if($money>=3000){
                         EconomyAPI::getInstance()->reduceMoney($player,3000);
-                        $this->main->club->set($name,date("Y/m/d",strtotime("30 day")));
-                        $this->main->club->save();
+                        $club->set($name,date("Y/m/d",strtotime("30 day")));
+                        $club->save();
                         $player->sendPopUp("§a通知>>30日プランでE-Clubに加入しました\n\n");
                     }else{
                         $player->sendPopUp("§a通知>>所持金が足りません\n\n");
                     }
                 }else{
-                    $player->sendPopUp("§a通知>>すでに加入されています 期限:".$this->main->club->get($name)."\n\n");
+                    $player->sendPopUp("§a通知>>すでに加入されています 期限:".$club->get($name)."\n\n");
                 }
             break;
         }
@@ -101,4 +105,3 @@ class JoinClub implements Form{
         ];
     }
 }
-?>
