@@ -11,7 +11,6 @@ use pocketmine\block\BlockIds;
 use pocketmine\utils\Config;
 use pocketmine\form\Form;
 
-
 #Event
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
@@ -26,18 +25,23 @@ use pocketmine\network\mcpe\protocol\InventoryTransactionPacket;
 use plugin\form\TermsForm;
 use plugin\form\MainMenu;
 use plugin\MenuItem;
+use OriginItemFactory;
 
 
 class Event implements Listener{
 
+	/** @var OriginItemFactory */
+	private $origin_item_factory;
+
     public function __construct($main){
         $this->main = $main;
         $this->menu = new MenuItem();
+        $this->origin_item_factory = new OriginItemFactory();
     }
 
     public function onLogin(PlayerLoginEvent $event){
         $name = $event->getPlayer()->getName();
-        
+
         //E-Clubの加入状況確認
         $this->main->club->reload();
         if($this->main->club->exists($name)){
@@ -74,7 +78,7 @@ class Event implements Listener{
             $player->sendForm(new TermsForm($this->main));
         }
 
-        //ログインしたらTitle表示 
+        //ログインしたらTitle表示
         $player->addTitle("E-Life鯖へようこそ","Welcome to E-Life",40,40,40);
 
         //ログインメッセージの変更
@@ -91,7 +95,7 @@ class Event implements Listener{
 
         //ログアウトメッセージの変更
         $event->setQuitMessage("§6[全体通知] §7".$name."さんがE-Lifeからログアウトしました");
-        
+
         //Jobの変更可能回数をconfigの保存
         $this->main->jobCount->set($name,$this->main->jobCountArray[$name]);
         $this->main->jobCount->save();
@@ -103,12 +107,17 @@ class Event implements Listener{
         $name = $player->getName();
 
         //本でタップしたらMainMenuを表示する
-        if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK){
+        if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
+	        $factory = $this->getOriginItemFactory();
+	        $factory->onUsed($player, $event->getItem(), $this->main);
+
+	        /*
             $item_name = $event->getItem()->getCustomName();
             $menu_item_name = $this->menu->getMenu_ItemName();
             if($item_name === $menu_item_name){
                 $player->sendForm(new MainMenu($this->main));
             }
+	        */
         }
     }
 
@@ -123,5 +132,9 @@ class Event implements Listener{
             }
         }
     }
+
+	/** @return OriginItemFactory */
+	public function getOriginItemFactory(): OriginItemFactory {
+		return $this->origin_item_factory;
+	}
 }
-?>

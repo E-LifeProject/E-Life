@@ -7,6 +7,6 @@ use pocketmine\Player;
 
 abstract class OriginItem extends Item {
 
-	public function onUse(Player $player): void {}
+	public function onUse(Player $player, $main): void {}
 
 }

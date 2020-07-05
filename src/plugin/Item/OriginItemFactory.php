@@ -22,10 +22,10 @@ class OriginItemFactory
 	}
 
 	private function registerFor(OriginItem $item): void {
-		if($this->isExist($item->getName()))
+		if($this->isExist($item->getCustomName()))
 			return;
 
-		$this->origin_item[$item->getName()] = $item;
+		$this->origin_item[$item->getCustomName()] = $item;
 	}
 
 	private function isExist(string $origin_item_name): bool {
@@ -36,8 +36,8 @@ class OriginItemFactory
 		return $this->origin_item[$oriin_item_name];
 	}
 
-	public function onUsed(Player $player, Item $item): void {
-		if($this->isExist($item->getName()))
-			$this->getOriginItemFor($item->getName())->onUse($player);
+	public function onUsed(Player $player, Item $item, $main): void {
+		if($this->isExist($item->getCustomName()))
+			$this->getOriginItemFor($item->getCustomName())->onUse($player, $main);
 	}
 }
