@@ -102,8 +102,8 @@ class Event implements Listener {
         $event->setQuitMessage("§6[全体通知] §7".$name."さんがE-Lifeからログアウトしました");
         
         //Jobの変更可能回数をconfigの保存
-        $this->main->jobCount->set($name,$this->main->jobCountArray[$name]);
-        $this->main->jobCount->save();
+	    $job_count = ConfigBase::getFor(ConfigList::JOB_COUNT);
+        $job_count->set($name, );
     }
 
 

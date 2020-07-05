@@ -13,8 +13,15 @@ class JobCount
 	/** @var array */
 	private static $count;
 
-	static function setCountFor(Player $player): void {
+	static function setCountFor(Player $player, ?int $count = null): void {
 		$name = $player->getName();
-		self::$count[$name] = ConfigBase::getFor(ConfigList::JOB_COUNT)->get($name);
+		if($count === null)
+			self::$count[$name] = ConfigBase::getFor(ConfigList::JOB_COUNT)->get($name);
+		else
+			self::$count[$name] = $count;
+	}
+
+	static function getCountFor(Player $player): int {
+		return self::$count[$player->getName()];
 	}
 }
