@@ -3,34 +3,33 @@
 namespace plugin\Form\Shop;
 
 #Basic
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
 use pocketmine\form\Form;
 use pocketmine\Player;
 
 #Form
-use plugin\Form\Shop\ConfirmationForm;
-
-
 
 class ShopForm implements Form{
 
-    public function __construct($main){
-        $this->main = $main;
-    }
-
     //Formの処理
     public function handleResponse(Player $player,$data):void{
-        $name = $player->getName();
-        /**
+	    /**
          * もしshop.ymlに登録されているアイテムなら
          * 購入確認Formへ
-         * 
+         *
          * 登録されていないアイテムならErrorを表示
          */
-        if($data === null){
-            return;
-        }elseif($this->main->shop->exists($data[0])){//登録されているアイテムの処理
-            $shopData = $this->main->shop->get($data[0]);
-            if($this->main->club->exists($name)){
+	    if($data === null) {
+		    return;
+	    }
+
+	    $name = $player->getName();
+	    $shop = ConfigBase::getFor(ConfigList::SHOP);
+	    $club = ConfigBase::getFor(ConfigList::CLUB);
+	    if($shop->exists($data[0])){//登録されているアイテムの処理
+            $shopData = $shop->get($data[0]);
+            if($club->exists($name)){
                 $fee =0;
                 $total = $shopData['price']*$data[1];
             }else{
@@ -38,7 +37,7 @@ class ShopForm implements Form{
                 $total = $shopData['price']*$data[1]+$fee;
             }
             $player->sendForm(new ConfirmationForm($shopData['name'],$shopData['price'],$shopData['id'],$data[1],$total,$fee));
-        }elseif(!$this->main->shop->exists($data[0])){//登録されていないアイテムの処理（入力ミスもこの処理)
+        }elseif(!$shop->exists($data[0])){//登録されていないアイテムの処理（入力ミスもこの処理)
             $player->sendPopUp("§a通知>>そのブロックやアイテムは取り扱ってません\n\n");
         }
     }

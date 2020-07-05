@@ -13,7 +13,13 @@ use onebone\economyapi\EconomyAPI;
 
 class ConfirmationForm implements Form{
 
-    public function __construct($name,$price,$id,$number,$total,$fee){
+	private $total;
+	private $number;
+	private $id;
+	private $name;
+	private $fee;
+
+	public function __construct($name, $price, $id, $number, $total, $fee){
         $this->name = $name;
         $this->price = $price;
         $this->id = $id;
