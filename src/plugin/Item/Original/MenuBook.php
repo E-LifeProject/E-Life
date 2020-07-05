@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace plugin\Item\Original;
 
-use ItemList;
 use OriginItem;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\item\enchantment\EnchantmentInstance;
-use pocketmine\item\Item;
 use pocketmine\item\ItemIds;
 use pocketmine\Player;
 

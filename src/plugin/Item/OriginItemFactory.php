@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use plugin\Item\Original\MenuBook;
 use pocketmine\item\Item;
 use pocketmine\Player;
 
@@ -11,6 +12,9 @@ class OriginItemFactory
 	private $origin_items;
 
 	public function __construct() {
+		$this->register([
+			new MenuBook()
+		]);
 	}
 
 	private function isExist(OriginItem $item): bool {
@@ -19,7 +23,7 @@ class OriginItemFactory
 
 	private function register(array $items): void {
 		foreach($items as $item) {
-			$this->register($item);
+			$this->registerFor($item);
 		}
 	}
 

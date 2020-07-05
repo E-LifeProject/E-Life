@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace plugin\Item\Original;
+
 class ItemList
 {
 	const MENU_BOOK_NAME = "§l§aメインメニュー";
