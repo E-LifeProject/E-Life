@@ -32,7 +32,7 @@ class ClubForm implements Form{
                 if($this->main->club->exists($name)){
                     $player->sendForm(new WithdrawalClub($this->main));
                 }else{
-                    $player->sendPopUp("§a通知>>E-Clubに加入していません\n\n");
+                    $player->sendMessage("§a[個人通知] §7あなたはE-Clubに入会しておりません");
                 }
             break;
 

@@ -34,12 +34,12 @@ class JoinClub implements Form{
                         EconomyAPI::getInstance()->reduceMoney($player,1000);
                         $this->main->club->set($name,date("Y/m/d",strtotime("10 day")));
                         $this->main->club->save();
-                        $player->sendPopUp("§a通知>>20日プランでE-Clubに加入しました\n\n");
+                        $player->sendMessage("§a[個人通知] §710日プランでE-Clubに入会しました");
                     }else{
-                        $player->sendPopUp("§a通知>>所持金が足りません\n\n");
+                        $player->sendMessage("§a[個人通知] §7入会金を支払うお金がありません");
                     }
                 }else{
-                    $player->sendPopUp("§a通知>>すでに加入されています 期限:".$this->main->club->get($name)."\n\n");
+                    $player->sendMessage("§a[個人通知] §7既に入会されています 期限:".$this->main->club->get($name));
                 }
             break;
 
@@ -50,12 +50,12 @@ class JoinClub implements Form{
                         EconomyAPI::getInstance()->reduceMoney($player,2000);
                         $this->main->club->set($name,date("Y/m/d",strtotime("20 day")));
                         $this->main->club->save();
-                        $player->sendPopUp("§a通知>>20日プランでE-Clubに加入しました\n\n");
+                        $player->sendMessage("§a[個人通知] §720日プランでE-Clubに入会しました");
                     }else{
-                        $player->sendPopUp("§a通知>>所持金が足りません\n\n");
+                        $player->sendMessage("§a[個人通知] §7入会金を支払うお金がありません");
                     }
                 }else{
-                    $player->sendPopUp("§a通知>>すでに加入されています 期限:".$this->main->club->get($name)."\n\n");
+                    $player->sendMessage("§a[個人通知] §7既に入会されています 期限:".$this->main->club->get($name));
                 }
             break;
 
@@ -66,12 +66,12 @@ class JoinClub implements Form{
                         EconomyAPI::getInstance()->reduceMoney($player,3000);
                         $this->main->club->set($name,date("Y/m/d",strtotime("30 day")));
                         $this->main->club->save();
-                        $player->sendPopUp("§a通知>>30日プランでE-Clubに加入しました\n\n");
+                        $player->sendMessage("§a[個人通知] §730日プランでE-Clubに入会しました");
                     }else{
-                        $player->sendPopUp("§a通知>>所持金が足りません\n\n");
+                        $player->sendMessage("§a[個人通知] §7入会金を支払うお金がありません");
                     }
                 }else{
-                    $player->sendPopUp("§a通知>>すでに加入されています 期限:".$this->main->club->get($name)."\n\n");
+                    $player->sendMessage("§a[個人通知] §7既に入会されています 期限:".$this->main->club->get($name));
                 }
             break;
         }

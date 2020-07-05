@@ -46,7 +46,7 @@ class JoinJob implements Form{
             }
             $this->main->jobCountArray[$this->name] -= 1;
         }else{
-            $player->sendMessage("変更上限回数に達している為変更出来ません");
+            $player->sendMessage("§a[個人通知] §7変更回数の上限に達している為変更出来ません");
         }
     }
 
