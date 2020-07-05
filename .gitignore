@@ -3,5 +3,5 @@
 
 # composer
 vendor/*
-compsoer.phar
+composer.phar
 composer.lock
