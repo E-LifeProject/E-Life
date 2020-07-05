@@ -18,6 +18,8 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
+use pocketmine\event\player\PlayerCommandPreprocessEvent;
+
 
 #Packet
 use pocketmine\network\mcpe\protocol\InventoryTransactionPacket;
@@ -120,6 +122,19 @@ class Event implements Listener{
                 if($slot === 0){
                     $event->setCancelled();
                 }
+            }
+        }
+    }
+
+    //Jobコマンドを使えないようにする
+    public function PlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent $event){
+        $player = $event->getPlayer();
+        $message = $event->getMessage();
+        $sub = substr($message, 0, 1);
+        if($sub === '/'){
+            if(strpos($message, '/job') !== false){
+                $event->setCancelled();
+                $player->sendMessage("§[個人通知]このコマンドは利用することが出来ません");
             }
         }
     }
