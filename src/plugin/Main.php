@@ -4,6 +4,7 @@ namespace plugin;
 
 #Basic
 use plugin\Config\ConfigBase;
+use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 
@@ -26,19 +27,25 @@ class Main extends PluginBase implements Listener{
 
         ConfigBase::init($this);
 
-        //EconomyAPIを読み込む
-        $api = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
-        if($api == null){
-            $this->getLogger()->error("EconomyAPIを読み込むことが出来ませんでした");
-            $this->getServer()->shutdown();
-        }else{
-            $this->getLogger()->info("EconomyAPIを読み込みました");
-        }
+        $economy_api = ApiLoader::load($this, "EconomyAPI");
 
         //Listenerにイベントを登録
         $this->getServer()->getPluginManager()->registerEvents(new Event($this),$this);
 
         //scheduleRepeatingTaskにTipにステータスを表示させる為に登録
-        $this->getScheduler()->scheduleRepeatingTask(new Status($api),20);
+        $this->getScheduler()->scheduleRepeatingTask(new Status($economy_api),20);
     }
+}
+
+class ApiLoader
+{
+	static function load(Main $main, string $api_name): ?Plugin {
+		$api = $main->getServer()->getPluginManager()->getPlugin($api_name);
+		if($api === null) {
+			$main->getLogger()->error($api_name."を読み込むことができませんでした。");
+			$main->getServer()->shutdown();
+		} else $main->getLogger()->info($api_name."を読み込みました。");
+
+		return $api;
+	}
 }
