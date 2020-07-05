@@ -13,14 +13,11 @@ use pocketmine\Server;
 class WorldForm implements Form{
     
     //Formの処理
-    public function handleResponse(Player $player,$data):void{
+    public function handleResponse(Player $player, $data):void {
         if($data === null){
             return;
         }
 
-            /**
-             * 可能であればテレポートした時の向きを指定したい
-             */
         switch($data){
             //ロビーのリスポーン地点にテレポート
             case 0:

@@ -3,23 +3,22 @@
 namespace plugin\Form;
 
 #Basic
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
 use pocketmine\Player;
 use pocketmine\form\Form;
 
 class TermsForm implements Form{
 
-    public function __construct($main){
-        $this->main = $main;
-    }
-
     //Formの処理  
     public function handleResponse(Player $player, $data):void{
         //同意した場合はconfigに名前を記録する
         //同意しない場合はkick
-        if($data === true){ 
+        if($data === true) {
+        	$player_conig = ConfigBase::getFor(ConfigList::PLAYER);
             $player->sendPopUp("§a通知>>利用規約に同意しました\n\n");
-            $this->main->player->set($player->getName());
-            $this->main->player->save();
+            $player_conig->set($player->getName());
+            $player_conig->save();
         }else{
             $player->kick("利用規約に同意した方のみ参加できます",false);
         }
@@ -36,4 +35,3 @@ class TermsForm implements Form{
         ];
     }
 }
-?>
