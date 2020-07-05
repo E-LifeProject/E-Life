@@ -3,7 +3,10 @@
 namespace plugin\Event;
 
 #Basic
+use DateTime;
 use OriginItemFactory;
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
 use plugin\Main;
 use pocketmine\event\Listener;
 
@@ -36,16 +39,19 @@ class Event implements Listener {
 
     public function onLogin(PlayerLoginEvent $event){
         $name = $event->getPlayer()->getName();
+
+        $club = ConfigBase::getFor(ConfigList::CLUB);
+        if($club->exists($name)) {
+	        $date1 = new DateTime($club->get($name));
+	        $date2 = new DateTime(date("Y/m/d"));
+	        if($date1 < $date2)
+		        $club->__unset($name);
+        }
         
         //E-Clubの加入状況確認
         $this->main->club->reload();
         if($this->main->club->exists($name)){
-            $date1 = new \DateTime($this->main->club->get($name));
-            $date2 = new \DateTime(date("Y/m/d"));
-            if($date1 < $date2){
-                $this->main->club->__unset($name);
-                $this->main->club->save();
-            }
+
         }
 
         //Jobの変更可能回数を記録
