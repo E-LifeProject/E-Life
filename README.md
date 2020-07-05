@@ -6,6 +6,10 @@
 - [EconomyAPI](https://github.com/onebone/EconomyS/tree/3.x/EconomyAPI)
 - [EconomyJob](https://github.com/onebone/EconomyS/tree/3.x/EconomyJob)
 
+## 使用サーバーソフト
+- PHP-7.3
+- [PMMP](https://github.com/pmmp/PocketMine-MP)
+
 ## コミットスタイル
 - コミットは基本的に一つの作業を終えるごとに行ってください
 - コンフリクトを避ける為にコミットするタイミングでプッシュを行ってください
