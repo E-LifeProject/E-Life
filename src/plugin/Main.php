@@ -4,14 +4,8 @@ namespace plugin;
 
 #Basic
 use plugin\Config\ConfigBase;
-use pocketmine\Player;
-use pocketmine\Server;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
-use pocketmine\utils\Config;
-use pocketmine\scheduler\Task;
-use pocketmine\block\BlockIds;
-use pocketmine\item\Item;
 
 #E-Life
 use plugin\Event\Event;
@@ -24,7 +18,7 @@ use onebone\economyapi\EconomyAPI;
 
 class Main extends PluginBase implements Listener{
 
-    public function onEnable(){
+    public function onEnable(): void {
 
         date_default_timezone_set('asia/tokyo');
 
@@ -46,9 +40,5 @@ class Main extends PluginBase implements Listener{
 
         //scheduleRepeatingTaskにTipにステータスを表示させる為に登録
         $this->getScheduler()->scheduleRepeatingTask(new Status($api),20);
-        
-        $menu = new MenuItem();
-        $menu_item = $menu->getMenuItem();
-        Item::addCreativeItem($menu_item);
     }
 }
