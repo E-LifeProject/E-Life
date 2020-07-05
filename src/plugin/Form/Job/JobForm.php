@@ -18,10 +18,6 @@ use plugin\Form\Job\JoinJob;
 
 class JobForm implements Form{
 
-    public function __construct($main){
-        $this->main = $main;
-    }
-
     //Formの処理
     public function handleResponse(Player $player, $data):void{
         $name = $player->getName();
@@ -31,7 +27,7 @@ class JobForm implements Form{
         }
         switch($data){
             case 0:
-                $player->sendForm(new JoinJob($this->main,$name));
+                $player->sendForm(new JoinJob($name));
             break;
 
             case 1:

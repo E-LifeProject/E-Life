@@ -3,6 +3,7 @@
 namespace plugin\Form\Job;
 
 #Basic
+use plugin\Config\Data\JobCount;
 use pocketmine\Player;
 use pocketmine\form\Form;
 use pocketmine\Server;
@@ -18,19 +19,20 @@ use onebone\economyjob\EconomyJob;
 
 class JoinJob implements Form{
 
-    public function __construct($main,$name){
-        $this->main = $main;
+	private $name;
+
+	public function __construct($main, $name){
         $this->name = $name;
     }
 
     //Formの処理
     public function handleResponse(Player $player, $data):void{
-        $name = $player->getName();
+	    if($data === null){
+		    return;
+	    }
 
-        if($data === null){
-            return;
-        }
-        if($this->main->jobCountArray[$this->name] > 0){
+	    $count = JobCount::getCountFor($player);
+	    if($count > 0) {
             switch($data){
                 case 0:
                     Server::getInstance()->dispatchCommand($player, 'job join tree-cutter');
@@ -44,7 +46,7 @@ class JoinJob implements Form{
                     Server::getInstance()->dispatchCommand($player, 'job join tree-planter');
                 break;
             }
-            $this->main->jobCountArray[$this->name] -= 1;
+            JobCount::setCountFor($player, $count - 1);
         }else{
             $player->sendMessage("変更上限回数に達している為変更出来ません");
         }
@@ -55,7 +57,8 @@ class JoinJob implements Form{
         return[
             'type'=>'form',
             'title'=>'職業選択',
-            'content'=>"変更したい職業を選択してください \n本日の変更可能回数:".$this->main->jobCountArray[$this->name]."回",
+            'content'=>"変更したい職業を選択してください \n本日の変更可能回数:"
+	            .JobCount::getCountFor(Server::getInstance()->getPlayer($this->name))."回",
             'buttons'=>[
                 [
                     'text'=>'伐採職人',
