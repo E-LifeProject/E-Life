@@ -17,10 +17,6 @@ use plugin\Form\Job\JobForm;
 
 class MainMenu implements Form{
 
-    public function __construct($main){
-        $this->main = $main;
-    }
-
     //Formの処理
     public function handleResponse(Player $player, $data):void{
         if($data === null){
@@ -34,7 +30,7 @@ class MainMenu implements Form{
             
             //仕事に関するForm
             case 1:
-                $player->sendForm(new JobForm($this->main));
+                $player->sendForm(new JobForm());
             break;
             //チャットに関するForm
             case 2:
@@ -48,12 +44,12 @@ class MainMenu implements Form{
 
             //ショップに関するForm
             case 4:
-                $player->sendForm(new ShopForm($this->main));
+                $player->sendForm(new ShopForm());
             break;
 
             //E-Clubに関するForm
             case 5:
-                $player->sendForm(new ClubForm($this->main));
+                $player->sendForm(new ClubForm());
             break;
 
             //管理用Form

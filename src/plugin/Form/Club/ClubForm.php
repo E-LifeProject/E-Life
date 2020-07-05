@@ -3,6 +3,8 @@
 namespace plugin\Form\Club;
 
 #Basic
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
 use pocketmine\Player;
 use pocketmine\form\Form;
 
@@ -10,10 +12,6 @@ use pocketmine\form\Form;
 use plugin\Form\Club\JoinClub;
 
 class ClubForm implements Form{
-
-    public function __construct($main){
-        $this->main = $main;
-    }
 
     //Formの処理
     public function handleResponse(Player $player,$data):void{
@@ -24,13 +22,14 @@ class ClubForm implements Form{
         switch($data){
             //E-Club加入に関するForm
             case 0:
-                $player->sendForm(new JoinClub($this->main));
+                $player->sendForm(new JoinClub());
             break;
 
             //E-Club脱退に関するForm
             case 1:
-                if($this->main->club->exists($name)){
-                    $player->sendForm(new WithdrawalClub($this->main));
+            	$club = ConfigBase::getFor(ConfigList::CLUB);
+                if($club->exists($name)){
+                    $player->sendForm(new WithdrawalClub());
                 }else{
                     $player->sendPopUp("§a通知>>E-Clubに加入していません\n\n");
                 }

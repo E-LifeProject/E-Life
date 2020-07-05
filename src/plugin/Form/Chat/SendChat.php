@@ -8,7 +8,9 @@ use pocketmine\form\Form;
 
 class SendChat implements Form{
 
-    public function __construct($money){
+	private $money;
+
+	public function __construct($money){
         $this->money = $money;
     }
 
