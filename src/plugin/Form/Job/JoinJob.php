@@ -61,21 +61,21 @@ class JoinJob implements Form{
                     'text'=>'伐採職人',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/items/stone_axe'
+                        'Data'=>'textures/items/stone_axe'
                     ]
                 ],
                 [
                     'text'=>'鉱夫',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/items/stone_pickaxe'
+                        'Data'=>'textures/items/stone_pickaxe'
                     ]
                 ],
                 [
                     'text'=>'植林職人',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/blocks/sapling_oak'
+                        'Data'=>'textures/blocks/sapling_oak'
                     ]
                 ]
             ]

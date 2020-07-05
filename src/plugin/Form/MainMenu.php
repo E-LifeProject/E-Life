@@ -83,49 +83,49 @@ class MainMenu implements Form{
                     'text'=>'ワールド移動',
                     'image'=>[
                     'type'=>'path',
-                    'data'=>'textures/ui/World'
+                    'Data'=>'textures/ui/World'
                     ]
                 ],   
                 [
                     'text'=>'仕事変更',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/gui/newgui/anvil-hammer'
+                        'Data'=>'textures/gui/newgui/anvil-hammer'
                     ]
                 ],
                 [
                     'text'=>'チャット',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/ui/Feedback'
+                        'Data'=>'textures/ui/Feedback'
                     ]
                 ],
                 [
                     'text'=>'不動産登記',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/ui/icon_book_writable'
+                        'Data'=>'textures/ui/icon_book_writable'
                     ]
                 ],
                 [
                     'text'=>'公式ショップ',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/ui/trade_icon'
+                        'Data'=>'textures/ui/trade_icon'
                     ]
                 ],
                 [
                     'text'=>'E-Club加入',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/ui/icon_best3'
+                        'Data'=>'textures/ui/icon_best3'
                     ]
                 ],
                 [
                     'text'=>'管理フォーム',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/ui/settings_glyph_color_2x'
+                        'Data'=>'textures/ui/settings_glyph_color_2x'
                     ]
                 ]
             ]

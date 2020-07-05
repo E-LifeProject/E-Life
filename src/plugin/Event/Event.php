@@ -7,6 +7,7 @@ use DateTime;
 use OriginItemFactory;
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
+use plugin\Config\Data\JobCount;
 use plugin\Main;
 use pocketmine\event\Listener;
 
@@ -37,8 +38,9 @@ class Event implements Listener {
         $this->origin_item_factory = new OriginItemFactory();
     }
 
-    public function onLogin(PlayerLoginEvent $event){
-        $name = $event->getPlayer()->getName();
+    public function onLogin(PlayerLoginEvent $event) {
+    	$player = $event->getPlayer();
+        $name = $player->getName();
 
 	    //E-Clubの加入状況確認
 	    $club = ConfigBase::getFor(ConfigList::CLUB);
@@ -59,7 +61,7 @@ class Event implements Listener {
             $job_count->save();
         }
 
-        $this->main->jobCountArray[$name] = $this->main->jobCount->get($name);
+        JobCount::setCountFor($player);
     }
 
 

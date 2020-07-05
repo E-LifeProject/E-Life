@@ -46,14 +46,14 @@ class WorldForm implements Form{
                     'text'=>'ロビー',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/gui/newgui/Realms',
+                        'Data'=>'textures/gui/newgui/Realms',
                     ]
                 ],
                 [
                     'text'=>'資源ワールド',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/ui/icon_recipe_nature',
+                        'Data'=>'textures/ui/icon_recipe_nature',
                     ]
                 ]
             ]

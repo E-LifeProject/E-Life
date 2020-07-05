@@ -54,21 +54,21 @@ class ClubForm implements Form{
                     'text'=>'E-Club加入',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/ui/permissions_op_crown'
+                        'Data'=>'textures/ui/permissions_op_crown'
                     ]
                 ],
                 [
                     'text'=>'E-Club脱退',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/ui/deop'
+                        'Data'=>'textures/ui/deop'
                     ]
                 ],
                 [
                     'text'=>'E-Clubとは？',
                     'image'=>[
                         'type'=>'path',
-                        'data'=>'textures/items/book_portfolio'
+                        'Data'=>'textures/items/book_portfolio'
                     ]
                 ]
             ]
