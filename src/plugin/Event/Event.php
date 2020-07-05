@@ -103,7 +103,7 @@ class Event implements Listener {
         
         //Jobの変更可能回数をconfigの保存
 	    $job_count = ConfigBase::getFor(ConfigList::JOB_COUNT);
-        $job_count->set($name, );
+        $job_count->set($name, JobCount::getCountFor($player));
     }
 
 
