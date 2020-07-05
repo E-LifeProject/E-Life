@@ -134,7 +134,7 @@ class Event implements Listener{
         if($sub === '/'){
             if(strpos($message, '/job') !== false){
                 $event->setCancelled();
-                $player->sendMessage("§[個人通知]このコマンドは利用することが出来ません");
+                $player->sendMessage("§a[個人通知] §7このコマンドは利用することが出来ません");
             }
         }
     }
