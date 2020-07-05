@@ -13,12 +13,15 @@ class ConfigBase
 	private static $config = [];
 
 	static function init(Main $main): void {
+		if(!file_exists($path = $main->getDataFolder()))
+			mkdir($path,0744,true);
+
 		self::register([
 			ConfigList::PLAYER,
 			ConfigList::SHOP,
 			ConfigList::CLUB,
 			ConfigList::JOB_COUNT
-		], $main->getDataFolder());
+		], $path);
 	}
 
 	static function getFor(string $type): ?Config {

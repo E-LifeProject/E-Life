@@ -3,6 +3,7 @@
 namespace plugin;
 
 #Basic
+use plugin\Config\ConfigBase;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\plugin\PluginBase;
@@ -28,22 +29,8 @@ class Main extends PluginBase implements Listener{
         date_default_timezone_set('asia/tokyo');
 
         $this->getServer()->loadLevel("nature");
-        
-        if(!file_exists($this->getDataFolder())){
-            mkdir($this->getDataFolder(),0744,true);
-        }
-        
-        //利用規約同意者はplayer.ymlにリストに記載
-        $this->player = new Config($this->getDataFolder()."player.yml",Config::ENUM);
 
-        //公式ショップのブロックとアイテムの価格を管理
-        $this->shop = new Config($this->getDataFolder()."price.yml",Config::YAML);
-
-        //E-Clubの会員情報を管理
-        $this->club = new Config($this->getDataFolder()."member.yml",Config::YAML);
-
-        //Jobの変更回数を管理
-        $this->jobCount = new Config($this->getDataFolder()."jobCount.yml",Config::YAML);
+        ConfigBase::init($this);
 
         //EconomyAPIを読み込む
         $api = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
@@ -65,4 +52,3 @@ class Main extends PluginBase implements Listener{
         Item::addCreativeItem($menu_item);
     }
 }
-?>
