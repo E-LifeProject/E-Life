@@ -1,0 +1,23 @@
+{
+  "name": "e-life/project",
+  "description": "THE MCBE SERVER PROJECT",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "FonSoutan",
+      "role": "Lead Developer"
+    },
+    {
+      "name": "hayao1027",
+      "role": "Support Developer"
+    },
+    {
+      "name": "ribnil",
+      "role": "Support Developer"
+    }
+  ],
+  "require": {
+    
+  }
+}
