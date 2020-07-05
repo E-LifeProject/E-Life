@@ -2,10 +2,39 @@
 
 declare(strict_types=1);
 
+use pocketmine\item\Item;
+use pocketmine\Player;
+
 class OriginItemFactory
 {
+	/** @var array */
 	private $origin_items;
 
 	public function __construct() {
+	}
+
+	private function isExist(OriginItem $item): bool {
+		return isset($this->origin_items[$item->getCustomName()]);
+	}
+
+	private function register(array $items): void {
+		foreach($items as $item) {
+			$this->register($item);
+		}
+	}
+
+	private function registerFor(OriginItem $item): void {
+		if($this->isExist($item))
+			$this->origin_items[$item->getCustomName()] = $item;
+	}
+
+	public function useFor(Player $player, Item $item): void {
+		if(!($item instanceof OriginItem))
+			return;
+
+		if(!$this->isExist($item))
+			return;
+
+		$item->onUse($player);
 	}
 }
