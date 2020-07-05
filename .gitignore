@@ -1,0 +1,7 @@
+# phpstormつかってると追加されるいらないディレクトリ
+.idea
+
+# composer
+vendor/*
+compsoer.phar
+composer.lock
