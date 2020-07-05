@@ -21,10 +21,10 @@ class PardonCommand implements Form{
             if($target->isBanned()){
                 $target->setBanned(false);
             }else{
-                $player->sendMessage("§a".$target->getName()."のBanを解除しました。");
+                $player->sendMessage("§a[個人通知] §7".$target->getName()."のBanを解除しました");
             }
 	    } else {
-	    	$player->sendMessage("§c存在しないプレイヤーです。");
+	    	$player->sendMessage("§a[個人通知] §7存在しないプレーヤーです");
 	    }
     }
 

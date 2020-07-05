@@ -26,11 +26,11 @@ class MoneyCommand implements Form{
 
         	case 1: //setmoney
 				if($amount === ""){
-					$player->sendMessage("§c金額が入力されていません。");
+					$player->sendMessage("§a[個人通知] §7金額が入力されていません");
 				}
 
 				if(!is_numeric($amount)){
-					$player->sendMessage("§c数字にして下さい。");
+					$player->sendMessage("§a[個人通知] §7数値を入力してください");
 				}
 
         		Server::getInstance()->dispatchCommand($player, 'setmoney '.$target->getName().' '.$amount);

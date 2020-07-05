@@ -17,7 +17,7 @@ class TermsForm implements Form{
         //同意した場合はconfigに名前を記録する
         //同意しない場合はkick
         if($data === true){ 
-            $player->sendPopUp("§a通知>>利用規約に同意しました\n\n");
+            $player->sendMessage("§a[個人通知] §7利用規約に同意しました");
             $this->main->player->set($player->getName());
             $this->main->player->save();
         }else{

@@ -63,7 +63,7 @@ class MainMenu implements Form{
                     $player->sendForm(new SettingForm());
                 }else{
                     $name = $player->getName();
-                    $player->sendPopUp("§a通知>>".$name."さんは開くことが出来ません\n\n");
+                    $player->sendMessage("§a[個人通知] §7".$name."さんはこのページを開くことが出来ません");
                 }
             break;
         }

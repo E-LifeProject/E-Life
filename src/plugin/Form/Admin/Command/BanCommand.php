@@ -20,12 +20,12 @@ class BanCommand implements Form{
         if(!is_null($target) || $target_name === ""){
 	        if(!$target->isOp()){
 	        	$target->setBanned(true);
-	        	$player->sendMessage("§a".$target->getName()."をBanしました。");
+	        	$player->sendMessage("§a[個人通知] §7".$target->getName()."をBanしました");
 	        }else{
-	        	$player->sendMessage("§c".$target->getName()."は権限者なのでBanできません。");
+	        	$player->sendMessage("§a[個人通知] §7".$target->getName()."は権限者の為Ban出来ません");
 	        }
 	    } else {
-	    	$player->sendMessage("§c存在しないプレイヤーです。");
+	    	$player->sendMessage("§a[個人通知] §7存在しないプレーヤーです");
 	    }
     }
 
