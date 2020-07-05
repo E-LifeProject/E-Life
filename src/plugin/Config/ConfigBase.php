@@ -24,6 +24,12 @@ class ConfigBase
 		], $path);
 	}
 
+	static function save(): void {
+		foreach(self::$config as $key => $config) {
+			$config->save();
+		}
+	}
+
 	static function getFor(string $type): ?Config {
 		return self::$config[$type] ?? null;
 	}

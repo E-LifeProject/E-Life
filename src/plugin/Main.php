@@ -35,6 +35,10 @@ class Main extends PluginBase implements Listener{
         //scheduleRepeatingTaskにTipにステータスを表示させる為に登録
         $this->getScheduler()->scheduleRepeatingTask(new Status($economy_api),20);
     }
+
+    public function onDisable(): void {
+	    ConfigBase::save();
+    }
 }
 
 class ApiLoader
