@@ -3,12 +3,19 @@
 namespace plugin\Form\Club;
 
 #Basic
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
 use pocketmine\Player;
 use pocketmine\form\Form;
+use pocketmine\utils\Config;
 
-class WithdrawalClub implements Form{
-    public function __construct($club){
-        $this->club = $club;
+class WithdrawalClub implements Form　{
+
+	/**　@var Config|null */
+	private $club;
+
+	public function __construct($club){
+        $this->club = $club = ConfigBase::getFor(ConfigList::CLUB);;
     }
 
     //Formの処理
