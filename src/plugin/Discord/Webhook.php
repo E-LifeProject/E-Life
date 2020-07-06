@@ -11,13 +11,8 @@ class Webhook
 {
 	const LEAD_URL = "https://discordapp.com/api/webhooks/";
 
-	public function getWebhook(string $channelType): string {
-		$data = json_decode(file_get_contents(__DIR__."webhook_data.json"), true);
-		return self::LEAD_URL.$data["url"][$channelType] ?? ChannelList::NONE;
-	}
-
-	public function sendMessage(string $message, string $channelType = ChannelList::SERVER): void {
-		if(($webHookURL = $this->getWebhook($channelType)) === ChannelList::NONE)
+	static function sendMessage(string $message, string $channelType = ChannelList::SERVER): void {
+		if(($webHookURL = self::getWebhook($channelType)) === ChannelList::NONE)
 			return;
 
 		// $message = preg_replace('/`/', '\`', $message);
@@ -25,6 +20,11 @@ class Webhook
 		$message = preg_replace("/§[1-9a-z]/i", "", $message);
 		$option = serialize(['content' => $message, 'username' => 'Server']);
 		Server::getInstance()->getAsyncPool()->submitTask(new Notification($webHookURL, $option));
+	}
+
+	private static function getWebhook(string $channelType): string {
+		$data = json_decode(file_get_contents(__DIR__."webhook_data.json"), true);
+		return self::LEAD_URL.$data["url"][$channelType] ?? ChannelList::NONE;
 	}
 }
 
