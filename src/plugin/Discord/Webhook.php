@@ -12,7 +12,7 @@ class Webhook
 	const LEAD_URL = "https://discordapp.com/api/webhooks/";
 
 	public function getWebhook(string $channelType): string {
-		$data = json_decode(file_get_contents(__DIR__."/json_data/webhook.json"), true);
+		$data = json_decode(file_get_contents(__DIR__."webhook_data.json"), true);
 		return self::LEAD_URL.$data["url"][$channelType] ?? ChannelList::NONE;
 	}
 
