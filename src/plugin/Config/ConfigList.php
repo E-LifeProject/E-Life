@@ -20,8 +20,9 @@ class ConfigList
 	 * 会社の情報
 	 * company_name:
 	 *     owner: string
-	 *     member: array
+	 *     members: array
 	 *     money: int
+	 *     location: string
 	 */
 	const COMPANY = "company";
 }
