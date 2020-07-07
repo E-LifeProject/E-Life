@@ -11,58 +11,73 @@ use pocketmine\utils\Config;
 
 class Company
 {
-	/**
-	 * @param Config $company_config
-	 * @param string $name
-	 * @throws Exception
-	 */
-	public function checkCompany(Config $company_config, string $name): void {
-		if(!$company_config->exists($name))
-			throw new Exception("$name does not exist company.");
-	}
+	/** @var string */
+	private $name;
 
-	public function generate(string $name): bool {
-		$company_config = ConfigBase::getFor(ConfigList::COMPANY);
-		if($company_config->exists($name))
-			return false;
-		else {
-			$company_config->set($name);
-			return true;
-		}
-	}
+	/** @var Config */
+	private $config;
 
 	/**
+	 * Company constructor.
 	 * @param string $name
-	 * @param string $player_name
-	 * @return $this
-	 * @throws Exception
 	 */
-	public function setOwner(string $name, string $player_name): self {
-		$company_config = ConfigBase::getFor(ConfigList::COMPANY);
-		$this->checkCompany($company_config, $name);
+	public function __construct(string $name) {
+		$this->name = $name;
+		$this->config = ConfigBase::getFor(ConfigList::COMPANY);
+	}
 
-		$company_config->setNested($name.".owner", $player_name);
+	/** @return string */
+	public function getName(): string {
+		return $this->name;
+	}
+
+	/** @return Config */
+	private function getConfig(): Config {
+		return $this->config;
+	}
+
+	public function isExist(): bool {
+		return $this->getConfig()->exists($this->getName());
+	}
+
+	public function generate(): self {
+		if(!$this->isExist())
+			$this->getConfig()->set($this->getName(), [
+				"owner" => "",
+				"member" => [],
+				"money" => 0,
+				"industry" => "",
+				"location" => ""
+			]);
+
 		return $this;
 	}
 
-	/**
-	 * @param string $name
-	 * @param string $member
-	 * @return $this
-	 * @throws Exception
-	 */
-	public function setMember(string $name, string $member): self {
-		$company_config = ConfigBase::getFor(ConfigList::COMPANY);
-		$this->checkCompany($company_config, $name);
+	public function remove(): array {
+		$data = $this->getConfig()->get($this->getName());
+		$this->getConfig()->remove($this->getName());
+		return $data;
+	}
 
-		$already_members = $company_config->getNested($name.".members");
-		if($already_members === null)
-			$company_config->setNested($name.".members", [$member]);
-		else {
-			$members = $already_members;
-			$members[] = $member;
-			$company_config->setNested($name . ".members", $members);
-		}
+	public function setOwner(string $owner): self {
+		$this->getConfig()->setNested($this->getName().".owner", $owner);
+		return $this;
+	}
+
+	public function addMember(string $member): self {
+		$implode = function(string $value, array $source): array {$source[] = $value; return $source;};
+		$already = $this->getConfig()->getNested($this->getName().".member");
+		in_array($member, $already) ?: $this->getConfig()->setNested(
+			$this->getName().".member", $implode($member, $already)
+		);
+
+		return $this;
+	}
+
+	public function subMember(string $member): self {
+		$already = $this->getConfig()->getNested($this->getName().".member");
+		$diff_member = array_values(array_diff([$member], $already));
+		$this->getConfig()->setNested($this->getName().".member", $diff_member);
 
 		return $this;
 	}
