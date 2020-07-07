@@ -50,7 +50,7 @@ class ToolForm implements Form{
                     'text'=>'シャベル'
                 ],
                 [
-                    'text'=>'クワ',
+                    'text'=>'クワ'
                 ]
             ]
         ];
