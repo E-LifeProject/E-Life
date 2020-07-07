@@ -9,6 +9,7 @@ use pocketmine\Player;
 #E-Life
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
+use plugin\Form\Shop\Tool\ToolForm;
 
 
 class ShopForm implements Form{
@@ -24,7 +25,7 @@ class ShopForm implements Form{
          * $shop = ConfigBase::getFor(ConfigList::SHOP);
 	     * $club = ConfigBase::getFor(ConfigList::CLUB);
          */
-        
+
         switch($data){
             case 0:
                 $player->sendForm(new ToolForm());
