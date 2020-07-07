@@ -81,4 +81,25 @@ class Company
 
 		return $this;
 	}
+
+	public function addMoney(int $amount): self {
+		$current = $this->getConfig()->getNested($this->getName().".money");
+		$this->getConfig()->setNested($this->getName().".money", $current + $amount);
+		return $this;
+	}
+
+	public function subMoney(int $amount): self {
+		$this->addMoney(-$amount);
+		return $this;
+	}
+
+	public function setIndustry(string $industry): self {
+		$this->getConfig()->setNested($this->getName().".industry", $industry);
+		return $this;
+	}
+
+	public function setLocation(string $location): self {
+		$this->getConfig()->setNested($this->getName().".location", $location);
+		return $this;
+	}
 }
