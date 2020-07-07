@@ -21,7 +21,7 @@ class JoinJob implements Form{
 
 	private $name;
 
-	public function __construct($main, $name){
+	public function __construct($name){
         $this->name = $name;
     }
 

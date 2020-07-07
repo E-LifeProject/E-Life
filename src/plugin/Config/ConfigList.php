@@ -15,4 +15,14 @@ class ConfigList
 
 	//Jobの変更回数を管理
 	const JOB_COUNT = "job_count";
+
+	/*
+	 * 会社の情報
+	 * company_name:
+	 *     owner: string
+	 *     members: array
+	 *     money: int
+	 *     location: string
+	 */
+	const COMPANY = "company";
 }

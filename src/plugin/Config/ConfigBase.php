@@ -20,7 +20,8 @@ class ConfigBase
 			ConfigList::PLAYER,
 			ConfigList::SHOP,
 			ConfigList::CLUB,
-			ConfigList::JOB_COUNT
+			ConfigList::JOB_COUNT,
+			ConfigList::COMPANY
 		], $path);
 	}
 
