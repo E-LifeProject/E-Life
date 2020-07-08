@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace plugin\Config\Data;
 
-use Exception;
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
 use pocketmine\utils\Config;
