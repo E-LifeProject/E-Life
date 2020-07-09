@@ -4,7 +4,7 @@ namespace plugin\Event;
 
 #Basic
 use DateTime;
-use OriginItemFactory;
+use plugin\item\OriginItemFactory;
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
 use plugin\Config\Data\JobCount;
