@@ -24,7 +24,7 @@ class OriginItemFactory
 		return isset($this->origin_items[$item->getCustomName()]);
 	}
 
-	private function register(Item ...$items): void {
+	private function register(OriginItem ...$items): void {
 		foreach($items as $item) {
 			$this->registerFor($item);
 		}
