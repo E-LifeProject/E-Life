@@ -9,7 +9,7 @@ use pocketmine\form\Form;
 #E-Life
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
-
+use plugin\Form\Shop\ConfirmationForm;
 
 
 class CountForm implements Form{
@@ -20,6 +20,7 @@ class CountForm implements Form{
     }
 
     public function handleResponse(Player $player , $data):void {
+        $name = $player->getName();
         if($data === null){
             return;
         }
@@ -30,7 +31,7 @@ class CountForm implements Form{
             $fee = 100;
         }
         $total = $this->shopData['price']*$data[1]+$fee;
-        $player->sendForm(new ConfirmationForm($shopData,$data[1],$total,$fee));
+        $player->sendForm(new ConfirmationForm($this->shopData,$data[1],$total,$fee));
     }
 
     public function jsonSerialize(){

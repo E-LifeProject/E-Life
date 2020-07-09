@@ -1,6 +1,6 @@
 <?php
 
-namespace plugins\Form\Shop;
+namespace plugin\Form\Shop;
 
 #Basic
 use pocketmine\form\Form;
@@ -9,7 +9,7 @@ use pocketmine\Player;
 #E-Life
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
-use plugin\Form\Shop\ConfirmationForm;
+use plugin\Form\Shop\CountForm;
 
 
 class ToolForm implements Form{

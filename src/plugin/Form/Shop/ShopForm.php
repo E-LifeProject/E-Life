@@ -9,13 +9,13 @@ use pocketmine\Player;
 #E-Life
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
-use plugin\Form\Shop\Tool\ToolForm;
+use plugin\Form\Shop\ToolForm;
 
 
 class ShopForm implements Form{
 
     //Formの処理
-    public function handleResponse(Player $player,$data):void{
+    public function handleResponse(Player $player,$data): void{
 	    
 	    if($data === null) {
 		    return;
@@ -46,14 +46,17 @@ class ShopForm implements Form{
             'title'=>'公式ショップ',
             'content'=>'購入したいものを選択してください',
             'buttons'=>[
-                'text'=>'道具'
-            ],
-            [
-                'text'=>'ブロック'
-            ],
-            [
-                'text'=>'その他'
+                [
+                    'text'=>'道具'
+                ],
+                [
+                    'text'=>'ブロック'
+                ],
+                [
+                    'text'=>'その他'
+                ]
             ]
         ];
     }
 }
+?>
