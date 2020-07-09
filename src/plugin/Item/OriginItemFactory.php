@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace plugin\Item;
 
 use plugin\Item\Original\MenuBook;
+use plugin\Item\Original\OriginItem;
 use pocketmine\item\Item;
 use pocketmine\Player;
 
@@ -23,7 +24,7 @@ class OriginItemFactory
 		return isset($this->origin_items[$item->getCustomName()]);
 	}
 
-	private function register(Item $items): void {
+	private function register(Item ...$items): void {
 		foreach($items as $item) {
 			$this->registerFor($item);
 		}
