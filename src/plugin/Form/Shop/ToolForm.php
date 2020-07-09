@@ -232,7 +232,7 @@ class HoeForm implements Form{
         $player->sendForm(new CountForm($shopData));
     }
 
-    
+
     public function jsonSerialize(){
         return[
             'type'=>'form',
