@@ -15,9 +15,9 @@ class OriginItemFactory
 	private $origin_items;
 
 	public function __construct() {
-		$this->register([
+		$this->register(
 			new MenuBook()
-		]);
+		);
 	}
 
 	private function isExist(OriginItem $item): bool {
