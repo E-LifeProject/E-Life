@@ -49,6 +49,6 @@ class ConfigBase
 		if(self::isExist($key))
 			return;
 
-		self::$config[$key] = new Config($path.$key."yml", Config::YAML);
+		self::$config[$key] = new Config($path.$key.".yml", Config::YAML);
 	}
 }
