@@ -21,10 +21,6 @@ class ShopForm implements Form{
 		    return;
 	    }
 
-	    /**
-         * $shop = ConfigBase::getFor(ConfigList::SHOP);
-	     * $club = ConfigBase::getFor(ConfigList::CLUB);
-         */
 
         switch($data){
             case 0:
@@ -32,9 +28,6 @@ class ShopForm implements Form{
             break;
             case 1:
                 $player->sendForm(new BlockForm());
-            break;
-            case 2:
-                $player->sendForm(new OtherForm());
             break;
         }
     }
@@ -51,9 +44,6 @@ class ShopForm implements Form{
                 ],
                 [
                     'text'=>'ブロック'
-                ],
-                [
-                    'text'=>'その他'
                 ]
             ]
         ];
