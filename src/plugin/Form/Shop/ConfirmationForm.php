@@ -14,16 +14,14 @@ use onebone\economyapi\EconomyAPI;
 class ConfirmationForm implements Form{
 
 	private $total;
-	private $number;
+	private $count;
 	private $id;
-	private $name;
+	private $shopData;
 	private $fee;
 
-	public function __construct($name, $price, $id, $number, $total, $fee){
-        $this->name = $name;
-        $this->price = $price;
-        $this->id = $id;
-        $this->number = $number;
+	public function __construct($shopData,$count,$total,$fee){
+        $this->shopData = $shopData;
+        $this->count = $count;
         $this->total = $total;
         $this->fee = $fee;
     }
@@ -40,7 +38,7 @@ class ConfirmationForm implements Form{
         }elseif(EconomyAPI::getInstance()->myMoney($player)>=$this->total){//代金を支払える場合の処理
             //inventoryがいっぱいの時の処理を書かなければいけない
             EconomyAPI::getInstance()->reduceMoney($player,$this->total);
-            $item = Item::get($this->id,0,$this->number);
+            $item = Item::get($this->shopData['id'],0,$this->count);
             $player->getInventory()->addItem($item);
             $player->sendPopUp("§a通知>>購入しました\n\n");
         }
@@ -53,7 +51,7 @@ class ConfirmationForm implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>"商品名:".$this->name."\n購入数:".$this->number."個\n手数料:".$this->fee."円\n--------------------\n合計金額:".$this->total."円です\n \n§7購入する場合は送信、購入をキャンセルする場合は右上の×を押してください。また購入後のキャンセルは出来ません。"
+                    'text'=>"商品名:".$this->shopData['name']."\n購入数:".$this->count."個\n手数料:".$this->fee."円\n--------------------\n合計金額:".$this->total."円です\n \n§7購入する場合は送信、購入をキャンセルする場合は右上の×を押してください。また購入後のキャンセルは出来ません。"
 
                 ]
             ]
