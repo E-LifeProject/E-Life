@@ -31,7 +31,7 @@ class ShopForm implements Form{
                 $player->sendForm(new ToolForm());
             break;
             case 1:
-                $player->sendForm(new BookForm());
+                $player->sendForm(new BlockForm());
             break;
             case 2:
                 $player->sendForm(new OtherForm());
