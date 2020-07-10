@@ -21,7 +21,8 @@ class ConfigBase
 			ConfigList::SHOP,
 			ConfigList::CLUB,
 			ConfigList::JOB_COUNT,
-			ConfigList::COMPANY
+			ConfigList::COMPANY,
+			ConfigList::STATUS_NPC
 		], $path);
 	}
 

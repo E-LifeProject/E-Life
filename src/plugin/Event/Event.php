@@ -21,9 +21,12 @@ use pocketmine\event\server\DataPacketReceiveEvent;
 
 #Packet
 use pocketmine\network\mcpe\protocol\InventoryTransactionPacket;
+use pocketmine\network\mcpe\protocol\InteractPacket;
 
 #E-Life
 use plugin\form\TermsForm;
+use plugin\NPC\NPC;
+use plugin\NPC\FloatText;
 
 
 class Event implements Listener {
@@ -37,6 +40,9 @@ class Event implements Listener {
     public function __construct(Main $main) {
         $this->main = $main;
         $this->origin_item_factory = new OriginItemFactory();
+
+        $this->status_config = ConfigBase::getFor(ConfigList::STATUS_NPC);
+        $this->status_text = new FloatText($this->status_config);
     }
 
     public function onLogin(PlayerLoginEvent $event) {
@@ -63,6 +69,9 @@ class Event implements Listener {
         }
 
         JobCount::setCountFor($player);
+
+        $this->eid = $this->status_text->getStatusNpcEid($player);
+        var_dump($this->eid);
     }
 
 
@@ -91,6 +100,11 @@ class Event implements Listener {
         $event->setJoinMessage("§6[全体通知] §7".$name."さんがE-Lifeにログインしました");
 
         $player->getInventory()->setItem(0, new MenuBook());
+
+        echo "Join";
+        $npc = new NPC($this->status_config);
+        $npc->showNPC($player, $this->main->npc, 155, 155);
+        $this->status_text->showText($player, $this->eid);
     }
 
 
@@ -104,6 +118,8 @@ class Event implements Listener {
         //Jobの変更可能回数をconfigの保存
 	    $job_count = ConfigBase::getFor(ConfigList::JOB_COUNT);
         $job_count->set($name, JobCount::getCountFor($player));
+
+        unset($this->eid[$name]);
     }
 
 
@@ -122,6 +138,16 @@ class Event implements Listener {
                 if($slot === 0){
                     $event->setCancelled();
                 }
+            }
+        } elseif ($pk instanceof InteractPacket){
+            $player = $event->getPlayer();
+            $eid = $pk->target;
+            if($eid === null){
+                return false;
+            }
+
+            if($eid === $this->main->npc){
+                $this->status_text->showText($player, $this->eid);
             }
         }
     }
