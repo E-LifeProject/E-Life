@@ -17,11 +17,11 @@ class ConfigBase
 			mkdir($path,0744,true);
 
 		self::register([
-			ConfigList::PLAYER,
-			ConfigList::SHOP,
-			ConfigList::CLUB,
-			ConfigList::JOB_COUNT,
-			ConfigList::COMPANY
+			ConfigList::PLAYER => [],
+			ConfigList::SHOP => [],
+			ConfigList::CLUB => [],
+			ConfigList::JOB_COUNT => [],
+			ConfigList::COMPANY => []
 		], $path);
 	}
 
@@ -40,15 +40,15 @@ class ConfigBase
 	}
 
 	private static function register(array $keys, string $path): void {
-		foreach($keys as $key) {
-			self::registerFor($key, $path);
+		foreach($keys as $key => $default_data) {
+			self::registerFor($key, $default_data, $path);
 		}
 	}
 
-	private static function registerFor(string $key, string $path): void {
+	private static function registerFor(string $key, array $default_data, string $path): void {
 		if(self::isExist($key))
 			return;
 
-		self::$config[$key] = new Config($path.$key.".yml", Config::YAML);
+		self::$config[$key] = new Config($path.$key.".yml", Config::YAML, $default_data);
 	}
 }
