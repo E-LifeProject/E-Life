@@ -26,6 +26,7 @@ class Main extends PluginBase implements Listener {
         $this->getServer()->loadLevel("nature");
 
         ConfigBase::init($this);
+        $this->npc = mt_rand(1, 99999999999);
 
         /** @var EconomyAPI $economy_api */
         $economy_api = ApiLoader::load($this, "EconomyAPI");

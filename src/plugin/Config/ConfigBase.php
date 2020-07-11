@@ -15,13 +15,20 @@ class ConfigBase
 	static function init(Main $main): void {
 		if(!file_exists($path = $main->getDataFolder()))
 			mkdir($path,0744,true);
-
 		self::register([
 			ConfigList::PLAYER => [],
 			ConfigList::SHOP => [],
 			ConfigList::CLUB => [],
 			ConfigList::JOB_COUNT => [],
-			ConfigList::COMPANY => []
+			ConfigList::COMPANY => [],
+			ConfigList::STATUS_NPC => [
+				"name" => "StatusNPC",
+				"x" => 236.500000,
+				"y" => 8,
+				"z" => 234.500000,
+				"id" => 276,
+				"meta" => 0
+			]
 		], $path);
 	}
 

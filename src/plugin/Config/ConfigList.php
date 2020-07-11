@@ -25,4 +25,7 @@ class ConfigList
 	 *     location: string
 	 */
 	const COMPANY = "company";
+
+	// ステータス表記のNPCの座標など
+	const STATUS_NPC = "status_npc";
 }
