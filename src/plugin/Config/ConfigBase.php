@@ -15,14 +15,20 @@ class ConfigBase
 	static function init(Main $main): void {
 		if(!file_exists($path = $main->getDataFolder()))
 			mkdir($path,0744,true);
-
 		self::register([
-			ConfigList::PLAYER,
-			ConfigList::SHOP,
-			ConfigList::CLUB,
-			ConfigList::JOB_COUNT,
-			ConfigList::COMPANY,
-			ConfigList::STATUS_NPC
+			ConfigList::PLAYER => [],
+			ConfigList::SHOP => [],
+			ConfigList::CLUB => [],
+			ConfigList::JOB_COUNT => [],
+			ConfigList::COMPANY => [],
+			ConfigList::STATUS_NPC => [
+				"name" => "StatusNPC",
+				"x" => 236.500000,
+				"y" => 8,
+				"z" => 234.500000,
+				"id" => 276,
+				"meta" => 0
+			]
 		], $path);
 	}
 
@@ -41,15 +47,15 @@ class ConfigBase
 	}
 
 	private static function register(array $keys, string $path): void {
-		foreach($keys as $key) {
-			self::registerFor($key, $path);
+		foreach($keys as $key => $default_data) {
+			self::registerFor($key, $default_data, $path);
 		}
 	}
 
-	private static function registerFor(string $key, string $path): void {
+	private static function registerFor(string $key, array $default_data, string $path): void {
 		if(self::isExist($key))
 			return;
 
-		self::$config[$key] = new Config($path.$key.".yml", Config::YAML);
+		self::$config[$key] = new Config($path.$key.".yml", Config::YAML, $default_data);
 	}
 }
