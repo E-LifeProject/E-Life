@@ -13,8 +13,6 @@ class ConfigList
 	//E-Clubの会員情報を管理
 	const CLUB = "club";
 
-	//Jobの変更回数を管理
-	const JOB_COUNT = "job_count";
 
 	/*
 	 * 会社の情報
