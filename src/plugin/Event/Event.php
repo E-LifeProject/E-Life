@@ -60,16 +60,6 @@ class Event implements Listener {
 		        $club->__unset($name);
         }
 
-        //Jobの変更可能回数を記録
-	    $job_count = ConfigBase::getFor(ConfigList::JOB_COUNT);
-
-        if(!$job_count->exists($name)) {
-            $job_count->set($name, 3);
-            $job_count->save();
-        }
-
-        JobCount::setCountFor($player);
-
         $this->eid = $this->status_text->getStatusNpcEid($player);
         var_dump($this->eid);
     }

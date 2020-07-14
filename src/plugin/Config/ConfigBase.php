@@ -19,7 +19,6 @@ class ConfigBase
 			ConfigList::PLAYER => [],
 			ConfigList::SHOP => [],
 			ConfigList::CLUB => [],
-			ConfigList::JOB_COUNT => [],
 			ConfigList::COMPANY => [],
 			ConfigList::STATUS_NPC => [
 				"name" => "StatusNPC",
