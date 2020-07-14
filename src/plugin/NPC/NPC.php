@@ -23,7 +23,6 @@ class NPC{
 	}
 
 	public function showNPC(Player $player, $eid, $yaw, $headYaw){
-		echo "NPC";
 		$npcname = $this->config->get("name");
 		$skinData = self::getSkinData($player);
 		$pk = new AddPlayerPacket();

@@ -28,6 +28,10 @@ class ConfigBase
 				"z" => 234.500000,
 				"id" => 276,
 				"meta" => 0
+			],
+			ConfigList::MONEY => [
+				"max" => 50000,
+				"min" => 0
 			]
 		], $path);
 	}

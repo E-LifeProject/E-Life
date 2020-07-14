@@ -4,12 +4,6 @@ namespace plugin\Event;
 
 #Basic
 use DateTime;
-use plugin\item\OriginItemFactory;
-use plugin\Config\ConfigBase;
-use plugin\Config\ConfigList;
-use plugin\Config\Data\JobCount;
-use plugin\Item\Original\MenuBook;
-use plugin\Main;
 use pocketmine\event\Listener;
 
 #Event
@@ -27,7 +21,13 @@ use pocketmine\network\mcpe\protocol\InteractPacket;
 use plugin\form\TermsForm;
 use plugin\NPC\NPC;
 use plugin\NPC\FloatText;
-
+use plugin\item\OriginItemFactory;
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
+use plugin\Config\PlayerConfigBase;
+use plugin\Config\Data\JobCount;
+use plugin\Item\Original\MenuBook;
+use plugin\Main;
 
 class Event implements Listener {
 
@@ -68,10 +68,11 @@ class Event implements Listener {
             $job_count->save();
         }
 
-        JobCount::setCountFor($player);
+        //JobCount::setCountFor($player);
 
         $this->eid = $this->status_text->getStatusNpcEid($player);
-        var_dump($this->eid);
+
+        PlayerConfigBase::init($this->main, $name);
     }
 
 
@@ -101,7 +102,6 @@ class Event implements Listener {
 
         $player->getInventory()->setItem(0, new MenuBook());
 
-        echo "Join";
         $npc = new NPC($this->status_config);
         $npc->showNPC($player, $this->main->npc, 155, 155);
         $this->status_text->showText($player, $this->eid);
