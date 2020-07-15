@@ -76,13 +76,6 @@ class MainMenu implements Form{
                     'type'=>'path',
                     'data'=>'textures/ui/World'
                     ]
-                ],   
-                [
-                    'text'=>'仕事変更',
-                    'image'=>[
-                        'type'=>'path',
-                        'data'=>'textures/gui/newgui/anvil-hammer'
-                    ]
                 ],
                 [
                     'text'=>'チャット',
