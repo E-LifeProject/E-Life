@@ -69,12 +69,12 @@ class Event implements Listener {
         $player = $event->getPlayer();
         $name = $player->getName();
 
-        //OPにはマークをつける
+        //OPには[権限者]をつける
         if($player->isOp()){
-            $player->setNameTag("§9◆"."§f".$name);
-            $player->setDisplayName("§9◆"."§f".$name);
+            $player->setNameTag("§9[権限者]"."§f".$name);
+            $player->setDisplayName("§9[権限者]"."§f".$name);
         }
-
+        
         //初回ログインには利用規約への同意確認フォームを送る
 	    $player_config = ConfigBase::getFor(ConfigList::PLAYER);
 
