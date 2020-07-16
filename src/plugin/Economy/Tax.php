@@ -53,11 +53,24 @@ class Tax{
                     $tax = 0;
                 }
                 return $tax;
-                
+
             break;
 
             case Tax::INCOME_TAX:
-                $tax = $this->money * $incomeTaxRate;
+                if(100000 >= $this->money && $this->money >= 50000){
+                    $tax = $this->money * $incomeTaxRate;
+                }elseif(200000 >= $this->money && $this->money > 100000){
+                    $incomeTaxRate += 0.1;
+                    $tax = $this->money * $incomeTaxRate;
+                }elseif(300000 >= $this->money && $this->money > 200000){
+                    $incomeTaxRate += 0.2;
+                    $tax = $this->money * $incomeTaxRate;
+                }elseif($this->money > 300000){
+                    $incomeTaxRate += 0.3;
+                    $tax = $this->money * $incomeTaxRate;
+                }else{
+                    $tax = 0;
+                }
                 return $tax;
             break;
         }
