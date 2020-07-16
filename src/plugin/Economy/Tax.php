@@ -16,6 +16,7 @@ class Tax{
     
     public function __construct(int $money){
         $this->money = $money;
+        $taxRate = ConfigBase::getFor(ConfigList::TAXRATE);
     }
 
     /**
