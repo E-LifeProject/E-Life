@@ -2,12 +2,15 @@
 
 namespace plugin\Economy;
 
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
+
 class Tax{
 
-    public const CONSUMPTION_TAX = "consumption";
-    public const CORPORATE_TAX = "corporate";
-    public const GIFT_TAX = "gift";
-    public const INCOME_TAX = "income";
+    public const CONSUMPTION_TAX = "consumption"; //消費税
+    public const CORPORATE_TAX = "corporate"; //法人税
+    public const GIFT_TAX = "gift"; //贈与税
+    public const INCOME_TAX = "income"; //所得税
 
     private $money;
     
