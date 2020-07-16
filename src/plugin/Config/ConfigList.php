@@ -13,6 +13,9 @@ class ConfigList
 	//E-Clubの会員情報を管理
 	const CLUB = "club";
 
+	//税率を管理
+	const TAXRATE = "taxRate";
+
 
 	/*
 	 * 会社の情報
