@@ -25,16 +25,42 @@ class Tax{
      */
 
     public function TaxCalculate(int $mode): int{
-        if(TaxList::CONSUMPTION_TAX === $mode){
-            $tax = $this->money * $consumptionTax;
-        }elseif(TaxList::CORPORATE_TAX === $mode){
-            $tax = $this->money * $corporateTax;
-        }elseif(TaxList::GIFT_TAX === $mode){
-            $tax = $this->money * $giftTax;
-        }elseif(TaxList::INCOME_TAX === $mode){
-            $tax = $this->money * $incomeTax;
+        switch($mode){
+            case Tax::CONSUMPTION_TAX:
+                $tax = $this->money * $consumptionTaxRate;
+                return $tax;
+            break;
+
+            case Tax::CORPORATE_TAX:
+                $tax = $this->money * $corporateTaxRate;
+                return $tax;
+            break;
+
+            case Tax::GIFT_TAX:
+
+                if(1000000 >= $this->money && $this->money >= 500000){
+                    $tax = $this->money * $giftTaxRate;
+                }elseif(200000 >= $this->money && $this->money >1000000){
+                    $giftTaxRate += 0.05;
+                    $tax = $this->money * $giftTaxRate;
+                }elseif(300000 >= $this->money && $this->money >2000000){
+                    $giftTaxRate += 0.1;
+                    $tax = $this->money * $giftTaxRate;
+                }elseif($this->money > 3000000){
+                    $giftTaxRate += 0.2;
+                    $tax = $this->money * $giftTaxRate;
+                }else{
+                    $tax = 0;
+                }
+                return $tax;
+                
+            break;
+
+            case Tax::INCOME_TAX:
+                $tax = $this->money * $incomeTaxRate;
+                return $tax;
+            break;
         }
-        return $tax;
     }
 }
 
