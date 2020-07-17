@@ -19,7 +19,6 @@ class ConfigBase
 			ConfigList::PLAYER => [],
 			ConfigList::SHOP => [],
 			ConfigList::CLUB => [],
-			ConfigList::JOB_COUNT => [],
 			ConfigList::COMPANY => [],
 			ConfigList::STATUS_NPC => [
 				"name" => "StatusNPC",
@@ -32,6 +31,12 @@ class ConfigBase
 			ConfigList::MONEY => [
 				"max" => 50000,
 				"min" => 0
+
+			ConfigList::TAXRATE =>[
+				"consumptionTax" => 0.1,
+				"corporateTax" => 0.15,
+				"giftTaxMinimum" => 0.1,
+				"incomeTaxMinimum" => 0.1
 			]
 		], $path);
 	}
