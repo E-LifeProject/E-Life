@@ -33,3 +33,4 @@ class ConfigList
 	// お金関連
 	const MONEY = "money";
 }
+?>

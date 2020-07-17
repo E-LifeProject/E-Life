@@ -31,7 +31,7 @@ class ConfigBase
 			ConfigList::MONEY => [
 				"max" => 50000,
 				"min" => 0
-
+			],
 			ConfigList::TAXRATE =>[
 				"consumptionTax" => 0.1,
 				"corporateTax" => 0.15,
