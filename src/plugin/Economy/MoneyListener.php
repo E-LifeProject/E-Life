@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace plugin\Money;
+namespace plugin\Economy;
 
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
