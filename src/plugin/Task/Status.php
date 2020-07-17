@@ -13,10 +13,6 @@ use plugin\Economy\MoneyListener;
 
 class Status extends Task{
 
-    public function __construct(EconomyAPI $api) {
-        $this->api = $api;
-    }
-
     public function onRun($tick){
         //Player全員にTipを常時表示させる
         foreach(Server::getInstance()->getOnlinePlayers() as $player) {
