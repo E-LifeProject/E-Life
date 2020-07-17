@@ -18,7 +18,6 @@ class FloatText{
 	}
 
 	public function FloatText(Player $player, $text, $eid, $y=0){
-		echo "float";
 		$move = 0;
 		$plusY = 0;
 		$eid = $eid;
