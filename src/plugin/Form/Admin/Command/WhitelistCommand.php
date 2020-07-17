@@ -20,22 +20,22 @@ class WhitelistCommand implements Form{
         switch ($dropdown) {
             case 0: //on
                 Server::getInstance()->setConfigBool("white-list", true);
-                $player->sendMessage("§aホワイトリストを有効にしました。");
+                $player->sendMessage("§a[個人通知] §7ホワイトリストを有効にしました");
                 break;
 
             case 1://off
                 Server::getInstance()->setConfigBool("white-list", false);
-                $player->sendMessage("§aホワイトリストを無効にしました。");
+                $player->sendMessage("§a[個人通知] §7ホワイトリストを無効にしました");
                 break;
 
         	case 2: //add
         		Server::getInstance()->getOfflinePlayer($target_name)->setWhitelisted(true);
-        		$player->sendMessage("§a".$target->getName()."をホワイトリストに追加しました。");
+        		$player->sendMessage("§a[個人通知] §7".$target->getName()."をホワイトリストに追加しました");
         		break;
         	
         	case 3: //remove
         		Server::getInstance()->getOfflinePlayer($target_name)->setWhitelisted(false);
-        		$player->sendMessage("§a".$target->getName()."をホワイトリストから除外しました。");
+        		$player->sendMessage("§a[個人通知] §7".$target->getName()."をホワイトリストから除外しました");
         		break;
         }
     }

@@ -31,7 +31,7 @@ class ClubForm implements Form{
                 if($club->exists($name)){
                     $player->sendForm(new WithdrawalClub());
                 }else{
-                    $player->sendPopUp("§a通知>>E-Clubに加入していません\n\n");
+                    $player->sendMessage("§a[個人通知] §7E-Clubに加入していません");
                 }
             break;
 
