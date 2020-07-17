@@ -27,6 +27,12 @@ class ConfigBase
 				"z" => 234.500000,
 				"id" => 276,
 				"meta" => 0
+			],
+			ConfigList::TAXRATE =>[
+				"consumptionTax" => 0.1,
+				"corporateTax" => 0.15,
+				"giftTaxMinimum" => 0.1,
+				"incomeTaxMinimum" => 0.1
 			]
 		], $path);
 	}
