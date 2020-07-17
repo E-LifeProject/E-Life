@@ -72,8 +72,8 @@ class Event implements Listener {
 
         //OPには[権限者]をつける
         if($player->isOp()){
-            $player->setNameTag("§9[権限者]"."§f".$name);
-            $player->setDisplayName("§9[権限者]"."§f".$name);
+            $player->setNameTag("§9♪"."§f".$name);
+            $player->setDisplayName("§9♪"."§f".$name);
         }
         
         //初回ログインには利用規約への同意確認フォームを送る
