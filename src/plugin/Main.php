@@ -30,7 +30,7 @@ class Main extends PluginBase implements Listener {
         $this->getServer()->getPluginManager()->registerEvents(new Event($this),$this);
 
         //scheduleRepeatingTaskにTipにステータスを表示させる為に登録
-        $this->getScheduler()->scheduleRepeatingTask(new Status($economy_api),20);
+        $this->getScheduler()->scheduleRepeatingTask(new Status(),20);
     }
 
     public function onDisable(): void {
