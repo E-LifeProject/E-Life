@@ -3,18 +3,15 @@
 namespace plugin\Task;
 
 #Basic
-use onebone\economyapi\EconomyAPI;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\scheduler\Task;
 
-use plugin\Money\MoneyListener;
+#E-Life
+use plugin\Economy\MoneyListener;
 
 
 class Status extends Task{
-
-	/** @var EconomyAPI */
-	private $api;
 
     public function __construct(EconomyAPI $api) {
         $this->api = $api;

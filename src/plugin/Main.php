@@ -13,8 +13,6 @@ use plugin\Event\Event;
 use plugin\Task\Status;
 use plugin\Task\Club;
 
-#EconomyAPI
-use onebone\economyapi\EconomyAPI;
 
 
 class Main extends PluginBase implements Listener {
@@ -27,9 +25,6 @@ class Main extends PluginBase implements Listener {
 
         ConfigBase::init($this);
         $this->npc = mt_rand(1, 99999999999);
-
-        /** @var EconomyAPI $economy_api */
-        $economy_api = ApiLoader::load($this, "EconomyAPI");
 
         //Listenerにイベントを登録
         $this->getServer()->getPluginManager()->registerEvents(new Event($this),$this);
