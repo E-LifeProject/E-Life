@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace plugin\Economy;
 
+#E-Life
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
 use plugin\Config\PlayerConfigBase;
