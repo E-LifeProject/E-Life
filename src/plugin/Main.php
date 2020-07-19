@@ -24,6 +24,8 @@ class Main extends PluginBase implements Listener {
         $this->getServer()->loadLevel("nature");
 
         ConfigBase::init($this);
+
+        //StatusNPC管理用
         $this->npc = mt_rand(1, 99999999999);
 
         //Listenerにイベントを登録
