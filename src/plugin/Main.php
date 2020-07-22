@@ -13,8 +13,6 @@ use plugin\Event\Event;
 use plugin\Task\Status;
 use plugin\Task\Club;
 
-#EconomyAPI
-use onebone\economyapi\EconomyAPI;
 
 
 class Main extends PluginBase implements Listener {
@@ -27,14 +25,14 @@ class Main extends PluginBase implements Listener {
 
         ConfigBase::init($this);
 
-        /** @var EconomyAPI $economy_api */
-        $economy_api = ApiLoader::load($this, "EconomyAPI");
+        //StatusNPC管理用
+        $this->npc = mt_rand(1, 99999999999);
 
         //Listenerにイベントを登録
         $this->getServer()->getPluginManager()->registerEvents(new Event($this),$this);
 
         //scheduleRepeatingTaskにTipにステータスを表示させる為に登録
-        $this->getScheduler()->scheduleRepeatingTask(new Status($economy_api),20);
+        $this->getScheduler()->scheduleRepeatingTask(new Status(),20);
     }
 
     public function onDisable(): void {

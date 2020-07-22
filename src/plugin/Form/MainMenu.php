@@ -12,7 +12,6 @@ use plugin\Form\Admin\SettingForm;
 use plugin\Form\Chat\ChatForm;
 use plugin\Form\Shop\ShopForm;
 use plugin\Form\Club\ClubForm;
-use plugin\Form\Job\JobForm;
 
 
 class MainMenu implements Form{
@@ -27,34 +26,30 @@ class MainMenu implements Form{
             case 0:
                 $player->sendForm(new WorldForm());
             break;
-            
-            //仕事に関するForm
-            case 1:
-                $player->sendForm(new JobForm());
-            break;
+
             //チャットに関するForm
-            case 2:
+            case 1:
                 $player->sendForm(new ChatForm());
             break;
 
             //土地に関するForm
-            case 3:
+            case 2:
                 $player->sendForm(new LandForm());
             break;
 
             //ショップに関するForm
-            case 4:
+            case 3:
                 $player->sendForm(new ShopForm());
             break;
 
             //E-Clubに関するForm
-            case 5:
+            case 4:
                 $player->sendForm(new ClubForm());
             break;
 
             //管理用Form
             //OPのみFormを開けるように
-            case 6:
+            case 5:
                 if($player->isOp()){
                     $player->sendForm(new SettingForm());
                 }else{
@@ -80,13 +75,6 @@ class MainMenu implements Form{
                     'image'=>[
                     'type'=>'path',
                     'data'=>'textures/ui/World'
-                    ]
-                ],   
-                [
-                    'text'=>'仕事変更',
-                    'image'=>[
-                        'type'=>'path',
-                        'data'=>'textures/gui/newgui/anvil-hammer'
                     ]
                 ],
                 [

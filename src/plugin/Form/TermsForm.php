@@ -16,7 +16,7 @@ class TermsForm implements Form{
         //同意しない場合はkick
         if($data === true) {
         	$player_conig = ConfigBase::getFor(ConfigList::PLAYER);
-            $player->sendPopUp("§a通知>>利用規約に同意しました\n\n");
+            $player->sendMessage("§a[個人通知] §7利用規約に同意しました");
             $player_conig->set($player->getName());
             $player_conig->save();
         }else{

@@ -13,8 +13,9 @@ class ConfigList
 	//E-Clubの会員情報を管理
 	const CLUB = "club";
 
-	//Jobの変更回数を管理
-	const JOB_COUNT = "job_count";
+	//税率を管理
+	const TAXRATE = "taxRate";
+
 
 	/*
 	 * 会社の情報
@@ -25,4 +26,11 @@ class ConfigList
 	 *     location: string
 	 */
 	const COMPANY = "company";
+
+	// ステータス表記のNPCの座標など
+	const STATUS_NPC = "status_npc";
+
+	// お金関連
+	const MONEY = "money";
 }
+?>

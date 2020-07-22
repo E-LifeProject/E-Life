@@ -30,7 +30,7 @@ class ChatForm implements Form{
             case 0:
                 $money = EconomyAPI::getInstance()->myMoney($player);
                 if($money<=100){
-                    $player->sendPopUp("§a通知>>送信料100円が払えません\n\n");
+                    $player->sendMessage("§a[個人通知] §7所持金が足りません");
                 }else{
                     $player->sendForm(new SendChat($money));
                 }
