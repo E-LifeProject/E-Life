@@ -1,29 +1,25 @@
 <?php
 
-namespace plugin\Economy;
+namespace plugin\Economy\Tax;
 
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
 
-class Tax{
-
-    public const CONSUMPTION_TAX = "consumption"; //消費税
-    public const CORPORATE_TAX = "corporate"; //法人税
-    public const GIFT_TAX = "gift"; //贈与税
-    public const INCOME_TAX = "income"; //所得税
-
+class Tax
+{
+	/** @var int */
     private $money;
     
-    public function __construct(int $money){
+    public function __construct(int $money) {
         $this->money = $money;
-        $taxRate = ConfigBase::getFor(ConfigList::TAXRATE);
     }
 
-    /**
-     * 税金を計算して返す
-     * 税金を含めた合計金額を返すわけではないので注意
-     */
-
+	/**
+	 * 税金を計算して返す
+	 * 税金を含めた合計金額を返すわけではないので注意
+	 * @param int $mode
+	 * @return int
+	 */
     public function TaxCalculate(int $mode): int{
         switch($mode){
             case Tax::CONSUMPTION_TAX:
