@@ -20,9 +20,11 @@ class Tax
 	 * @param int $mode
 	 * @return int
 	 */
-    public function TaxCalculate(int $mode): int{
-        switch($mode){
-            case Tax::CONSUMPTION_TAX:
+    public function getCalculated(int $mode): int {
+    	$money = $this->money;
+    	
+        switch($mode) {
+            case TaxList::TAX_CONSUMPTION:
                 $tax = $this->money * $consumptionTaxRate;
                 return $tax;
             break;
@@ -73,4 +75,6 @@ class Tax
     }
 }
 
-?>
+class TaxResult
+{
+}
