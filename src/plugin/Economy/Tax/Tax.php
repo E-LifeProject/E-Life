@@ -14,67 +14,60 @@ class Tax
         $this->money = $money;
     }
 
-	/**
-	 * 税金を計算して返す
-	 * 税金を含めた合計金額を返すわけではないので注意
-	 * @param int $mode
-	 * @return int
-	 */
     public function getCalculated(int $mode): int {
-    	$money = $this->money;
-    	
-        switch($mode) {
-            case TaxList::TAX_CONSUMPTION:
-                $tax = $this->money * $consumptionTaxRate;
-                return $tax;
-            break;
-
-            case Tax::CORPORATE_TAX:
-                $tax = $this->money * $corporateTaxRate;
-                return $tax;
-            break;
-
-            case Tax::GIFT_TAX:
-
-                if(1000000 >= $this->money && $this->money >= 500000){
-                    $tax = $this->money * $giftTaxRate;
-                }elseif(200000 >= $this->money && $this->money >1000000){
-                    $giftTaxRate += 0.05;
-                    $tax = $this->money * $giftTaxRate;
-                }elseif(300000 >= $this->money && $this->money >2000000){
-                    $giftTaxRate += 0.1;
-                    $tax = $this->money * $giftTaxRate;
-                }elseif($this->money > 3000000){
-                    $giftTaxRate += 0.2;
-                    $tax = $this->money * $giftTaxRate;
-                }else{
-                    $tax = 0;
-                }
-                return $tax;
-
-            break;
-
-            case Tax::INCOME_TAX:
-                if(100000 >= $this->money && $this->money >= 50000){
-                    $tax = $this->money * $incomeTaxRate;
-                }elseif(200000 >= $this->money && $this->money > 100000){
-                    $incomeTaxRate += 0.1;
-                    $tax = $this->money * $incomeTaxRate;
-                }elseif(300000 >= $this->money && $this->money > 200000){
-                    $incomeTaxRate += 0.2;
-                    $tax = $this->money * $incomeTaxRate;
-                }elseif($this->money > 300000){
-                    $incomeTaxRate += 0.3;
-                    $tax = $this->money * $incomeTaxRate;
-                }else{
-                    $tax = 0;
-                }
-                return $tax;
-            break;
-        }
+    	$rate = $this->getTaxRateFor($mode);
+    	$fixed_rate = $rate + $this->adjustRate($mode);
+    	return $this->getMoney() * ($fixed_rate / 100);
     }
-}
 
-class TaxResult
-{
+    public function getTaxRateFor(int $mode): int {
+    	switch($mode) {
+		    case TaxList::TAX_MODE_GIFT: return TaxList::TAX_RATE_GIFT;
+		    case TaxList::TAX_MODE_CONSUMPTION: return TaxList::TAX_RATE_CONSUMPTION;
+		    case TaxList::TAX_MODE_CORPORATE: return TaxList::TAX_RATE_CORPORATE;
+		    case TaxList::TAX_MODE_INCOME: return TaxList::TAX_RATE_INCOME;
+		    default: return 0;
+	    }
+    }
+
+    public function adjustRate(int $mode): float {
+    	$plus = 0.0;
+
+    	switch($mode) {
+		    case TaxList::TAX_MODE_GIFT:
+		    	// if($this->inRegion(1000000, 500000))
+		    		// $plus = $this->getTaxRateFor($mode);
+		    	if($this->inRegion(1000000, 200000))
+		    		$plus = 5;
+		    	if($this->inRegion(2000000, 300000))
+		    		$plus = 10;
+		    	if($this->inRegion(null, 3000000))
+		    		$plus = 20;
+		    	break;
+
+		    case TaxList::TAX_RATE_INCOME:
+		    	// if($this->inRegion(100000, 50000))
+		    		// $plus = $this->getTaxRateFor($mode);
+				if($this->inRegion(200000, 100000))
+					$plus = 10;
+				if($this->inRegion(300000, 200000))
+					$plus = 20;
+				if($this->inRegion(null, 300000))
+					$plus = 30;
+	    }
+
+	    return $plus;
+    }
+
+    private function inRegion(int $max = null, int $min = null): bool {
+    	$money = $this->getMoney();
+    	if($max === null) return $money >= $min;
+    	elseif($min === null) return $money <= $max;
+    	else return $money <= $max && $money >= $min;
+    }
+
+	/** @return int */
+	private function getMoney(): int {
+		return $this->money;
+	}
 }
