@@ -46,7 +46,7 @@ class LandSettlement {
 
     public function buyArea(): int{
         $cost = $this->getCost();
-        if($this->moneyListener->getMoney() <= $cost){
+        if($cost <= $this->moneyListener->getMoney()){
             $this->moneyListener->reduceMoney($cost);
             return self::RESULT_TYPE_SUCCESS;
         }else{
