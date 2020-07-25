@@ -67,7 +67,7 @@ class LandSubForm implements Form {
     private $type;
 
     /** @var Vector3 **/
-    private $position;
+    private $pos;
 
     /** @var string $content */
 
@@ -77,15 +77,15 @@ class LandSubForm implements Form {
         $this->player = $player;
         $levelName = $player->getLevel()->getName();
         $pos = $player->asVector3()->floor();
+        $this->pos = $pos;
         switch($type){
             case self::FORM_TYPE_POS1:
                 $this->content = $type . " [" . $levelName . "] (x=" . $pos->x . ", z=" . $pos->z . ") に設定しますか?";
             break;
             case self::FORM_TYPE_POS2:
-                $xz = (function($positionHolder, $player){
+                $xz = (function($positionHolder, $player) use ($pos){
                     $pos1 = $positionHolder->getPos1($player);
-                    $pos2 = $player->asPosition();
-                    return $pos1->floor()->subtract($pos2->floor())->abs();
+                    return $pos1->floor()->subtract($pos)->abs()->add(1,0,1);
                 })($this->positionHolder, $player);
                 $area = $xz->x * $xz->z;
                 $this->landSettlement = new LandSettlement($player, $area);
@@ -103,11 +103,11 @@ class LandSubForm implements Form {
         if($data){
             switch($this->type){
                 case self::FORM_TYPE_POS1:
-                    $this->positionHolder->setPos1($this->player);
+                    $this->positionHolder->setPos1($this->player, $this->pos);
                     $player->sendMessage("地保護INFO > §a pos1を設定しました");
                 break;
                 case self::FORM_TYPE_POS2:
-                    if(!$this->positionHolder->setPos2($this->player)){
+                    if(!$this->positionHolder->setPos2($this->player, $this->pos)){
                         $player->sendMessage("土地保護INFO > §cpos1とpos2のワールドが一致しません");
                         break;
                     }
@@ -158,30 +158,30 @@ class PositionHolder {
     }
 
 
-    public function setPos1(Player $player): bool{
+    public function setPos1(Player $player, Vector3 $pos): bool{
         $name = $player->getName();
-        $this->positions[$name]["pos1"] = $player->asPosition();
+        $this->positions[$name]["pos1"] = $pos;
         return true;
     }
 
 
-    public function setPos2(Player $player): bool{
+    public function setPos2(Player $player, Vector3 $pos): bool{
         $name = $player->getName();
         if($player->getLevel()->getName() != $this->getPos1($player)->getLevel()->getName()){
             return false;
         }
-        $this->positions[$name]["pos2"] = $player->asPosition();
+        $this->positions[$name]["pos2"] = $pos;
         return true;
     }
 
 
-    public function getPos1(Player $player): ?Position{
+    public function getPos1(Player $player): ?Vector3{
         $name = $player->getName();
         return isset($this->positions[$name]["pos1"]) ? $this->positions[$name]["pos1"] : null;
     }
 
 
-    public function getPos2(Player $player): ?Position{
+    public function getPos2(Player $player): ?Vector3{
         $name = $player->getName();
         return isset($this->positions[$name]["pos2"]) ? $this->positions[$name]["pos2"] : null;
     }
