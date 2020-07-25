@@ -86,7 +86,7 @@ class LandSubForm implements Form {
                     $pos1 = $positionHolder->getPos1($player);
                     var_dump($pos1);
                     $pos2 = $player->asPosition();
-                    return $pos1->abs()->subtract($pos2->abs())->abs();
+                    return $pos1->subtract($pos2)->abs();
                 })($this->positionHolder, $player);
                 $area = $xz->x * $xz->z;
                 $this->landSettlement = new LandSettlement($player, $area);
