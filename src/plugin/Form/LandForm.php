@@ -84,9 +84,8 @@ class LandSubForm implements Form {
             case self::FORM_TYPE_POS2:
                 $xz = (function($positionHolder, $player){
                     $pos1 = $positionHolder->getPos1($player);
-                    var_dump($pos1);
                     $pos2 = $player->asPosition();
-                    return $pos1->subtract($pos2)->abs();
+                    return $pos1->floor()->subtract($pos2->floor())->abs();
                 })($this->positionHolder, $player);
                 $area = $xz->x * $xz->z;
                 $this->landSettlement = new LandSettlement($player, $area);
