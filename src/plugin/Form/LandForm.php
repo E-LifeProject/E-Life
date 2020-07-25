@@ -105,6 +105,7 @@ class LandSubForm implements Form {
             switch($this->type){
                 case self::FORM_TYPE_POS1:
                     $this->positionHolder->setPos1($this->player);
+                    $player->sendMessage("地保護INFO > §a pos1を設定しました");
                 break;
                 case self::FORM_TYPE_POS2:
                     if(!$this->positionHolder->setPos2($this->player)){
@@ -181,7 +182,7 @@ class PositionHolder {
     }
 
 
-    public function getPos2(Player $player): ?Vector3{
+    public function getPos2(Player $player): ?Position{
         $name = $player->getName();
         return isset($this->positions[$name]["pos2"]) ? $this->positions[$name]["pos2"] : null;
     }
