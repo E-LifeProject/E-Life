@@ -28,7 +28,7 @@ class governmentNPC{
 		$pk->entityRuntimeId = $eid;
 		$pk->uuid = UUID::fromRandom();
 		$pk->username = $npcname;
-		$pk->position = new Vector3(222, 8, 263);
+		$pk->position = new Vector3(222, 8, 265); 
 	   	$pk->yaw = $yaw;
 	   	$pk->headYaw = $headYaw;
 	 	$pk->pitch = 0;

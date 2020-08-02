@@ -108,7 +108,7 @@ class Event implements Listener {
         $npc->showNPC($player, $this->main->npc, 155, 155);
         $this->status_text->showText($player, $this->eid);
 
-        $this->governmentNPC->showNPC($player,$this->main->governmentNPC, 60, 30);
+        $this->governmentNPC->showNPC($player,$this->main->governmentNPC, 175,120);
     }
 
 
