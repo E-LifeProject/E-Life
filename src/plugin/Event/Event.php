@@ -28,6 +28,7 @@ use plugin\Config\PlayerConfigBase;
 use plugin\Config\Data\JobCount;
 use plugin\Item\Original\MenuBook;
 use plugin\Main;
+use plugin\NPC\governmentNPC;
 
 class Event implements Listener {
 
@@ -43,6 +44,8 @@ class Event implements Listener {
 
         $this->status_config = ConfigBase::getFor(ConfigList::STATUS_NPC);
         $this->status_text = new FloatText($this->status_config);
+
+        $this->governmentNPC = new governmentNPC($main->skin);
     }
 
     public function onLogin(PlayerLoginEvent $event) {
@@ -104,6 +107,8 @@ class Event implements Listener {
         $npc = new NPC($this->status_config);
         $npc->showNPC($player, $this->main->npc, 155, 155);
         $this->status_text->showText($player, $this->eid);
+
+        $this->governmentNPC->showNPC($player,$this->main->governmentNPC, 60, 30);
     }
 
 

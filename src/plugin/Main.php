@@ -7,6 +7,7 @@ use plugin\Config\ConfigBase;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
+use pocketmine\utils\Config;
 
 
 #E-Life
@@ -28,6 +29,10 @@ class Main extends PluginBase implements Listener {
 
         //StatusNPC管理用
         $this->npc = mt_rand(1, 99999999999);
+        $this->governmentNPC = mt_rand(1,9999999999999);
+
+        //闇金用のスキンデータだと思われる（要は後回し)
+        $this->skin = new Config($this->getDataFolder() . "skinData.yml", Config::YAML);
 
         //Listenerにイベントを登録
         $this->getServer()->getPluginManager()->registerEvents(new Event($this),$this);
