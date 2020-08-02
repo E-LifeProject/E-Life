@@ -28,8 +28,8 @@ class Main extends PluginBase implements Listener {
         ConfigBase::init($this);
 
         //StatusNPC管理用
-        $this->npc = mt_rand(1, 99999999999);
-        $this->governmentNPC = mt_rand(1,9999999999999);
+        $this->StatusNPC = mt_rand(1, 99999999999);
+        $this->GovernmentNPC = mt_rand(1,9999999999999);
 
         //闇金用のスキンデータだと思われる（要は後回し)
         $this->skin = new Config($this->getDataFolder() . "skinData.yml", Config::YAML);

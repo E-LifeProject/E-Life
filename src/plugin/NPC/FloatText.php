@@ -58,7 +58,7 @@ class FloatText{
 		$name = $player->getName();
 		// データが保管されてあるか確認
 		if(isset($eid[$name])){
-			self::FloatText($player, "§l§eName : ".$name."", $eid[$name][0], 3);
+			self::FloatText($player, "§l§e名前 : ".$name."", $eid[$name][0], 3);
 			self::FloatText($player, "職業 : NULL", $eid[$name][1], 2.7);
 			self::FloatText($player, "E-Club期限 : --:--", $eid[$name][2], 2.4);
 			self::FloatText($player, "銀行残高 : 0M", $eid[$name][3], 2.1);

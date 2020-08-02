@@ -2,22 +2,24 @@
 
 namespace plugin\NPC;
 
+
+#Basic
 use pocketmine\Player;
 use pocketmine\Server;
+use pocketmine\item\Item;
+use pocketmine\math\Vector3;
+use pocketmine\utils\UUID;
 
+#Entity
 use pocketmine\entity\Entity;
 use pocketmine\entity\Skin;
 
-use pocketmine\item\Item;
-
-use pocketmine\math\Vector3;
-
-use pocketmine\utils\UUID;
-
+#Packet
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 use pocketmine\network\mcpe\protocol\MobEquipmentPacket;
 
-class NPC{
+class StatusNPC{
+
 	public function __construct($config){
 		$this->config = $config;
 	}

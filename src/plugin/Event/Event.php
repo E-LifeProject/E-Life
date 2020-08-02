@@ -19,7 +19,7 @@ use pocketmine\network\mcpe\protocol\InteractPacket;
 
 #E-Life
 use plugin\Form\TermsForm;
-use plugin\NPC\NPC;
+use plugin\NPC\StatusNPC;
 use plugin\NPC\FloatText;
 use plugin\Item\OriginItemFactory;
 use plugin\Config\ConfigBase;
@@ -28,7 +28,7 @@ use plugin\Config\PlayerConfigBase;
 use plugin\Config\Data\JobCount;
 use plugin\Item\Original\MenuBook;
 use plugin\Main;
-use plugin\NPC\governmentNPC;
+use plugin\NPC\GovernmentNPC;
 
 class Event implements Listener {
 
@@ -45,7 +45,7 @@ class Event implements Listener {
         $this->status_config = ConfigBase::getFor(ConfigList::STATUS_NPC);
         $this->status_text = new FloatText($this->status_config);
 
-        $this->governmentNPC = new governmentNPC($main->skin);
+        $this->GovernmentNPC = new GovernmentNPC($main->skin);
     }
 
     public function onLogin(PlayerLoginEvent $event) {
@@ -103,12 +103,13 @@ class Event implements Listener {
         //MenuBookをインベントリに追加
         $player->getInventory()->setItem(0, new MenuBook());
 
-        //StatusNPC関連
-        $npc = new NPC($this->status_config);
-        $npc->showNPC($player, $this->main->npc, 155, 155);
+        //StatusNPCを表示
+        $npc = new StatusNPC($this->status_config);
+        $npc->showNPC($player, $this->main->StatusNPC, 155, 155);
         $this->status_text->showText($player, $this->eid);
 
-        $this->governmentNPC->showNPC($player,$this->main->governmentNPC, 175,120);
+        //GovernmentNPCを表示
+        $this->GovernmentNPC->showNPC($player,$this->main->GovernmentNPC,175,120);
     }
 
 
@@ -153,7 +154,7 @@ class Event implements Listener {
                 return false;
             }
 
-            if($eid === $this->main->npc){
+            if($eid === $this->main->StatusNPC){
                 $this->status_text->showText($player, $this->eid);
             }
         }
