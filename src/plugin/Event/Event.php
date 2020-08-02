@@ -18,10 +18,10 @@ use pocketmine\network\mcpe\protocol\InventoryTransactionPacket;
 use pocketmine\network\mcpe\protocol\InteractPacket;
 
 #E-Life
-use plugin\form\TermsForm;
+use plugin\Form\TermsForm;
 use plugin\NPC\NPC;
 use plugin\NPC\FloatText;
-use plugin\item\OriginItemFactory;
+use plugin\Item\OriginItemFactory;
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
 use plugin\Config\PlayerConfigBase;
