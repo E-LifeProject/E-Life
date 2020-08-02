@@ -18,6 +18,7 @@ use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 use pocketmine\network\mcpe\protocol\MobEquipmentPacket;
 
 class governmentNPC{
+
 	public function __construct($skin){
 		$this->skin = $skin;
 	}
