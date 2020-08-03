@@ -13,9 +13,6 @@ use pocketmine\utils\UUID;
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 
 class FloatText{
-	public function __construct($config){
-		$this->config = $config;
-	}
 
 	public function FloatText(Player $player, $text, $eid, $y=0){
 		$move = 0;

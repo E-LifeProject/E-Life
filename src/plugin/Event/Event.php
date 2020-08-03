@@ -43,8 +43,7 @@ class Event implements Listener {
         $this->main = $main;
         $this->origin_item_factory = new OriginItemFactory();
 
-        $this->status_config = ConfigBase::getFor(ConfigList::STATUS_NPC);
-        $this->status_text = new FloatText($this->status_config);
+        $this->status_text = new FloatText();
 
         $this->GovernmentNPC = new GovernmentNPC($main->skin);
     }
@@ -105,7 +104,7 @@ class Event implements Listener {
         $player->getInventory()->setItem(0, new MenuBook());
 
         //StatusNPCを表示
-        $npc = new StatusNPC($this->status_config);
+        $npc = new StatusNPC();
         $npc->showNPC($player, $this->main->StatusNPC, 155, 155);
         $this->status_text->showText($player, $this->eid);
 

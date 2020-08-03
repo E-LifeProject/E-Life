@@ -20,10 +20,6 @@ use pocketmine\network\mcpe\protocol\MobEquipmentPacket;
 
 class StatusNPC{
 
-	public function __construct($config){
-		$this->config = $config;
-	}
-
 	public function showNPC(Player $player, $eid, $yaw, $headYaw){
 		$npcname = "";
 		$skinData = self::getSkinData($player);
@@ -35,7 +31,7 @@ class StatusNPC{
 	   	$pk->yaw = $yaw;
 	   	$pk->headYaw = $headYaw;
 	 	$pk->pitch = 0;
-	    $pk->item = Item::get($this->config->get("id"), $this->config->get("meta"), 1);
+	    $pk->item = Item::get(276,0,1);
 
 		@$flags |= 0 << Entity::DATA_FLAG_INVISIBLE;
 		@$flags |= 1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG;
@@ -60,7 +56,7 @@ class StatusNPC{
 
 		$pk2 = new MobEquipmentPacket();
 		$pk2->entityRuntimeId = $eid;
-		$pk2->item = Item::get($this->config->get("id"), $this->config->get("meta"), 1);
+		$pk2->item = Item::get(276,0,1);
 		$pk2->inventorySlot = 0;
 		$pk2->hotbarSlot = 0;
 		$player->dataPacket($pk2);//Item

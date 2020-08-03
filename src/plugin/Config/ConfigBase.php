@@ -20,14 +20,6 @@ class ConfigBase
 			ConfigList::SHOP => [],
 			ConfigList::CLUB => [],
 			ConfigList::COMPANY => [],
-			ConfigList::STATUS_NPC => [
-				"name" => "StatusNPC",
-				"x" => 236.500000,
-				"y" => 8,
-				"z" => 234.500000,
-				"id" => 276,
-				"meta" => 0
-			],
 			ConfigList::MONEY => [
 				"max" => 50000,
 				"min" => 0
