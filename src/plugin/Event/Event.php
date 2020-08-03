@@ -29,6 +29,7 @@ use plugin\Config\Data\JobCount;
 use plugin\Item\Original\MenuBook;
 use plugin\Main;
 use plugin\NPC\GovernmentNPC;
+use plugin\Form\GovernmentMenu;
 
 class Event implements Listener {
 
@@ -156,6 +157,8 @@ class Event implements Listener {
 
             if($eid === $this->main->StatusNPC){
                 $this->status_text->showText($player, $this->eid);
+            }elseif($eid === $this->main->GovernmentNPC){
+                $player->sendForm(new GovernmentMenu());
             }
         }
     }
