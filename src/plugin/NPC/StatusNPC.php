@@ -25,13 +25,13 @@ class StatusNPC{
 	}
 
 	public function showNPC(Player $player, $eid, $yaw, $headYaw){
-		$npcname = $this->config->get("name");
+		$npcname = "";
 		$skinData = self::getSkinData($player);
 		$pk = new AddPlayerPacket();
 		$pk->entityRuntimeId = $eid;
 		$pk->uuid = UUID::fromRandom();
 		$pk->username = $npcname;
-		$pk->position = new Vector3($this->config->get("x"), $this->config->get("y"), $this->config->get("z"));
+		$pk->position = new Vector3(235.9068,8,232.4803);
 	   	$pk->yaw = $yaw;
 	   	$pk->headYaw = $headYaw;
 	 	$pk->pitch = 0;

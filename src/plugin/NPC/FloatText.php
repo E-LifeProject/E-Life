@@ -25,7 +25,7 @@ class FloatText{
 		$pk->entityRuntimeId = $eid;
 		$pk->username = $text;
 		$pk->uuid = UUID::fromRandom();
-		$pk->position = new Vector3($this->config->get("x"), $this->config->get("y") + $y, $this->config->get("z"));
+		$pk->position = new Vector3(234.8785,6.5+$y,233.6184);
 		$pk->yaw = 0;
 		$pk->pitch = 0;
 		$pk->item = Item::get(0);
