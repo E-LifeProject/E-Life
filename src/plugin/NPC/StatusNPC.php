@@ -31,7 +31,7 @@ class StatusNPC{
 	   	$pk->yaw = $yaw;
 	   	$pk->headYaw = $headYaw;
 	 	$pk->pitch = 0;
-	    $pk->item = Item::get(276,0,1);
+	    $pk->item = Item::get(0);
 
 		@$flags |= 0 << Entity::DATA_FLAG_INVISIBLE;
 		@$flags |= 1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG;
@@ -56,7 +56,7 @@ class StatusNPC{
 
 		$pk2 = new MobEquipmentPacket();
 		$pk2->entityRuntimeId = $eid;
-		$pk2->item = Item::get(276,0,1);
+		$pk2->item = Item::get(0);
 		$pk2->inventorySlot = 0;
 		$pk2->hotbarSlot = 0;
 		$player->dataPacket($pk2);//Item

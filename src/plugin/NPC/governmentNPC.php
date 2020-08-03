@@ -33,7 +33,7 @@ class GovernmentNPC{
 	   	$pk->yaw = $yaw;
 	   	$pk->headYaw = $headYaw;
 	 	$pk->pitch = 0;
-	    $pk->item = Item::get(256,0,1);
+	    $pk->item = Item::get(0);
 
 
 		@$flags |= 0 << Entity::DATA_FLAG_INVISIBLE;
@@ -59,7 +59,7 @@ class GovernmentNPC{
 
 		$pk2 = new MobEquipmentPacket();
 		$pk2->entityRuntimeId = $eid;
-		$pk2->item = Item::get(256, 0, 1);
+		$pk2->item = Item::get(0);
 		$pk2->inventorySlot = 0;
 		$pk2->hotbarSlot = 0;
 		$player->dataPacket($pk2);//Item 
