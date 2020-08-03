@@ -29,7 +29,8 @@ class ConfigBase
 				"corporateTax" => 0.15,
 				"giftTaxMinimum" => 0.1,
 				"incomeTaxMinimum" => 0.1
-			]
+			],
+			ConfigList::PURCHASE =>[]
 		], $path);
 	}
 
