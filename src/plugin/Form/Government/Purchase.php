@@ -1,6 +1,6 @@
 <?php 
 
-namespace plugin\Form;
+namespace plugin\Form\Government;
 
 #Basic
 use pocketmine\Player;
@@ -16,13 +16,13 @@ use plugin\Form\Government\GovernmentDepositBalance;
 use plugin\Form\Government\GovernmentOfficial;
 
 
-class GovernmentMenu implements Form{
+class Purchase implements Form{
     public function handleResponse(Player $player,$data):void{
         if($data === null){
             return;
         }
 
-        $purchaseConfig = ConfigBase::getFor(ConfigList::PERCHASE);
+        $purchaseConfig = ConfigBase::getFor(ConfigList::PURCHASE);
         $itemData = $purchaseConfig->get("stone");
         
         if($data[1]>$itemData['max-count']){
@@ -33,13 +33,12 @@ class GovernmentMenu implements Form{
     }
 
     public function jsonSerialize(){
-        $purchaseConfig = ConfigBase::getFor(ConfigList::PERCHASE);
+        $purchaseConfig = ConfigBase::getFor(ConfigList::PURCHASE);
         $itemData = $purchaseConfig->get("stone");
         return[
             'type'=>'custom_form',
             'title'=>'資源買取フォーム',
-            'content'=>'実行したい項目を選択してください',
-            'buttons'=>[
+            'content'=>[
                 [
                     'type'=>'label',
                     'text'=>'現在は'.$itemData['name'].'を'.$itemData['max-count'].'個の買取を行っております。それ以外のアイテムは現在買取は行っておりません。'
@@ -72,15 +71,13 @@ class PurchaseConfirmation implements Form{
 
         foreach ($player->getInventory()->getContents() as $item){
 			if($this->itemData['id']==$item->getId()){
-					$itemCount += $item->getCount();
+					$this->itemCount += $item->getCount();
 			}
         }
-        
-
-        $item=Item::get($itemData['id'],0,$this->count);
-        if($itemCount >= $this->count){
+        $item=Item::get($this->itemData['id'],0,$this->count);
+        if($this->itemCount >= $this->count){
             $player->getInventory()->removeItem($item);
-            $purchaseConfig = ConfigBase::getFor(ConfigList::PERCHASE);
+            $purchaseConfig = ConfigBase::getFor(ConfigList::PURCHASE);
             $purchaseConfig->set("stone"."max-count",$this->itemData['max-count']-$this->count);
             $purchaseConfig->save();
         }else{
@@ -89,15 +86,16 @@ class PurchaseConfirmation implements Form{
     }
 
     public function jsonSerialize(){
-        $totalPrice = $this->itemData['price']*$this->count;
+        $purchaseConfig = ConfigBase::getFor(ConfigList::PURCHASE);
+        $itemData = $purchaseConfig->get("stone");
+        $totalPrice = $itemData['price']*$this->count;
         return[
             'type'=>'custom_form',
             'title'=>'資源買取フォーム',
-            'content'=>'実行したい項目を選択してください',
-            'buttons'=>[
+            'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>'買取品目:'.$this->$itemData['name']."\n買取値段:".$this->itemData['price']."/一個\n買取予定数:".$this->count."個\n買取合計金額:".$totalPrice.'円'
+                    'text'=>'買取品目:'.$itemData['name']."\n買取値段:".$itemData['price']."/一個\n買取予定数:".$this->count."個\n買取合計金額:".$totalPrice.'円'
                 ],
                 [
                     'type'=>'label',

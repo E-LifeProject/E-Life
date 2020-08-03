@@ -30,7 +30,14 @@ class ConfigBase
 				"giftTaxMinimum" => 0.1,
 				"incomeTaxMinimum" => 0.1
 			],
-			ConfigList::PURCHASE =>[]
+			ConfigList::PURCHASE =>[
+				"stone"=>[
+					"name" =>"石",
+					"id" => 1,
+					"price" => 1,
+					"max-count" => 10
+				]
+			]
 		], $path);
 	}
 

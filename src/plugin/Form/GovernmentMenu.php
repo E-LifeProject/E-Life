@@ -7,7 +7,7 @@ use pocketmine\Player;
 use pocketmine\form\Form;
 
 #E-Life
-use plugin\Form\Government\PurchaseForm;
+use plugin\Form\Government\Purchase;
 use plugin\Form\Government\GovernmentDepositBalance;
 use plugin\Form\Government\GovernmentOfficial;
 
@@ -20,7 +20,7 @@ class GovernmentMenu implements Form{
 
             //政府ブロックorアイテム買取
             case 0:
-                $player->sendForm(new PurchaseForm());
+                $player->sendForm(new Purchase());
             break;
 
             //政府の預金残高を照会（国庫)
