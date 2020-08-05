@@ -31,6 +31,7 @@ class ConfigBase
 				"incomeTaxMinimum" => 0.1
 			],
 			ConfigList::PURCHASE =>[
+				"setItem" => "stone",
 				"stone"=>[
 					"name" =>"石",
 					"id" => 1,
