@@ -10,6 +10,7 @@ use pocketmine\form\Form;
 use plugin\Form\Government\Purchase;
 use plugin\Form\Government\GovernmentDepositBalance;
 use plugin\Form\Government\GovernmentOfficial;
+use plugin\Form\Government\AdministrativeManagement;
 
 class GovernmentMenu implements Form{
     public function handleResponse(Player $player,$data):void{
