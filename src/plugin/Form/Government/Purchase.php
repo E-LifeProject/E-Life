@@ -22,19 +22,19 @@ class Purchase implements Form{
             return;
         }
 
-        $itemData = ConfigBase::getFor(ConfigList::PURCHASE)->get("stone");
-        $player->sendForm(new PurchaseConfirmation($data[1],$itemData));
+        $player->sendForm(new PurchaseConfirmation($data[1],$this->itemData));
     }
 
     public function jsonSerialize(){
-        $itemData = ConfigBase::getFor(ConfigList::PURCHASE)->get("stone");
+        $config = ConfigBase::getFor(ConfigList::PURCHASE);
+        $this->itemData = $config->get($config->get("setItem"));
         return[
             'type'=>'custom_form',
             'title'=>'資源買取フォーム',
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>'現在は'.$itemData['name']."の買取を行っております。それ以外のアイテムは現在買取は行っておりません。"
+                    'text'=>'現在は'.$this->itemData['name']."の買取を行っております。それ以外のアイテムは現在買取は行っておりません。"
                 ],
                 [
                     'type'=>'slider',
@@ -68,7 +68,7 @@ class PurchaseConfirmation implements Form{
 					$haveCount += $item->getCount();
 			}
         }
-        $item=Item::get($this->itemData['id'],0,$this->count);
+        $item=Item::get($this->itemData['id'],$this->itemData['damage'],$this->count);
         if($haveCount >= $this->count){
             $player->getInventory()->removeItem($item);
         }else{
