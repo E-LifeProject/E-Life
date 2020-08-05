@@ -14,6 +14,7 @@ use plugin\Config\ConfigList;
 use plugin\Form\Government\PurchaseForm;
 use plugin\Form\Government\GovernmentDepositBalance;
 use plugin\Form\Government\GovernmentOfficial;
+use plugin\Economy\MoneyListener;
 
 
 class Purchase implements Form{
@@ -58,6 +59,7 @@ class PurchaseConfirmation implements Form{
     }
 
     public function handleResponse(Player $player,$data):void{
+        
         if($data === null){
             return;
         }
@@ -71,6 +73,8 @@ class PurchaseConfirmation implements Form{
         $item=Item::get($this->itemData['id'],$this->itemData['damage'],$this->count);
         if($haveCount >= $this->count){
             $player->getInventory()->removeItem($item);
+            $money_instance = new MoneyListener($player->getName());
+            $money_instance->addMoney($this->totalPrice);
         }else{
             $player->sendMessage("§a[個人通知] §7買取希望個数を下回っています");
         }
