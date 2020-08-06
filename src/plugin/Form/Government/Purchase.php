@@ -35,7 +35,7 @@ class Purchase implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>'現在は'.$this->itemData['name']."の買取を行っております。それ以外のアイテムは現在買取は行っておりません。"
+                    'text'=>'現在買取アイテム: '.$this->itemData['name']."\n上記以外のアイテムは現在買取は行っておりません。"
                 ],
                 [
                     'type'=>'slider',
@@ -66,8 +66,10 @@ class PurchaseConfirmation implements Form{
         
         $haveCount = 0;
         foreach ($player->getInventory()->getContents() as $item){
-			if($this->itemData['id' ]== $item->getId()){
+			if($this->itemData['id' ] == $item->getId()){
+                if($this->itemData['damage'] == $item->getDamage()){
 					$haveCount += $item->getCount();
+				}
 			}
         }
         $item=Item::get($this->itemData['id'],$this->itemData['damage'],$this->count);
@@ -87,7 +89,7 @@ class PurchaseConfirmation implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>'買取品目:'.$this->itemData['name']."\n買取値段:".$this->itemData['price']."/一個\n買取予定数:".$this->count."個\n買取合計金額:".$this->totalPrice.'円'
+                    'text'=>'買取品目:'.$this->itemData['name']."\n買取数:".$this->count."個\n買取値段:".$this->itemData['price']."円/個\n--------------------\n買取合計金額:".$this->totalPrice.'円'
                 ],
                 [
                     'type'=>'label',

@@ -12,13 +12,14 @@ use plugin\Form\Government\GovernmentDepositBalance;
 use plugin\Form\Government\GovernmentOfficial;
 use plugin\Form\Government\AdministrativeManagement;
 
+
 class GovernmentMenu implements Form{
     public function handleResponse(Player $player,$data):void{
         if($data === null){
             return;
         }
-        switch($data){
 
+        switch($data){
             //政府ブロックorアイテム買取
             case 0:
                 $player->sendForm(new Purchase());
@@ -29,18 +30,30 @@ class GovernmentMenu implements Form{
                 $player->sendForm(new GovernmentDepositBalance());
             break;
 
-            //権限者の確認
+            //地方財政状況照会
             case 2:
+                $player->sendForm(new LocalFinance());
+            break;
+
+            //権限者の確認
+            case 3:
                 $player->sendForm(new GovernmentOfficial());
             break;
 
             //市町村別の財政を管理したり、政府関係者が市町村の管理をする
-            case 3:
+            case 4:
                 $player->sendForm(new AdministrativeManagement());
             break;
         }
     }
 
+
+    /**
+     * 政府預金残高照会
+     * 地方財政状況照会
+     * の名称は未確定要素
+     * (政府財政状況確認とかでもいい)
+     */
     public function jsonSerialize(){
         return[
             'type'=>'form',
@@ -54,10 +67,13 @@ class GovernmentMenu implements Form{
                     'text'=>'政府預金残高照会'
                 ],
                 [
+                    'text'=>'地方財政状況照会'
+                ],
+                [
                     'text'=>'政府関係者リスト'
                 ],
                 [
-                    'text'=>'行政管理(関係者のみ)'
+                    'text'=>'地方自治管理'
                 ]
             ]
         ];
