@@ -43,6 +43,7 @@ class MoneyListener
 
 	public function setMoney(int $money){
 		$this->config->set("money", $money);
+		self::save();
 	}
 
 	public function addMoney(int $money){
@@ -50,6 +51,7 @@ class MoneyListener
 		if($money > $this->money_config->get("max")) return;
 		/* 最大所持金を超えていた時の処理は後々書く */
 		self::setMoney($money);
+		self::save();
 	}
 
 	public function reduceMoney(int $money){
@@ -57,5 +59,10 @@ class MoneyListener
 		if($money < $this->money_config->get("min")) return;
 		/* 最低所持金を超えていた時の処理は後々書く */
 		self::setMoney($money);
+		self::save();
+	}
+
+	public function save(){
+		$this->config->save();
 	}
 }
