@@ -13,9 +13,6 @@ use pocketmine\utils\UUID;
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 
 class FloatText{
-	public function __construct($config){
-		$this->config = $config;
-	}
 
 	public function FloatText(Player $player, $text, $eid, $y=0){
 		$move = 0;
@@ -25,7 +22,7 @@ class FloatText{
 		$pk->entityRuntimeId = $eid;
 		$pk->username = $text;
 		$pk->uuid = UUID::fromRandom();
-		$pk->position = new Vector3($this->config->get("x"), $this->config->get("y") + $y, $this->config->get("z"));
+		$pk->position = new Vector3(234.8785,6.5+$y,233.6184);
 		$pk->yaw = 0;
 		$pk->pitch = 0;
 		$pk->item = Item::get(0);
@@ -58,7 +55,7 @@ class FloatText{
 		$name = $player->getName();
 		// データが保管されてあるか確認
 		if(isset($eid[$name])){
-			self::FloatText($player, "§l§eName : ".$name."", $eid[$name][0], 3);
+			self::FloatText($player, "§l§e名前 : ".$name."", $eid[$name][0], 3);
 			self::FloatText($player, "職業 : NULL", $eid[$name][1], 2.7);
 			self::FloatText($player, "E-Club期限 : --:--", $eid[$name][2], 2.4);
 			self::FloatText($player, "銀行残高 : 0M", $eid[$name][3], 2.1);

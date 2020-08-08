@@ -20,14 +20,6 @@ class ConfigBase
 			ConfigList::SHOP => [],
 			ConfigList::CLUB => [],
 			ConfigList::COMPANY => [],
-			ConfigList::STATUS_NPC => [
-				"name" => "StatusNPC",
-				"x" => 236.500000,
-				"y" => 8,
-				"z" => 234.500000,
-				"id" => 276,
-				"meta" => 0
-			],
 			ConfigList::MONEY => [
 				"max" => 50000,
 				"min" => 0
@@ -37,6 +29,27 @@ class ConfigBase
 				"corporateTax" => 0.15,
 				"giftTaxMinimum" => 0.1,
 				"incomeTaxMinimum" => 0.1
+			],
+			ConfigList::PURCHASE =>[
+				"setItem" => "stone",
+				"stone"=>[
+					"name" =>"石",
+					"id" => 1,
+					"damage"=>0,
+					"price" => 1,
+				],
+				"oka"=>[
+					"name"=>"オークの原木",
+					"id"=> 17,
+					"damage"=> 0,
+					"price"=> 2,
+				],
+				"iron"=>[
+					"name"=>"鉄鉱石",
+					"id"=> 15,
+					"damage" => 0,
+					"price"=>5
+				]
 			]
 		], $path);
 	}
