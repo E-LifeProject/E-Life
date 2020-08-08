@@ -48,12 +48,6 @@ class GovernmentMenu implements Form{
     }
 
 
-    /**
-     * 政府預金残高照会
-     * 地方財政状況照会
-     * の名称は未確定要素
-     * (政府財政状況確認とかでもいい)
-     */
     public function jsonSerialize(){
         return[
             'type'=>'form',
@@ -64,7 +58,7 @@ class GovernmentMenu implements Form{
                     'text'=>'資源買取フォーム'
                 ],
                 [
-                    'text'=>'政府預金残高照会'
+                    'text'=>'政府財政状況照会'
                 ],
                 [
                     'text'=>'地方財政状況照会'

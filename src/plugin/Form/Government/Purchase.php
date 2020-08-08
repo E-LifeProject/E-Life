@@ -17,6 +17,12 @@ use plugin\Form\Government\GovernmentOfficial;
 use plugin\Economy\MoneyListener;
 
 
+/**
+ * 買取商品は政府関係者（OP)が設定で変更できる
+ * 政府の資源保管庫の状況を見て
+ * 買取品目を変更していく
+ */
+
 class Purchase implements Form{
     public function handleResponse(Player $player,$data):void{
         if($data === null){
