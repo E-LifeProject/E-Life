@@ -37,18 +37,21 @@ class ConfigBase
 					"id" => 1,
 					"damage"=>0,
 					"price" => 1,
+					"storehouse" => 0,
 				],
 				"oka"=>[
 					"name"=>"オークの原木",
 					"id"=> 17,
 					"damage"=> 0,
 					"price"=> 2,
+					"storehouse" => 0,
 				],
 				"iron"=>[
 					"name"=>"鉄鉱石",
 					"id"=> 15,
 					"damage" => 0,
-					"price"=>5
+					"price"=> 5,
+					"storehouse" => 0
 				]
 			],
 			ConfigList::GORVERNMENTMONEY => [
