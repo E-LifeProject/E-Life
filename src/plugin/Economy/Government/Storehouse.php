@@ -6,6 +6,10 @@ namespace plugin\Economy\Government;
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
 
+/**
+ * 買取したものなどを保管する
+ * 政府倉庫のクラス
+ */
 
 class Storehouse{
 
@@ -40,7 +44,7 @@ class Storehouse{
     }
 
 
-    
+
     private function save(){
         $this->getConfig()->save();
     }
