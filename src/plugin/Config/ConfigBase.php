@@ -33,21 +33,24 @@ class ConfigBase
 			ConfigList::PURCHASE =>[
 				"setItem" => "stone",
 				"stone"=>[
-					"name" =>"石",
+					"jpnName" =>"石",
+					"name" => "stone",
 					"id" => 1,
 					"damage"=>0,
 					"price" => 1,
 					"storehouse" => 0,
 				],
 				"oka"=>[
-					"name"=>"オークの原木",
+					"jpnName"=>"オークの原木",
+					"name" => "oka",
 					"id"=> 17,
 					"damage"=> 0,
 					"price"=> 2,
 					"storehouse" => 0,
 				],
 				"iron"=>[
-					"name"=>"鉄鉱石",
+					"jpnName"=>"鉄鉱石",
+					"name" => "iron",
 					"id"=> 15,
 					"damage" => 0,
 					"price"=> 5,

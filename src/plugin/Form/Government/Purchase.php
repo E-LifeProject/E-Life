@@ -15,6 +15,7 @@ use plugin\Form\Government\PurchaseForm;
 use plugin\Form\Government\GovernmentDepositBalance;
 use plugin\Form\Government\GovernmentOfficial;
 use plugin\Economy\MoneyListener;
+use plugin\Economy\Government\Storehouse;
 
 
 /**
@@ -41,7 +42,7 @@ class Purchase implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>'現在買取アイテム: '.$this->itemData['name']."\n上記以外のアイテムは現在買取は行っておりません。"
+                    'text'=>'現在買取アイテム: '.$this->itemData['jpnName']."\n上記以外のアイテムは現在買取は行っておりません。"
                 ],
                 [
                     'type'=>'slider',
@@ -81,6 +82,7 @@ class PurchaseConfirmation implements Form{
         $item=Item::get($this->itemData['id'],$this->itemData['damage'],$this->count);
         if($haveCount >= $this->count){
             $player->getInventory()->removeItem($item);
+            Storehouse::getInstance()->addItemCount($this->itemData["name"],$this->count);
             $money_instance = new MoneyListener($player->getName());
             $money_instance->addMoney($this->totalPrice);
         }else{
@@ -95,7 +97,7 @@ class PurchaseConfirmation implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>'買取品目:'.$this->itemData['name']."\n買取数:".$this->count."個\n買取値段:".$this->itemData['price']."円/個\n--------------------\n買取合計金額:".$this->totalPrice.'円'
+                    'text'=>'買取品目:'.$this->itemData['jpnName']."\n買取数:".$this->count."個\n買取値段:".$this->itemData['price']."円/個\n--------------------\n買取合計金額:".$this->totalPrice.'円'
                 ],
                 [
                     'type'=>'label',
