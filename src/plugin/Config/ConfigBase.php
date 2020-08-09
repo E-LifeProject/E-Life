@@ -50,6 +50,9 @@ class ConfigBase
 					"damage" => 0,
 					"price"=>5
 				]
+			],
+			ConfigList::GORVERNMENTMONEY => [
+				"money" => "10000000"
 			]
 		], $path);
 	}

@@ -33,5 +33,8 @@ class ConfigList
 	//買取価格を管理
 	const PURCHASE = "purchase";
 
+	//政府の財政
+	const GORVERNMENTMONEY = "governmentmoney";
+
 }
 ?>
