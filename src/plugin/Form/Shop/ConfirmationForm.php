@@ -38,7 +38,13 @@ class ConfirmationForm implements Form{
         }elseif($money_instance->getMoney()<$this->total){//代金を支払えない場合の処理
             $player->sendMessage("§a[個人通知] §7所持金が足りません");
         }elseif($money_instance->getMoney()>=$this->total){//代金を支払える場合の処理
-            //inventoryがいっぱいの時の処理を書かなければいけない
+            
+            /**
+             * 政府倉庫に在庫がなければ購入できない
+             * 在庫がなければ政府はそのブロックの買取を開始し
+             * 在庫補充を行って利益を出していく
+             */
+
             if($this->shopData['storehouse']>=$this->count){
                 $money_instance->reduceMoney($this->total);
                 $item = Item::get($this->shopData['id'],0,$this->count);

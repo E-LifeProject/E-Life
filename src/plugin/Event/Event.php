@@ -31,6 +31,7 @@ use plugin\Main;
 use plugin\NPC\GovernmentNPC;
 use plugin\Form\GovernmentMenu;
 
+
 class Event implements Listener {
 
 	/** @var Main */
