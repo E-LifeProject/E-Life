@@ -85,53 +85,54 @@ class ItemChange implements Form{
         if($data === null){
             return;
         }
+
+        $config = ConfigBase::getFor(ConfigList::PURCHASE);
         switch($data[0]){
 
             //石
             case 0:
-                $config = ConfigBase::getFor(ConfigList::PURCHASE);
                 $config->set("setItem","stone");
                 $config->save();
             break;
 
+            //オークの原木
             case 1:
-                $config = ConfigBase::getFor(ConfigList::PURCHASE);
                 $config->set("setItem","oka");
                 $config->save();
             break;
 
+            //マツの原木
             case 2:
-                $config = ConfigBase::getFor(ConfigList::PURCHASE);
                 $config->set("setItem","spruce");
                 $config->save();
             break;
 
+            //シラカバの原木
             case 3:
-                $config = ConfigBase::getFor(ConfigList::PURCHASE);
                 $config->set("setItem","birch");
                 $config->save();
             break;
 
+            //ジャングルの原木
             case 4:
-                $config = ConfigBase::getFor(ConfigList::PURCHASE);
                 $config->set("setItem","jungle");
                 $config->save();
             break;
 
+            //アカシアの原木
             case 5:
-                $config = ConfigBase::getFor(ConfigList::PURCHASE);
                 $config->set("setItem","acacia");
                 $config->save();
             break;
 
+            //ダークオークの原木
             case 6:
-                $config = ConfigBase::getFor(ConfigList::PURCHASE);
                 $config->set("setItem","dark_oka");
                 $config->save();
             break;
             
+            //鉄鉱石
             case 7:
-                $config = ConfigBase::getFor(ConfigList::PURCHASE);
                 $config->set("setItem","ironOre");
                 $config->save();
             break;
