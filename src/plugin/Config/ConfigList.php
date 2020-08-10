@@ -16,7 +16,6 @@ class ConfigList
 	//税率を管理
 	const TAXRATE = "taxRate";
 
-
 	/*
 	 * 会社の情報
 	 * company_name:
@@ -32,6 +31,9 @@ class ConfigList
 
 	//買取価格を管理
 	const PURCHASE = "purchase";
+
+	//政府の財政
+	const GORVERNMENTMONEY = "governmentmoney";
 
 }
 ?>

@@ -7,8 +7,9 @@ use pocketmine\form\Form;
 use pocketmine\Player;
 use pocketmine\item\Item;
 
-#EconomyAPI
-use onebone\economyapi\EconomyAPI;
+#E-Life
+use plugin\Economy\MoneyListener;
+use plugin\Economy\Government\Storehouse;
 
 
 class ConfirmationForm implements Form{
@@ -25,22 +26,34 @@ class ConfirmationForm implements Form{
         $this->total = $total;
         $this->fee = $fee;
     }
-
     /**
      * E-Club加入者には送料を無料にする
      * 加入者以外は送料一律100円
      */
     public function handleResponse(Player $player,$data):void{
+        $name = $player->getName();
+        $money_instance = new MoneyListener($name);
         if($data === null){
             return;
-        }elseif(EconomyAPI::getInstance()->myMoney($player)<$this->total){//代金を支払えない場合の処理
+        }elseif($money_instance->getMoney()<$this->total){//代金を支払えない場合の処理
             $player->sendMessage("§a[個人通知] §7所持金が足りません");
-        }elseif(EconomyAPI::getInstance()->myMoney($player)>=$this->total){//代金を支払える場合の処理
-            //inventoryがいっぱいの時の処理を書かなければいけない
-            EconomyAPI::getInstance()->reduceMoney($player,$this->total);
-            $item = Item::get($this->shopData['id'],0,$this->count);
-            $player->getInventory()->addItem($item);
-            $player->sendMessage("§a[個人通知] §7購入しました");
+        }elseif($money_instance->getMoney()>=$this->total){//代金を支払える場合の処理
+            
+            /**
+             * 政府倉庫に在庫がなければ購入できない
+             * 在庫がなければ政府はそのブロックの買取を開始し
+             * 在庫補充を行って利益を出していく
+             */
+
+            if($this->shopData['storehouse']>=$this->count){
+                $money_instance->reduceMoney($this->total);
+                $item = Item::get($this->shopData['id'],0,$this->count);
+                $player->getInventory()->addItem($item);
+                Storehouse::getInstance()->reduceItemCount($this->shopData['name'],$this->count);
+                $player->sendMessage("§a[個人通知] §7購入しました");
+            }else{
+                $player->sendMessage("§a[個人通知] §7在庫がありません");
+            }
         }
     }
 
@@ -51,7 +64,7 @@ class ConfirmationForm implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>"商品名:".$this->shopData['name']."\n購入数:".$this->count."個\n手数料:".$this->fee."円\n--------------------\n合計金額:".$this->total."円です\n \n§7購入する場合は送信、購入をキャンセルする場合は右上の×を押してください。また購入後のキャンセルは出来ません。"
+                    'text'=>"商品名:".$this->shopData['jpnName']."\n購入数:".$this->count."個\n手数料:".$this->fee."円\n--------------------\n合計金額:".$this->total."円です\n \n§7購入する場合は送信、購入をキャンセルする場合は右上の×を押してください。また購入後のキャンセルは出来ません。"
 
                 ]
             ]

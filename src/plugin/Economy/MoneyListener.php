@@ -55,10 +55,11 @@ class MoneyListener
 	}
 
 	public function reduceMoney(int $money){
-		$money -= self::getMoney();
+		$total = self::getMoney();
+		$total -= $money;
 		if($money < $this->money_config->get("min")) return;
 		/* 最低所持金を超えていた時の処理は後々書く */
-		self::setMoney($money);
+		self::setMoney($total);
 		self::save();
 	}
 

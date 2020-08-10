@@ -23,10 +23,10 @@ class ShopForm implements Form{
 
 
         switch($data){
-            case 0:
+         /**case 0:
                 $player->sendForm(new ToolForm());
-            break;
-            case 1:
+            break; */
+            case 0:
                 $player->sendForm(new BlockForm());
             break;
         }
@@ -39,9 +39,6 @@ class ShopForm implements Form{
             'title'=>'公式ショップ',
             'content'=>'購入したいものを選択してください',
             'buttons'=>[
-                [
-                    'text'=>'道具'
-                ],
                 [
                     'text'=>'ブロック'
                 ]

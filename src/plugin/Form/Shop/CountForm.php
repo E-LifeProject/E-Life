@@ -30,12 +30,14 @@ class CountForm implements Form{
         }else{
             $fee = 100;
         }
-        $total = $this->shopData['price']*$data[1]+$fee;
+
+        //買取金額の二倍の額で販売する。その差分を政府の利益とし運営していく（この利率は運営してみて変更する可能性はある）
+        $total = $this->shopData['price']*2*$data[1]+$fee;
         $player->sendForm(new ConfirmationForm($this->shopData,$data[1],$total,$fee));
     }
 
     public function jsonSerialize(){
-        $itemName = $this->shopData['name'];
+        $itemName = $this->shopData['jpnName'];
 
         return[
             'type'=>'custom_form',
