@@ -7,7 +7,7 @@ use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
 
 /**
- * 買取したものなどを保管する
+ * 買取したものなどを保管する(ここに溜まったブロックはショップで販売するか、公共事業などで使用する)
  * 政府倉庫のクラス
  */
 
@@ -38,7 +38,7 @@ class Storehouse{
     public function reduceItemCount($itemName,$count){
         $config = $this->getConfig()->get($itemName);
         $all = $config['storehouse'];
-        $all += $count;
+        $all -= $count;
         $this->getConfig()->setNested($itemName.".storehouse",$all);
         $this->save();
     }
