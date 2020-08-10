@@ -16,7 +16,6 @@ class ConfigList
 	//税率を管理
 	const TAXRATE = "taxRate";
 
-
 	/*
 	 * 会社の情報
 	 * company_name:
