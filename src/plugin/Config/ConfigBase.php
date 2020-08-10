@@ -37,7 +37,6 @@ class ConfigBase
 					"id" => 1,
 					"damage"=>0,
 					"price" => 1,
-					"storehouse" => 0,
 				],
 				"oka"=>[
 					"jpnName"=>"オークの原木",
@@ -45,7 +44,6 @@ class ConfigBase
 					"id"=> 17,
 					"damage"=> 0,
 					"price"=> 2,
-					"storehouse" => 0,
 				],
 				"iron"=>[
 					"jpnName"=>"鉄鉱石",
@@ -53,11 +51,15 @@ class ConfigBase
 					"id"=> 15,
 					"damage" => 0,
 					"price"=> 5,
-					"storehouse" => 0
 				]
 			],
-			ConfigList::GORVERNMENTMONEY => [
-				"money" => "10000000"
+			ConfigList::GORVERNMENT => [
+				"money" => "10000000",
+				"storehouse"=>[
+					"stone" => 0,
+					"oka" => 0,
+					"iron" => 0,
+				]
 			]
 		], $path);
 	}

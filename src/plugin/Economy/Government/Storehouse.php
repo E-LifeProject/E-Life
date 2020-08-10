@@ -21,25 +21,25 @@ class Storehouse{
         }
         return self::$instance;
     }
-
+    
     public function getItemCount($itemName){
-       $item = $this->getConfig()->get($itemName);
-       return $item['storehouse'];
+       $data = $this->getConfig()->get("storehouse");
+       return $data[$itemName];
     }
 
     public function addItemCount($itemName,$count){
-        $config = $this->getConfig()->get($itemName);
-        $all = $config['storehouse'];
+        $config = $this->getConfig()->get("storehouse");
+        $all = $config[$itemName];
         $all += $count;
-        $this->getConfig()->setNested($itemName.".storehouse",$all);
+        $this->getConfig()->setNested("storehouse.".$itemName,$all);
         $this->save();
     }
 
     public function reduceItemCount($itemName,$count){
-        $config = $this->getConfig()->get($itemName);
-        $all = $config['storehouse'];
+        $config = $this->getConfig()->get("storehouse");
+        $all = $config[$itemName];
         $all -= $count;
-        $this->getConfig()->setNested($itemName.".storehouse",$all);
+        $this->getConfig()->setNested("storehouse.".$itemName,$all);
         $this->save();
     }
 
@@ -50,7 +50,7 @@ class Storehouse{
     }
 
     private function getConfig(){
-        $config = ConfigBase::getFor(ConfigList::PURCHASE);
+        $config = ConfigBase::getFor(ConfigList::GORVERNMENT);
         return $config;
     }
 }

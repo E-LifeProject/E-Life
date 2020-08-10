@@ -33,7 +33,7 @@ class ConfigList
 	const PURCHASE = "purchase";
 
 	//政府の財政
-	const GORVERNMENTMONEY = "governmentmoney";
+	const GORVERNMENT = "government";
 
 }
 ?>

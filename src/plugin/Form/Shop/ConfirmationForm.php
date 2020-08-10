@@ -44,8 +44,8 @@ class ConfirmationForm implements Form{
              * 在庫がなければ政府はそのブロックの買取を開始し
              * 在庫補充を行って利益を出していく
              */
-
-            if($this->shopData['storehouse']>=$this->count){
+            
+            if(Storehouse::getInstance()->getItemCount($this->shopData["name"])>=$this->count){
                 $money_instance->reduceMoney($this->total);
                 $item = Item::get($this->shopData['id'],0,$this->count);
                 $player->getInventory()->addItem($item);

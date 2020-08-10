@@ -50,7 +50,7 @@ class GovernmentMoney{
     }
 
     private function getConfig(){
-        $config = ConfigBase::getFor(ConfigList::GORVERNMENTMONEY);
+        $config = ConfigBase::getFor(ConfigList::GORVERNMENT);
         return $config;
     }
 

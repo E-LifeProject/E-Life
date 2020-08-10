@@ -85,6 +85,7 @@ class PurchaseConfirmation implements Form{
             Storehouse::getInstance()->addItemCount($this->itemData["name"],$this->count);
             $money_instance = new MoneyListener($player->getName());
             $money_instance->addMoney($this->totalPrice);
+            $player->sendMessage("§a[個人通知] §7買取完了しました");
         }else{
             $player->sendMessage("§a[個人通知] §7買取希望個数を下回っています");
         }
