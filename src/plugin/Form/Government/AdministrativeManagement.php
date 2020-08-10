@@ -102,6 +102,36 @@ class ItemChange implements Form{
 
             case 2:
                 $config = ConfigBase::getFor(ConfigList::PURCHASE);
+                $config->set("setItem","spruce");
+                $config->save();
+            break;
+
+            case 3:
+                $config = ConfigBase::getFor(ConfigList::PURCHASE);
+                $config->set("setItem","birch");
+                $config->save();
+            break;
+
+            case 4:
+                $config = ConfigBase::getFor(ConfigList::PURCHASE);
+                $config->set("setItem","jungle");
+                $config->save();
+            break;
+
+            case 5:
+                $config = ConfigBase::getFor(ConfigList::PURCHASE);
+                $config->set("setItem","acacia");
+                $config->save();
+            break;
+
+            case 6:
+                $config = ConfigBase::getFor(ConfigList::PURCHASE);
+                $config->set("setItem","dark_oka");
+                $config->save();
+            break;
+            
+            case 7:
+                $config = ConfigBase::getFor(ConfigList::PURCHASE);
                 $config->set("setItem","ironOre");
                 $config->save();
             break;
@@ -119,6 +149,11 @@ class ItemChange implements Form{
                     'options'=>[
                         '石',
                         'オークの原木',
+                        'マツの原木',
+                        'シラカバの原木',
+                        'ジャングルの原木',
+                        'アカシアの原木',
+                        'ダークオークの原木',
                         '鉄鉱石'
                     ],
                     'default'=>2

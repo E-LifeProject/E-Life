@@ -45,9 +45,44 @@ class ConfigBase
 					"damage"=> 0,
 					"price"=> 2,
 				],
-				"iron"=>[
+				"spruce"=>[
+					"jpnName"=>"マツの原木",
+					"name" => "spruce",
+					"id"=> 17,
+					"damage" => 1,
+					"price"=> 2,
+				],
+				"birch"=>[
+					"jpnName"=>"シラカバの原木",
+					"name" => "birch",
+					"id"=> 17,
+					"damage" => 2,
+					"price"=> 2,
+				],
+				"jungle"=>[
+					"jpnName"=>"ジャングルの原木",
+					"name" => "jungle",
+					"id"=> 17,
+					"damage" => 2,
+					"price"=> 2,
+				],
+				"acacia"=>[
+					"jpnName"=>"アカシアの原木",
+					"name" => "acacia",
+					"id"=> 162,
+					"damage" => 0,
+					"price"=> 2,
+				],
+				"dark_oka"=>[
+					"jpnName"=>"ダークオークの原木",
+					"name" => "dark_oka",
+					"id"=> 162,
+					"damage" => 1,
+					"price"=> 2,
+				],
+				"ironOre"=>[
 					"jpnName"=>"鉄鉱石",
-					"name" => "iron",
+					"name" => "ironOre",
 					"id"=> 15,
 					"damage" => 0,
 					"price"=> 5,
@@ -58,7 +93,12 @@ class ConfigBase
 				"storehouse"=>[
 					"stone" => 0,
 					"oka" => 0,
-					"iron" => 0,
+					"spruce" => 0,
+					"birch" => 0,
+					"jungle" => 0,
+					"acacia" => 0,
+					"dark_oka" => 0,
+					"ironOre" => 0,
 				]
 			]
 		], $path);

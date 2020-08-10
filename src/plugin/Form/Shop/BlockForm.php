@@ -134,19 +134,19 @@ class WoodForm implements Form{
                 $shopData = $shop->get("oka");
             break;
             case 1:
-                $shopData = $shop->get("マツの原木");
+                $shopData = $shop->get("spruce");
             break;
             case 2:
-                $shopData = $shop->get("シラカバの原木");
+                $shopData = $shop->get("birch");
             break;
             case 3:
-                $shopData = $shop->get("ジャングルの原木");
+                $shopData = $shop->get("jungle");
             break;
             case 4:
-                $shopData = $shop->get("アカシアの原木");
+                $shopData = $shop->get("acacia");
             break;
             case 5:
-                $shopData = $shop->get("ダークオークの原木");
+                $shopData = $shop->get("dark_oka");
             break;
         }
 
