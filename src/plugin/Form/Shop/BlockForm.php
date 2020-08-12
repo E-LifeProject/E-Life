@@ -116,7 +116,7 @@ class WoodForm implements Form{
     
     public function handleResponse(Player $player,$data): void{
         $name = $player->getName();
-        $shop = ConfigBase::getFor(ConfigList::SHOP);
+        $shop = ConfigBase::getFor(ConfigList::PURCHASE);
         $club = ConfigBase::getFor(ConfigList::CLUB);
 
         if($data === null){

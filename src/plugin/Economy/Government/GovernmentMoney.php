@@ -12,6 +12,8 @@ use plugin\Config\ConfigList;
 
 
 class GovernmentMoney{
+
+    static $instance;
     
 
     public static function getInstance(){
@@ -24,7 +26,7 @@ class GovernmentMoney{
 
 
     public function getMoney(){
-        $this->getConfig()->get("money");
+       return $this->getConfig()->get("money");
     }
 
     public function addMoney($money){
@@ -34,7 +36,7 @@ class GovernmentMoney{
     }
 
     public function reduceMoney($money){
-        $totalMoney = $this->getMoney()-$money;
+        $totalMoney = $this->getMoney() - $money;
         $this->setMoney($totalMoney);
         $this->save();
     }

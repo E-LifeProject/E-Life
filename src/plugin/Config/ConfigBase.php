@@ -89,7 +89,7 @@ class ConfigBase
 				]
 			],
 			ConfigList::GORVERNMENT => [
-				"money" => "10000000",
+				"money" => 1000000000,
 				"storehouse"=>[
 					"stone" => 0,
 					"oka" => 0,

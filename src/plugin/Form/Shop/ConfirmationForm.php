@@ -10,6 +10,7 @@ use pocketmine\item\Item;
 #E-Life
 use plugin\Economy\MoneyListener;
 use plugin\Economy\Government\Storehouse;
+use plugin\Economy\Government\GovernmentMoney;
 
 
 class ConfirmationForm implements Form{
@@ -50,6 +51,7 @@ class ConfirmationForm implements Form{
                 $item = Item::get($this->shopData['id'],0,$this->count);
                 $player->getInventory()->addItem($item);
                 Storehouse::getInstance()->reduceItemCount($this->shopData['name'],$this->count);
+                GovernmentMoney::getInstance()->addMoney($this->total);
                 $player->sendMessage("§a[個人通知] §7購入しました");
             }else{
                 $player->sendMessage("§a[個人通知] §7在庫がありません");

@@ -14,6 +14,7 @@ use plugin\Config\ConfigList;
 use plugin\Form\Government\PurchaseForm;
 use plugin\Form\Government\GovernmentDepositBalance;
 use plugin\Form\Government\GovernmentOfficial;
+use plugin\Economy\Government\GovernmentMoney;
 use plugin\Economy\MoneyListener;
 use plugin\Economy\Government\Storehouse;
 
@@ -85,6 +86,7 @@ class PurchaseConfirmation implements Form{
             Storehouse::getInstance()->addItemCount($this->itemData["name"],$this->count);
             $money_instance = new MoneyListener($player->getName());
             $money_instance->addMoney($this->totalPrice);
+            GovernmentMoney::getInstance()->reduceMoney($this->totalPrice);
             $player->sendMessage("§a[個人通知] §7買取完了しました");
         }else{
             $player->sendMessage("§a[個人通知] §7買取希望個数を下回っています");
