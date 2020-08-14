@@ -11,12 +11,25 @@ use plugin\Economy\Bank;
 
 class accountOpening implements Form{
     public function handleResponse(Player $player, $data): void{
+        $name = $player->getName();
+        $bank = Bank::getInstance();
+        $money_instance = new MoneyListener($name);
+
         if($data === null){
             return;
         }
         
         if($data[1] === true){
-            Bank::getInstance()->accountOpening($player);
+            if($bank->checkAccount($name)){
+                $player->sendMessage("§a[個人通知] §7口座が既に開設されております");
+            }else{
+                if($money_instance->getMoney() >= $bank->checkAccountOpeningFee()){
+                    $bank->accountOpening($name);
+                    $player->sendMessage("§a[個人通知] §7口座を開設しました");
+                }else{
+                    $player->sendMessage("§a[個人通知] §7口座開設手数料を支払う事ができませんでした");
+                }
+            }
         }
     }
 
@@ -27,7 +40,7 @@ class accountOpening implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>"口座開設手数料:1500円\n口座を開設する場合は口座開設ボタンにチェックを入れ、送信ボタンを押してください。既に口座を開設している場合は新規開設できません"
+                    'text'=>"口座開設手数料:".Bank::getInstance()->checkAccountOpeningFee()."\n口座を開設する場合は口座開設ボタンにチェックを入れ、送信ボタンを押してください。既に口座を開設している場合は新規開設できません"
                 ],
                 [
                     'type'=>'toggle',
