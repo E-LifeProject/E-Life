@@ -50,7 +50,7 @@ class BankMenu implements Form{
             //残高照会
             case 2:
                 if(Bank::getInstance()->checkAccount($player->getName())){
-                    $player->sendForm(new BalanceInquiry());
+                    $player->sendForm(new BalanceInquiry($player->getName()));
                 }else{
                     $player->sendMessage("§a[個人通知] §7口座が開設されておりません");
                 }
