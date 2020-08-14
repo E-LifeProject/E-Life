@@ -43,7 +43,7 @@ class withdrawMoney implements Form{
     public function jsonSerialize(){
         return[
             'type'=>'custom_form',
-            'title'=>'口座開設',
+            'title'=>'お引き出し',
             'content'=>[
                 [
                     'type'=>'label',
