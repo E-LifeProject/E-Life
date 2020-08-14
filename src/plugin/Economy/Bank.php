@@ -20,6 +20,10 @@ class Bank{
         return self::$instance;
     }
 
+    //口座開設手数料確認
+    public function checkAccountOpeningFee(){
+        return 1500;
+    }
 
     //手数料確認
     public function checkFee(){
@@ -71,13 +75,13 @@ class Bank{
         }else{
             $money_instance = new MoneyListener($name);
             $money = $money_instance->getMoney();
-            if($money >= 1500){
+            if($money >= $this->checkAccountOpeningFee()){
                 $this->getConfig()->set($name,array(
                     "DepositBalance" => 0
                     )
                 );
                 $this->save();
-                $money_instance->reduceMoney(1500);
+                $money_instance->reduceMoney($this->checkAccountOpeningFee());
             }else{
                 $player->sendMessage("§a[個人通知] §7所持金が足りません");
             }
@@ -86,6 +90,7 @@ class Bank{
              */
         }
     }
+
 
     //configに書き込む用
     private function setDepositBalance($name,$depositBalance){
