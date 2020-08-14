@@ -40,8 +40,8 @@ class BankMenu implements Form{
 
             //お預入れ
             case 1:
-                if(Bank::getInsatnce()->checkAccount($player->getName())){
-                    $player->sendForm(new MoneyDeposit());
+                if(Bank::getInstance()->checkAccount($player->getName())){
+                    $player->sendForm(new MoneyDeposit($player->getName()));
                 }else{
                     $player->sendMessage("§a[個人通知] §7口座が開設されておりません");
                 }
@@ -49,7 +49,7 @@ class BankMenu implements Form{
 
             //残高照会
             case 2:
-                if(Bank::getInsatnce()->checkAccount($player->getName())){
+                if(Bank::getInstance()->checkAccount($player->getName())){
                     $player->sendForm(new BalanceInquiry());
                 }else{
                     $player->sendMessage("§a[個人通知] §7口座が開設されておりません");
