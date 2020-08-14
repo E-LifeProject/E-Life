@@ -30,10 +30,10 @@ class Bank{
         $now_data = intval(date("H"));
         foreach(array(21, 22, 23, 24, 01, 02, 03, 04, 05, 06) as $date){
             if($date === $now_data){
-                return true;
+                return 200;
             }
         }
-        return false;   
+        return 0;   
     }
 
     //預金残高
