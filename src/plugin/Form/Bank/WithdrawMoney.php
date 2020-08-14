@@ -24,6 +24,13 @@ class withdrawMoney implements Form{
         if($data === null){
             return;
         }
+
+        if(!is_numeric($data[1]) || $data[1] === ""){
+            $player->sendMessage("§a[個人通知] §7数字を入力してください");
+            return;
+        }
+
+
         if($bank->getDepositBalance($this->name)>=$data[1]){
             $bank->reduceDepositBalance($this->name,$data[1]);
             $money_instance->addMoney($data[1]);
