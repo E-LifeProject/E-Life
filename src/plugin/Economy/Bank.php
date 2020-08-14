@@ -15,7 +15,7 @@ class Bank{
     
     public static function getInstance(){
         if(!isset(self::$instance)){
-            self::$instance = new GovernmentMoney();
+            self::$instance = new Bank();
         }
         return self::$instance;
     }
@@ -66,15 +66,24 @@ class Bank{
     public function accountOpening($player){
         $name = $player->getName();
         
-
-        if($this->getConfig->exists($name)){
+        if($this->getConfig()->exists($name)){
             $player->sendMessage("§a[個人通知] §7既に口座は開設されております");
         }else{
-            $this->getConfig()->set($name,array(
-                "DepositBalance" => 0
-                )
-            );
-            $this->save();
+            $money_instance = new MoneyListener($name);
+            $money = $money_instance->getMoney();
+            if($money >= 1500){
+                $this->getConfig()->set($name,array(
+                    "DepositBalance" => 0
+                    )
+                );
+                $this->save();
+                $money_instance->reduceMoney(1500);
+            }else{
+                $player->sendMessage("§a[個人通知] §7所持金が足りません");
+            }
+            /**
+             * 銀行の資本金や純資金のクラスを後ほど作る
+             */
         }
     }
 
