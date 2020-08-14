@@ -31,9 +31,9 @@ class withdrawMoney implements Form{
         }
 
 
-        if($bank->getDepositBalance($this->name)>=$data[1]){
-            $bank->reduceDepositBalance($this->name,$data[1]);
-            $money_instance->addMoney($data[1]);
+        if($bank->getDepositBalance($this->name)>=intval($data[1])){
+            $bank->reduceDepositBalance($this->name,intval($data[1]));
+            $money_instance->addMoney(intval($data[1]));
             $player->sendMessage("§a[個人通知] §7お金を引き出しました");
         }else{
             $player->sendMessage("§a[個人通知] §7引き出し金額が預金残高を超えている為引き出しできませんでした");
