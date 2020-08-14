@@ -129,8 +129,21 @@ class Event implements Listener {
         $player = $event->getPlayer();
 
         //MenuBookでタップしたらMainMenuを表示
-        if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK)
-        	$this->getOriginItemFactory()->useFor($player, $event->getItem());
+        if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK){
+            $this->getOriginItemFactory()->useFor($player, $event->getItem());
+        }
+
+        //ATMをタップしたら銀行メニューを表示
+        if($event->getAction() === PlayerInteractEvent::LEFT_CLICK_BLOCK || $event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK){
+			$block = $event->getBlock();
+            $level = $block->getLevel();
+            $target_block = $level->getBlock(new Vector3(228.5, 9, 232.5));
+
+			if($target_block === $block){
+				$player = $event->getPlayer();
+				$player->sendForm(new BankMenu($this->main)); 
+			}
+		}
     }
 
     public function onReceive(DataPacketReceiveEvent $event){
