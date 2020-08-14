@@ -8,6 +8,8 @@ use pocketmine\form\Form;
 
 #E-Life
 use plugin\Economy\Bank;
+use plugin\Economy\MoneyListener;
+
 
 class withdrawMoney implements Form{
     public function __construct($name){
@@ -15,7 +17,7 @@ class withdrawMoney implements Form{
     }
 
     public function handleResponse(Player $player, $data): void{
-        $bank = Bank::getInsatnce();
+        $bank = Bank::getInstance();
         $money_instance = new MoneyListener($this->name);
         $money = $money_instance->getMoney();
 
@@ -43,7 +45,6 @@ class withdrawMoney implements Form{
                 [
                     'type'=>'input',
                     'text'=>'出金金額',
-                    'default'=>1000,
                 ]
             ]
         ];

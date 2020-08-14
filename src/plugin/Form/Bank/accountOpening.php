@@ -8,6 +8,7 @@ use pocketmine\form\Form;
 
 #E-Life
 use plugin\Economy\Bank;
+use plugin\Economy\MoneyListener;
 
 class accountOpening implements Form{
     public function handleResponse(Player $player, $data): void{
