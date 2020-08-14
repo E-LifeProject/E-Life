@@ -60,37 +60,25 @@ class Bank{
     //銀行口座が開設されているか確認
     public function checkAccount($name){
         if($this->getConfig()->exists($name)){
-            return ture;
+            return true;
         }else{
             return false;
         }
     }
 
-    //口座開設
-    public function accountOpening($player){
-        $name = $player->getName();
-        
-        if($this->getConfig()->exists($name)){
-            $player->sendMessage("§a[個人通知] §7既に口座は開設されております");
-        }else{
-            $money_instance = new MoneyListener($name);
-            $money = $money_instance->getMoney();
-            if($money >= $this->checkAccountOpeningFee()){
-                $this->getConfig()->set($name,array(
-                    "DepositBalance" => 0
-                    )
-                );
-                $this->save();
-                $money_instance->reduceMoney($this->checkAccountOpeningFee());
-            }else{
-                $player->sendMessage("§a[個人通知] §7所持金が足りません");
-            }
-            /**
-             * 銀行の資本金や純資金のクラスを後ほど作る
-             */
-        }
-    }
+    
+    /**
+     * 銀行の資本金や純資金のクラスを後ほど作る
+     */
 
+    //口座開設
+    public function accountOpening($name){
+        $this->getConfig()->set($name,array(
+            "DepositBalance" => 0
+            ));
+        $this->save();
+    }
+    
 
     //configに書き込む用
     private function setDepositBalance($name,$depositBalance){
