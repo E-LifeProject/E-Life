@@ -43,7 +43,7 @@ class MoneyDeposit implements Form{
     public function jsonSerialize(){
         return[
             'type'=>'custom_form',
-            'title'=>'口座開設',
+            'title'=>'ご入金',
             'content'=>[
                 [
                     'type'=>'label',
