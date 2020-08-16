@@ -66,8 +66,13 @@ class BankMenu implements Form{
                 $player->sendForm(new CashTransfer($player->getName()));
             break;
 
-            //口座開設
+            //ローン関係
             case 4:
+                $player->sendForm(new Loan());
+            break;
+
+            //口座開設
+            case 5:
                 $player->sendForm(new accountOpening());
             break;
         }
@@ -91,6 +96,9 @@ class BankMenu implements Form{
                 ],
                 [
                     'text'=>'お振込み'
+                ],
+                [
+                    'text'=>'ローン関係'
                 ],
                 [
                     'text'=>'口座開設'
