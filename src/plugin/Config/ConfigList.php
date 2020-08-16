@@ -30,7 +30,7 @@ class ConfigList
 	const BANK_ACCOUNT = "bank_account";
 
 	//ローンを管理
-	const BANK_LOAN = "loan";
+	const BANK_LOAN = "bank_loan";
 
 	//銀行関連
 	const BANK = "bank";
