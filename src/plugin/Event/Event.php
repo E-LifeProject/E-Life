@@ -4,6 +4,7 @@ namespace plugin\Event;
 
 #Basic
 use DateTime;
+use pocketmine\event\entity\EntityExplodeEvent;
 use pocketmine\event\Listener;
 
 #Event
@@ -131,6 +132,10 @@ class Event implements Listener {
         //MenuBookでタップしたらMainMenuを表示
         if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK)
         	$this->getOriginItemFactory()->useFor($player, $event->getItem());
+    }
+
+    public function onExplosion(EntityExplodeEvent $event){
+        $event->setCancelled();//Entityの爆発をキャンセル
     }
 
     public function onReceive(DataPacketReceiveEvent $event){
