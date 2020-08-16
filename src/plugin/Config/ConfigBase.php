@@ -20,6 +20,8 @@ class ConfigBase
 			ConfigList::CLUB => [],
 			ConfigList::COMPANY => [],
 			ConfigList::BANK_ACCOUNT => [],
+			ConfigList::BANK => [],
+			ConfigList::BANK_LOAN => [],
 			ConfigList::MONEY => [
 				"max" => 50000,
 				"min" => 0
