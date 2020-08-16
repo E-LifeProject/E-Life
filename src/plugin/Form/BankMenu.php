@@ -63,7 +63,7 @@ class BankMenu implements Form{
 
             //お振込
             case 3:
-                $player->sendForm(new CashTransfer());
+                $player->sendForm(new CashTransfer($player->getName()));
             break;
 
             //口座開設
