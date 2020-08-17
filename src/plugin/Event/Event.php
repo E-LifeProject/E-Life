@@ -4,10 +4,10 @@ namespace plugin\Event;
 
 #Basic
 use DateTime;
-use pocketmine\event\entity\EntityExplodeEvent;
 use pocketmine\event\Listener;
 
 #Event
+use pocketmine\event\entity\EntityExplodeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerInteractEvent;
