@@ -33,6 +33,7 @@ use plugin\Main;
 use plugin\NPC\GovernmentNPC;
 use plugin\Form\GovernmentMenu;
 use plugin\Form\BankMenu;
+use plugin\NPC\ATMFloatText;
 
 
 class Event implements Listener {
@@ -98,10 +99,8 @@ class Event implements Listener {
             $player->sendForm(new TermsForm());
         }
 
-        //ログインしたらTitle表示
+        
         $player->sendTitle("E-Life鯖へようこそ","Welcome to E-Life",40,40,40);
-
-        //ログインメッセージの変更
         $event->setJoinMessage("§6[全体通知] §7".$name."さんがE-Lifeにログインしました");
 
         //MenuBookをインベントリに追加
@@ -114,6 +113,10 @@ class Event implements Listener {
 
         //GovernmentNPCを表示
         $this->GovernmentNPC->showNPC($player,$this->main->GovernmentNPC,175,120);
+
+        //ATMの浮き文字を表示
+        $float = new ATMFloatText();
+		$float->FloatText($player);
     }
 
 
