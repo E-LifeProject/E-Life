@@ -6,8 +6,9 @@ namespace plugin\Form\Admin;
 use pocketmine\Player;
 use pocketmine\form\Form;
 
-#EoconomyAPI
-use onebone\economyapi\EconomyAPI;
+#E-Life
+use plugin\Form\Admin\LoanReview;
+use plugin\Form\Admin\CommandForm;
 
 class SettingForm implements Form{
 
@@ -22,9 +23,10 @@ class SettingForm implements Form{
 				$player->sendForm(new CommandForm());
 				break;
 
-			// NULL
+			// 銀行ローン審査
 			case 1:
-				break;
+				$player->sendForm(new LoanReview());
+			break;
 
 			// NULL
 			case 2:
@@ -44,7 +46,7 @@ class SettingForm implements Form{
                     'text'=>'コマンド関連'
                 ],
                 [
-                    'text'=>'NULL'
+                    'text'=>'銀行ローン審査'
                 ],
                 [
                     'text'=>'NULL'

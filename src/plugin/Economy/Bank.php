@@ -68,7 +68,7 @@ class Bank{
 
     //ローンの残金を取得
     public function getLoan($name){
-        return $this->getBankConfig()->getNested($name.".Loan");
+        return $this->getAccountConfig()->getNested($name.".Loan");
     }
 
     //ローンを申請
@@ -77,8 +77,31 @@ class Bank{
         $this->saveLoanConfig();
     }
 
+    /**
+     * ローンを許可した段階で銀行口座に
+     * ローンで申し込んだ分のお金を振り込む
+     * また銀行資金からその分のお金を引く
+     */
+
     //ローンを許可して追加
-    public function addLoan($name){
+    public function addLoan($name,$money){
+        $this->getLoanConfig()->remove($name);
+        $this->saveLoanConfig();
+        $this->getAccountConfig()->setNested($name.".Loan",$money);
+        $this->saveAccountConfig();
+    }
+
+    //ローンの申請があるか確認
+    public function checkApplicationLoan($name){
+        if($this->getLoanConfig()->exists($name)){
+           return true;
+        }else{
+            return false;
+        }
+    }
+
+    //ローンの承認を却下
+    public function rejecteLoan($name){
         $this->getLoanConfig()->remove($name);
         $this->saveLoanConfig();
     }
@@ -93,21 +116,26 @@ class Bank{
 
     //ローンがあるか確認
     public function checkLoan($name){
-        if($this->getBankConfig()->getLoan($name) > 0){
+        if($this->getAccountConfig()->exists($name.".Loan")){
             return true;
         }else{
             return false;
         }
     }
 
+    //現在承認まちのローンを取得
+    public function getApplicationLoan(){
+        return $loan = $this->getLoanConfig()->getAll();
+    }
+
     
 
     //口座開設
     public function accountOpening($name){
-        $this->getConfig()->set($name,array(
+        $this->getAccountConfig()->set($name,array(
             "DepositBalance" => 0
             ));
-        $this->save();
+        $this->saveAccountConfig();
     }
 
     /**
@@ -118,7 +146,7 @@ class Bank{
 
     //銀行資金を確認
     public function getBankMoney(){
-        return $this->getBankConfig()->getBankConfig("money");
+        return $this->getBankConfig()->get("money");
     }
 
     //銀行資金を追加
@@ -156,12 +184,12 @@ class Bank{
         return ConfigBase::getFor(ConfigList::BANK_ACCOUNT);
     }
 
-    private function getBankCounfig(){
+    private function getBankConfig(){
         return ConfigBase::getFor(ConfigList::BANK);
     }
 
     private function getLoanConfig(){
-        return ConfigBase::getFor(ConfigList::Loan);
+        return ConfigBase::getFor(ConfigList::BANK_LOAN);
     }
     
     private function saveAccountConfig(){

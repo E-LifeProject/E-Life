@@ -12,6 +12,7 @@ use plugin\Form\Bank\WithdrawMoney;
 use plugin\Form\Bank\MoneyDeposit;
 use plugin\Form\Bank\BalanceInquiry;
 use plugin\Form\Bank\CashTransfer;
+use plugin\Form\Bank\Loan;
 use plugin\Form\Bank\accountOpening;
 
 
@@ -68,7 +69,11 @@ class BankMenu implements Form{
 
             //ローン関係
             case 4:
-                $player->sendForm(new Loan());
+                if(Bank::getInstance()->checkAccount($player->getName())){
+                    $player->sendForm(new Loan());
+                }else{
+                    $player->sendMessage("§a[個人通知] §7口座が開設されておりません");
+                }
             break;
 
             //口座開設
