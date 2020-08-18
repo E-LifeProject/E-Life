@@ -27,7 +27,11 @@ class Loan implements Form{
                         if($bank->checkApplicationLoan($player->getName())){
                             $player->sendMessage("§a[個人通知] §7ローンの申請が終了するまでしばらくお待ちください");
                         }else{
-                            $player->sendForm(new ApplyLoan());
+                            if($bank->getPenaltyConfig()->exsits($player->getName())){
+                                $player->sendMessage("§a[個人通知] §7あなたはローンを申込む事が出来ません");
+                            }else{
+                                $player->sendForm(new ApplyLoan());
+                            }
                         }
                     }
             break;
