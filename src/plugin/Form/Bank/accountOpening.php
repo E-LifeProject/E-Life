@@ -27,6 +27,8 @@ class accountOpening implements Form{
                 if($money_instance->getMoney() >= $bank->checkAccountOpeningFee()){
                     $bank->accountOpening($name);
                     $player->sendMessage("§a[個人通知] §7口座を開設しました");
+                    $money_instance->reduceMoney($bank->checkAccountOpeningFee());
+                    $bank->addBankMoney($bank->checkAccountOpeningFee());
                 }else{
                     $player->sendMessage("§a[個人通知] §7口座開設手数料を支払う事ができませんでした");
                 }

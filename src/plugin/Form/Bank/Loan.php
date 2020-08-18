@@ -5,9 +5,12 @@ namespace plugin\Form\Bank;
 #Basic
 use pocketmine\Player;
 use pocketmine\form\Form;
+use pocketmine\utils\Config;
 
 #E-Life
 use plugin\Economy\Bank;
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
 
 class Loan implements Form{
     public function handleResponse(Player $player,$data):void{
@@ -27,7 +30,7 @@ class Loan implements Form{
                         if($bank->checkApplicationLoan($player->getName())){
                             $player->sendMessage("§a[個人通知] §7ローンの申請が終了するまでしばらくお待ちください");
                         }else{
-                            if($bank->getPenaltyConfig()->exsits($player->getName())){
+                            if(ConfigBase::getFor(ConfigList::PENALTY)->exists($player->getName())){
                                 $player->sendMessage("§a[個人通知] §7あなたはローンを申込む事が出来ません");
                             }else{
                                 $player->sendForm(new ApplyLoan());
@@ -126,8 +129,8 @@ class RepaymentLoan implements Form{
             }elseif($bank->getLoan($player->getName()) == intval($data[1])){
                 $bank->repaymentLoan($player->getName(),intval($data[1]));
                 $bank->reduceDepositBalance($player->getName(),intval($data[1]));
-                $bank->getAccountConfig()->setNested($player->getName.".Loan.Date",0);
-                $bank->saveAccountConfig();
+                ConfigBase::getFor(ConfigList::BANK_ACCOUNT)->setNested($player->getName().".Loan.Date",0);
+                ConfigBase::getFor(ConfigList::BANK_ACCOUNT)->save();
                 $player->sendMessage("§a[個人通知] §7ローンを返済し終わりました");
             }else{
                 $player->sendMessage("§a[個人通知] §7ローン残高よりも返済希望額が上回っている為返済できませんでした");

@@ -190,7 +190,7 @@ class Bank{
     //銀行資金を減らす
     public function reduceBankMoney($money){
         $now = $this->getBankMoney();
-        $now += $money;
+        $now -= $money;
         $this->setBankMoney($now);
         $this->saveBankConfig();
     }
