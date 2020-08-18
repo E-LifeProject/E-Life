@@ -5,10 +5,13 @@ namespace plugin\Form\Admin;
 #Basic
 use pocketmine\Player;
 use pocketmine\form\Form;
+use pocketmine\utils\Config;
 
 #E-Life
 use plugin\Form\Admin\LoanReview;
 use plugin\Form\Admin\CommandForm;
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
 
 class SettingForm implements Form{
 
@@ -25,7 +28,11 @@ class SettingForm implements Form{
 
 			// 銀行ローン審査
 			case 1:
-				$player->sendForm(new LoanReview());
+				if(count(ConfigBase::getFor(ConfigList::BANK_LOAN)->getAll()) == 0){
+					$player->sendMessage("§a[個人通知] §7現在ローンのお申し込みはありません");
+				}else{
+					$player->sendForm(new LoanReview());
+				}
 			break;
 
 			// NULL
