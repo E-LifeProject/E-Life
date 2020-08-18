@@ -21,6 +21,7 @@ use pocketmine\network\mcpe\protocol\InteractPacket;
 
 #E-Life
 use plugin\Form\TermsForm;
+use plugin\Economy\Bank;
 use plugin\NPC\StatusNPC;
 use plugin\NPC\FloatText;
 use plugin\Item\OriginItemFactory;
@@ -68,6 +69,27 @@ class Event implements Listener {
             }
         }
 
+        /**
+         * ローン支払い期日が過ぎている場合に
+         * 名前の横に⚠︎を付ける（これが付いている場合、信用が落ち鯖内で暮らしにくくなる）
+         * ただし、ローンの返済期日の表示はそのままで返済はしてもらう
+         */
+
+        //ローンの状況を確認する
+        $bank = Bank::getInstance();
+        
+        if($bank->checkLoan($name)){
+            $loanDate1 = new DateTime($bank->getLoanDate($name));
+            $loanDate2 = new DateTime(date("Y/m/d"));
+            if($loanDate1 < $loanDate2){
+                if($bank->getLoan($name) > 0){
+                    if(!ConfigBase::getFor(ConfigList::PENALTY)->exists($name)){
+                        $bank->addPenalty($name);
+                    }
+                }
+            }
+        }
+
         //StatusNPCで表示する項目を取得
         $this->eid = $this->status_text->getStatusNpcEid($player);
 
@@ -84,6 +106,12 @@ class Event implements Listener {
         if($player->isOp()){
             $player->setNameTag("§9♪"."§f".$name);
             $player->setDisplayName("§9♪"."§f".$name);
+        }
+
+        //ルール違反者もしくは、ローン支払い出来なかった人には注意マークを付ける
+        if(ConfigBase::getFor(ConfigList::PENALTY)->exists($name)){
+            $player->setNameTag("§9⚠︎"."§f".$name);
+            $player->setDisplayName("§9⚠︎"."§f".$name);
         }
 
         /**

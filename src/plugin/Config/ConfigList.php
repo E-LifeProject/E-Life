@@ -32,6 +32,9 @@ class ConfigList
 	//ローンを管理
 	const BANK_LOAN = "bank_loan";
 
+	//ペナルティ管理
+	const PENALTY = "penalty";
+
 	//銀行関連
 	const BANK = "bank";
 	

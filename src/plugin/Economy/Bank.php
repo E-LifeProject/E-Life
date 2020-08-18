@@ -4,6 +4,7 @@ namespace plugin\Economy;
 
 #Basic
 use pocketmine\utils\Config;
+use pocktemine\Player;
 
 #E-Life
 use plugin\Config\ConfigBase;
@@ -49,7 +50,7 @@ class Bank{
         $this->saveAccountConfig();
     }
 
-    //預金残高出金
+    //預金残高を減らす
     public function reduceDepositBalance($name,$money){
         $depositBalance = $this->getDepositBalance($name);
         $depositBalance -= $money;
@@ -66,10 +67,22 @@ class Bank{
         }
     }
 
-    //ローンの残金を取得
-    public function getLoan($name){
-        return $this->getAccountConfig()->getNested($name.".Loan.Money");
+    //口座開設
+    public function accountOpening($name){
+        $this->getAccountConfig()->set($name,array(
+            "DepositBalance" => 0,
+            "Loan"=>[
+                "Money"=>0,
+                "Date"=>0
+            ]
+            ));
+        $this->saveAccountConfig();
     }
+
+
+
+    //ローン関係の関数==========
+
 
     //ローンを申請
     public function applicationLoan($name,$money){
@@ -77,20 +90,9 @@ class Bank{
         $this->saveLoanConfig();
     }
 
-    /**
-     * ローンを許可した段階で銀行口座に
-     * ローンで申し込んだ分のお金を振り込む
-     * また銀行資金からその分のお金を引く
-     */
-
-    //ローンを許可して追加
-    public function addLoan($name,$money){
-        $this->getLoanConfig()->remove($name);
-        $this->saveLoanConfig();
-        $this->getAccountConfig()->setNested($name.".Loan.Money",$money);
-        $this->getAccountConfig()->setNested($name.".Loan.Date",date("Y/m/d",strtotime("20 day")));
-        $this->saveAccountConfig();
-        $this->addDepositBalance($name,$money);
+    //現在承認待ちのローンを全取得
+    public function getApplicationLoan(){
+        return $loan = $this->getLoanConfig()->getAll();
     }
 
     //ローンの申請があるか確認
@@ -102,11 +104,34 @@ class Bank{
         }
     }
 
-    //ローンの承認を却下
+    /**
+     * ローンを許可した段階で銀行口座に
+     * ローンで申し込んだ分のお金を振り込む
+     * また銀行資金からその分のお金を引く
+     */
+
+
+    //ローンの申請を許可して追加
+    public function addLoan($name,$money){
+        $this->getLoanConfig()->remove($name);
+        $this->saveLoanConfig();
+        $this->getAccountConfig()->setNested($name.".Loan.Money",$money);
+        $this->getAccountConfig()->setNested($name.".Loan.Date",date("Y/m/d",strtotime("20 day")));
+        $this->saveAccountConfig();
+        $this->addDepositBalance($name,$money);
+    }
+
+    //ローンの申請を取り下げる
     public function rejecteLoan($name){
         $this->getLoanConfig()->remove($name);
         $this->saveLoanConfig();
     }
+
+    //ローンの残金を取得
+    public function getLoan($name){
+        return $this->getAccountConfig()->getNested($name.".Loan.Money");
+    }
+
 
     //ローンを返済
     public function repaymentLoan($name,$money){
@@ -126,35 +151,20 @@ class Bank{
         }
     }
 
-    //現在承認まちのローンを取得
-    public function getApplicationLoan(){
-        return $loan = $this->getLoanConfig()->getAll();
-    }
-
-    public function checkLoanDate($player){
-        if($this->getLoanDate() < date("Y/m/d")){
-            if(!$this->getLoan($player->getName()) === 0){
-                $this->addPenalty($player->getName());
-            }
-        }
-    }
-
-    public function addPenalty($name){
-        $player->setNameTag("§9⚠︎"."§f".$name);
-        $player->setDisplayName("§9⚠︎"."§f".$name);
-    }
-
-    public function getLoanDate($name){
+     //返済期日を取得する
+     public function getLoanDate($name){
         return $this->getAccountConfig()->getNested($name.".Loan.Date");
     }
 
-    //口座開設
-    public function accountOpening($name){
-        $this->getAccountConfig()->set($name,array(
-            "DepositBalance" => 0
-            ));
-        $this->saveAccountConfig();
+    //支払い期日を過ぎてペナルティを付与する（ローンは0になるがこれ以上のローンの申し込みは不可能になる）
+    public function addPenalty($name){
+        $this->getPenaltyConfig()->set($name);
+        $this->savePenaltyConfig();
     }
+
+
+
+    //銀行資金などの銀行内部関連==========
 
     /**
      * ローンの資金の出所は銀行の資金から出す
@@ -193,9 +203,12 @@ class Bank{
         $this->getBankConfig()->set("money",$money);
     }
 
-    //configに書き込む用
     private function setDepositBalance($name,$depositBalance){
         $this->getAccountConfig()->setNested($name.".DepositBalance",$depositBalance);
+    }
+
+    private function getPenaltyConfig(){
+        return ConfigBase::getFor(ConfigList::PENALTY);
     }
     
     private function getAccountConfig(){
@@ -220,5 +233,9 @@ class Bank{
 
     private function saveLoanConfig(){
         $this->getLoanConfig()->save();
+    }
+
+    private function savePenaltyConfig(){
+        $this->getPenaltyConfig()->save();
     }
 }

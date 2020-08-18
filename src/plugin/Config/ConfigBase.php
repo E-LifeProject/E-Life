@@ -24,6 +24,7 @@ class ConfigBase
 				"money"=> 1000000,
 			],
 			ConfigList::BANK_LOAN => [],
+			ConfigList::PENALTY => [],
 			ConfigList::MONEY => [
 				"max" => 50000,
 				"min" => 0

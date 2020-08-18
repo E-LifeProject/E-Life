@@ -113,6 +113,7 @@ class RepaymentLoan implements Form{
             $player->sendMessage("§a[個人通知] §7数字を入力してください");
             return;
         }
+        //ローンは銀行口座から支払うようにする(所持金からの支払いは現時点では不可)
         if($bank->getDepositBalance($player->getName()) >= intval($data[1])){
             if($bank->getLoan($player->getName()) > intval($data[1])){
                 $bank->repaymentLoan($player->getName(),intval($data[1]));
@@ -121,6 +122,8 @@ class RepaymentLoan implements Form{
             }elseif($bank->getLoan($player->getName()) == intval($data[1])){
                 $bank->repaymentLoan($player->getName(),intval($data[1]));
                 $bank->reduceDepositBalance($player->getName(),intval($data[1]));
+                $bank->getAccountConfig()->setNested($player->getName.".Loan.Date",0);
+                $bank->saveAccountConfig();
                 $player->sendMessage("§a[個人通知] §7ローンを返済し終わりました");
             }else{
                 $player->sendMessage("§a[個人通知] §7ローン残高よりも返済希望額が上回っている為返済できませんでした");
