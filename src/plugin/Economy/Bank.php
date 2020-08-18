@@ -12,6 +12,12 @@ use plugin\Config\ConfigList;
 
 class Bank{
 
+    /**
+     * ローンは審査が必要で、未審査のものはBank_Loanで保存される
+     * 審査はOPが管理フォームから行い、その時の銀行の貸し出し状況などを見て総合的に判断する
+     * 審査が通るとBank_AccountのLoan項目で保存される
+     */
+
     static $instance;
     
     public static function getInstance(){
