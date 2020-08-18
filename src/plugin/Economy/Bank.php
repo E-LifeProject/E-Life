@@ -119,6 +119,7 @@ class Bank{
         $this->getAccountConfig()->setNested($name.".Loan.Date",date("Y/m/d",strtotime("20 day")));
         $this->saveAccountConfig();
         $this->addDepositBalance($name,$money);
+        $this->reduceBankMoney($money);
     }
 
     //ローンの申請を取り下げる
@@ -139,6 +140,7 @@ class Bank{
         $loan -= $money;
         $this->getAccountConfig()->setNested($name.".Loan.Money",$loan);
         $this->saveAccountConfig();
+        $this->addBankMoney($money);
     }
 
     //ローンがあるか確認
@@ -156,7 +158,7 @@ class Bank{
         return $this->getAccountConfig()->getNested($name.".Loan.Date");
     }
 
-    //支払い期日を過ぎてペナルティを付与する（ローンは0になるがこれ以上のローンの申し込みは不可能になる）
+    //支払い期日を過ぎてペナルティを付与する
     public function addPenalty($name){
         $this->getPenaltyConfig()->set($name);
         $this->savePenaltyConfig();
@@ -182,7 +184,7 @@ class Bank{
         $now = $this->getBankMoney();
         $now += $money;
         $this->setBankMoney($now);
-        $this->getBankConfig()->saveBankConfig();
+        $this->saveBankConfig();
     }
 
     //銀行資金を減らす
@@ -190,7 +192,7 @@ class Bank{
         $now = $this->getBankMoney();
         $now += $money;
         $this->setBankMoney($now);
-        $this->getBankMoney()->saveBankConfig();
+        $this->saveBankConfig();
     }
 
 

@@ -58,8 +58,12 @@ class LoanDetails implements Form{
 
         switch($data[1]){
             case 0:
-                $bank->addLoan($player->getName(),$this->data[$this->name]);
-                $player->sendMessage("§a[個人通知] §7ローンの申請を許可しました");
+                if($bank->getBankMoney() >= $this->data[$this->name]){
+                    $bank->addLoan($player->getName(),$this->data[$this->name]);
+                    $player->sendMessage("§a[個人通知] §7ローンの申請を許可しました");
+                }else{
+                    $player->sendMessage("§a[個人通知] §7ローンの金額を銀行側が支払うことが出来ません");
+                }
             break;
 
             case 1:
