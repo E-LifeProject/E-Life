@@ -21,21 +21,21 @@ class Loan implements Form{
 
             //新規申し込み
             case 0:
-                if($bank->checkLoan($player->getName())){
-                    $player->sendMessage("§a[個人通知] §7現在ローンの返済が残っている為新規申し込みは出来ません");
-                }else{
-                    if($bank->checkApplicationLoan($player->getName())){
-                        $player->sendMessage("§a[個人通知] §7現在ローンの申請中です。審査が完了するまでしばらくお待ちください");
+                    if($bank->checkLoan($player->getName())){
+                        $player->sendMessage("§a[個人通知] §7ローンがまだ残っている為新規申し込みはできません");
                     }else{
-                        $player->sendForm(new ApplyLoan());
+                        if($bank->checkApplicationLoan($player->getName())){
+                            $player->sendMessage("§a[個人通知] §7ローンの申請が終了するまでしばらくお待ちください");
+                        }else{
+                            $player->sendForm(new ApplyLoan());
+                        }
                     }
-                }
             break;
 
             //ローンの返済
             case 1: 
                 if($bank->checkLoan($player->getName())){
-                    $player->sendForm(new RepaymentLoan());
+                    $player->sendForm(new RepaymentLoan($player->getName()));
                 }else{
                     $player->sendMessage("§a[個人通知] §7ローンのお申し込みはありません");
                 }
@@ -91,6 +91,57 @@ class ApplyLoan implements Form{
                     'text'=>'ローン希望金額(/万)',
                     'steps'=>['10','20','30','40','50'],
                     'default'=>2
+                ]
+            ]
+        ];
+    }
+}
+
+class RepaymentLoan implements Form{
+    
+    public function __construct($name){
+        $this->name = $name;
+    }
+
+    public function handleResponse(Player $player,$data):void{
+        $bank = Bank::getInstance();
+
+        if($data === null){
+            return;
+        }
+        if(!is_numeric($data[1]) || $data[1] === ""){
+            $player->sendMessage("§a[個人通知] §7数字を入力してください");
+            return;
+        }
+        if($bank->getDepositBalance($player->getName()) >= intval($data[1])){
+            if($bank->getLoan($player->getName()) > intval($data[1])){
+                $bank->repaymentLoan($player->getName(),intval($data[1]));
+                $bank->reduceDepositBalance($player->getName(),intval($data[1]));
+                $player->sendMessage("§a[個人通知] §7ローンを返済しました");
+            }elseif($bank->getLoan($player->getName()) == intval($data[1])){
+                $bank->repaymentLoan($player->getName(),intval($data[1]));
+                $bank->reduceDepositBalance($player->getName(),intval($data[1]));
+                $player->sendMessage("§a[個人通知] §7ローンを返済し終わりました");
+            }else{
+                $player->sendMessage("§a[個人通知] §7ローン残高よりも返済希望額が上回っている為返済できませんでした");
+            }
+        }
+    }
+    
+    public function jsonSerialize(){
+        $bank = Bank::getInstance();
+
+        return[
+            'type'=>'custom_form',
+            'title'=>'ローンのご返済',
+            'content'=>[
+                [
+                    'type'=>'label',
+                    'text'=>'残りローン返済額:'.$bank->getLoan($this->name)."円\nローン返済期日:".$bank->getLoanDate($this->name)."日"
+                ],
+                [
+                    'type'=>'input',
+                    'text'=>'ローン返済金額',
                 ]
             ]
         ];

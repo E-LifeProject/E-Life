@@ -68,7 +68,7 @@ class Bank{
 
     //ローンの残金を取得
     public function getLoan($name){
-        return $this->getAccountConfig()->getNested($name.".Loan");
+        return $this->getAccountConfig()->getNested($name.".Loan.Money");
     }
 
     //ローンを申請
@@ -87,8 +87,10 @@ class Bank{
     public function addLoan($name,$money){
         $this->getLoanConfig()->remove($name);
         $this->saveLoanConfig();
-        $this->getAccountConfig()->setNested($name.".Loan",$money);
+        $this->getAccountConfig()->setNested($name.".Loan.Money",$money);
+        $this->getAccountConfig()->setNested($name.".Loan.Date",date("Y/m/d",strtotime("20 day")));
         $this->saveAccountConfig();
+        $this->addDepositBalance($name,$money);
     }
 
     //ローンの申請があるか確認
@@ -108,15 +110,16 @@ class Bank{
 
     //ローンを返済
     public function repaymentLoan($name,$money){
-        $loan = $this->getAccountConfig()->getNested($name.".Loan");
+        $loan = $this->getAccountConfig()->getNested($name.".Loan.Money");
         $loan -= $money;
-        $this->getAccountConfig()->setNested($name.".Loan",$loan);
+        $this->getAccountConfig()->setNested($name.".Loan.Money",$loan);
         $this->saveAccountConfig();
     }
 
     //ローンがあるか確認
     public function checkLoan($name){
-        if($this->getAccountConfig()->exists($name.".Loan")){
+        $loan = $this->getAccountConfig()->getNested($name.".Loan.Money");
+        if($loan > 0){
             return true;
         }else{
             return false;
@@ -128,7 +131,22 @@ class Bank{
         return $loan = $this->getLoanConfig()->getAll();
     }
 
-    
+    public function checkLoanDate($player){
+        if($this->getLoanDate() < date("Y/m/d")){
+            if(!$this->getLoan($player->getName()) === 0){
+                $this->addPenalty($player->getName());
+            }
+        }
+    }
+
+    public function addPenalty($name){
+        $player->setNameTag("§9⚠︎"."§f".$name);
+        $player->setDisplayName("§9⚠︎"."§f".$name);
+    }
+
+    public function getLoanDate($name){
+        return $this->getAccountConfig()->getNested($name.".Loan.Date");
+    }
 
     //口座開設
     public function accountOpening($name){
@@ -177,7 +195,7 @@ class Bank{
 
     //configに書き込む用
     private function setDepositBalance($name,$depositBalance){
-        $this->getConfig()->setNested($name.".DepositBalance",$depositBalance);
+        $this->getAccountConfig()->setNested($name.".DepositBalance",$depositBalance);
     }
     
     private function getAccountConfig(){
