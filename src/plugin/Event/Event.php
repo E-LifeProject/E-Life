@@ -102,17 +102,20 @@ class Event implements Listener {
         $player = $event->getPlayer();
         $name = $player->getName();
 
-        //OPには♪をつける
         if($player->isOp()){
-            $player->setNameTag("§9♪"."§f".$name);
-            $player->setDisplayName("§9♪"."§f".$name);
+            $player->setNameTag("§9♪§f".$name);
+            $player->setDisplayName("§9♪§f".$name);
         }
 
+        
         //ルール違反者もしくは、ローン支払い出来なかった人には注意マークを付ける
         if(ConfigBase::getFor(ConfigList::PENALTY)->exists($name)){
-            $player->setNameTag("§9⚠︎"."§f".$name);
-            $player->setDisplayName("§9⚠︎"."§f".$name);
+            if(!$player->isOp()){
+                $player->setNameTag("§9⚠︎§f".$name);
+                $player->setDisplayName("§9⚠︎§f".$name);
+            }
         }
+    
 
         /**
          * 利用規約などを変更した時に、リストを削除して
