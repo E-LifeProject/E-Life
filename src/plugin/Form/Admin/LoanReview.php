@@ -15,9 +15,6 @@ class LoanReview implements Form{
 		if($data === null){
 			return;
         }
-        var_dump($this->data[$data]);
-        var_dump($this->name[$data]);
-
         $player->sendForm(new LoanDetails($this->name[$data],$this->data[$data]));
 	}
 
