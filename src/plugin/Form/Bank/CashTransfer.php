@@ -21,6 +21,7 @@ class CashTransfer implements Form{
         $bank = Bank::getInstance();
         $money_instance = new MoneyListener($this->name);
         $money = $money_instance->getMoney();
+        $fee = $bank->checkFee();
 
 
         if($data === null){
@@ -32,12 +33,15 @@ class CashTransfer implements Form{
             return;
         }
 
+        $total = $data[3]+$fee;
+
         switch($data[1]){
             case 0:
-                if($money>=intval($data[3])){
+                if($money>=intval($total)){
                     if($bank->checkAccount($data[2])){
-                        $money_instance->reduceMoney(intval($data[3]));
+                        $money_instance->reduceMoney(intval($total));
                         $bank->addDepositBalance($data[2],intval($data[3]));
+                        $bank->addBankMoney($fee);
                     }else{
                         $player->sendMessage("§a[個人通知] §7振込先の銀行口座が開設されていません");
                     }
@@ -48,10 +52,11 @@ class CashTransfer implements Form{
             
             case 1:
                 if($bank->checkAccount($name)){
-                    if($bank->getDepositBalance($this->name)>=intval($data[3])){
+                    if($bank->getDepositBalance($this->name)>=intval($total)){
                         if($bank->checkAccount($data[2])){
-                            $bank->reduceDepositBalance($this->name,intval($data[3]));
+                            $bank->reduceDepositBalance($this->name,intval($total));
                             $bank->addDepositBalance($data[2],intval($data[3]));
+                            $bank->addBankMoney($fee);
                         }else{
                             $player->sendMessage("§a[個人通知] §7相手先の銀行口座が開設されていません");
                         }
@@ -70,6 +75,7 @@ class CashTransfer implements Form{
     public function jsonSerialize(){
         $money_instance = new MoneyListener($this->name);
         $money = $money_instance->getMoney();
+        $bank = Bank::getInstance();
 
         return[
             'type'=>'custom_form',
@@ -77,7 +83,7 @@ class CashTransfer implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>"預金残高:".Bank::getInstance()->getDepositBalance($this->name)."円\n所持金:".$money."円\n振り込み方法を選択してください"
+                    'text'=>"預金残高:".$bank->getDepositBalance($this->name)."円\n所持金:".$money."円\nATM利用手数料:".$bank->checkFee()."円\n振り込み方法を選択してください"
                 ],
                 [
                     'type'=>'dropdown',
