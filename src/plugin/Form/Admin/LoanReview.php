@@ -54,7 +54,7 @@ class LoanDetails implements Form{
 			return;
         }
 
-        $rate = Bank::getInstance()->getgetInterestRate()+1;
+        $rate = Bank::getInstance()->getInterestRate()+1;
 
         switch($data[3]){
             case 0:

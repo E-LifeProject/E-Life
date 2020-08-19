@@ -35,7 +35,7 @@ class Bank{
     //手数料確認
     public function checkFee(){
         $now_data = intval(date("H"));
-        foreach(array(21, 22, 23, 24, 01, 02, 03, 04, 05, 06) as $date){
+        foreach(array(21, 22, 23, 00, 01, 02, 03, 04, 05, 06) as $date){
             if($date === $now_data){
                 return 200;
             }
