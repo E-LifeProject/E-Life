@@ -230,7 +230,7 @@ class Bank{
     }
 
     private function getLoanConfig(){
-        return ConfigBase::getFor(ConfigList::BANK_LOAN);
+        return ConfigBase::getFor(ConfigList::LOAN_REVIEW);
     }
     
     private function saveAccountConfig(){
