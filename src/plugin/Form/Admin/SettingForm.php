@@ -28,7 +28,7 @@ class SettingForm implements Form{
 
 			// 銀行ローン審査
 			case 1:
-				if(count(ConfigBase::getFor(ConfigList::BANK_LOAN)->getAll()) == 0){
+				if(count(ConfigBase::getFor(ConfigList::LOAN_REVIEW)->getAll()) == 0){
 					$player->sendMessage("§a[個人通知] §7現在ローンのお申し込みはありません");
 				}else{
 					$player->sendForm(new LoanReview());
