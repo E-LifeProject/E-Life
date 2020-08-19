@@ -24,6 +24,7 @@ class Main extends PluginBase implements Listener {
         date_default_timezone_set('asia/tokyo');
 
         $this->getServer()->loadLevel("nature");
+        $this->getServer()->loadLevel("life");
 
         ConfigBase::init($this);
 
@@ -31,7 +32,7 @@ class Main extends PluginBase implements Listener {
         $this->StatusNPC = mt_rand(1, 99999999999);
         $this->GovernmentNPC = mt_rand(1,9999999999999);
 
-        //闇金用のスキンデータだと思われる（要は後回し)
+        //闇金用のスキンデータだと思われる
         $this->skin = new Config($this->getDataFolder() . "skinData.yml", Config::YAML);
 
         //Listenerにイベントを登録

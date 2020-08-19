@@ -29,6 +29,12 @@ class WorldForm implements Form{
                 $nature = new Position(255,76,256,Server::getInstance()->getLevelByName("nature"));
                 $player->teleport($nature);
             break;
+
+            case 2:
+                $life = new Position(378,4,135,Server::getInstance()->getLevelByName("life"));
+                $player->teleport($life);
+            break;
+
         }
     }
 
@@ -43,14 +49,21 @@ class WorldForm implements Form{
                     'text'=>'ロビー',
                     'image'=>[
                         'type'=>'path',
-                        'Data'=>'textures/gui/newgui/Realms',
+                        'data'=>'textures/gui/newgui/Realms',
                     ]
                 ],
                 [
                     'text'=>'資源ワールド',
                     'image'=>[
                         'type'=>'path',
-                        'Data'=>'textures/ui/icon_recipe_nature',
+                        'data'=>'textures/ui/icon_recipe_nature',
+                    ]
+                ],
+                [
+                    'text'=>'生活/--市',
+                    'image'=>[
+                        'type'=>'path',
+                        'data'=>'textures/ui/icon_recipe_item',
                     ]
                 ]
             ]
