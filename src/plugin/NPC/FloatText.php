@@ -60,7 +60,7 @@ class FloatText{
 		if($bank->checkLoan($name)){
 			$loan = $bank->getLoanDate($name);
 		}else{
-			$loan = "未契約";
+			$loan = "--:--";
 		}
 
 		if($bank->checkAccount($name)){
