@@ -87,6 +87,7 @@ class ApplyLoan implements Form{
             break;
         }
         $bank->applicationLoan($player->getName(),$count*10000,$reason);
+        $player->sendMessage("§a[個人通知] §7ローンを申し込みました。審査が完了するまでしばらくお待ちください");
     }
     
     public function jsonSerialize(){
@@ -108,6 +109,10 @@ class ApplyLoan implements Form{
                     'text'=>'ローン希望金額(/万)',
                     'steps'=>['10','20','30','40','50'],
                     'default'=>2
+                ],
+                [
+                    'type'=>'label',
+                    'text'=>'ローンの返済期限は審査が完了してから20日です。その為、申し込み後はこまめに審査が完了しているか確認してください'
                 ]
             ]
         ];
