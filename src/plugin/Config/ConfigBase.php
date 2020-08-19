@@ -19,6 +19,7 @@ class ConfigBase
 			ConfigList::PLAYER => [],
 			ConfigList::CLUB => [],
 			ConfigList::COMPANY => [],
+			ConfigList::CHESTLOOK => [],
 			ConfigList::MONEY => [
 				"max" => 50000,
 				"min" => 0

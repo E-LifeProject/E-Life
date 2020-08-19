@@ -15,7 +15,6 @@ class ConfigList
 
 	//税率を管理
 	const TAXRATE = "taxRate";
-
 	/*
 	 * 会社の情報
 	 * company_name:
@@ -34,6 +33,8 @@ class ConfigList
 
 	//政府の財政
 	const GORVERNMENT = "government";
+
+	const CHESTLOOK = "chestlook";
 
 }
 ?>
