@@ -54,10 +54,13 @@ class LoanDetails implements Form{
 			return;
         }
 
+        $rate = Bank::getInstance()->getgetInterestRate()+1;
+
         switch($data[3]){
             case 0:
                 if($bank->getBankMoney() >= $this->data[$this->name]['Money']){
-                    $bank->addLoan($player->getName(),$this->data[$this->name]['Money'],$this->data[$this->name]['Reason']);
+                    $total = $this->data[$this->name]['Money']*$rate;
+                    $bank->addLoan($this->name,$total,$this->data[$this->name]['Reason']);
                     $player->sendMessage("§a[個人通知] §7ローンの申請を許可しました");
                 }else{
                     $player->sendMessage("§a[個人通知] §7ローンの金額を銀行側が支払うことが出来ません");

@@ -91,6 +91,7 @@ class ApplyLoan implements Form{
     }
     
     public function jsonSerialize(){
+        $rate = Bank::getInstance()->getgetInterestRate()*100;
         return[
             'type'=>'custom_form',
             'title'=>'ローンのお申し込み',
@@ -112,7 +113,7 @@ class ApplyLoan implements Form{
                 ],
                 [
                     'type'=>'label',
-                    'text'=>'ローンの返済期限は審査が完了してから20日です。その為、申し込み後はこまめに審査が完了しているか確認してください'
+                    'text'=>"ローン金利:".$rate."%\nローンの返済期限は審査が完了してから20日です。その為、申し込み後はこまめに審査が完了しているか確認してください"
                 ]
             ]
         ];

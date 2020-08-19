@@ -172,6 +172,11 @@ class Bank{
         $this->savePenaltyConfig();
     }
 
+    //ローンの金利
+    public function getInterestRate(){
+        return 0.1;
+    }
+
 
 
     //銀行資金などの銀行内部関連==========
