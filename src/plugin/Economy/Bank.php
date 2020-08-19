@@ -91,8 +91,9 @@ class Bank{
 
 
     //ローンを申請
-    public function applicationLoan($name,$money){
-        $this->getLoanConfig()->set($name,$money);
+    public function applicationLoan($name,$money,$reason){
+        $this->getLoanConfig()->setNested($name.".Money",$money);
+        $this->getLoanConfig()->setNested($name.".Reason",$reason);
         $this->saveLoanConfig();
     }
 
@@ -118,11 +119,12 @@ class Bank{
 
 
     //ローンの申請を許可して追加
-    public function addLoan($name,$money){
+    public function addLoan($name,$money,$reason){
         $this->getLoanConfig()->remove($name);
         $this->saveLoanConfig();
         $this->getAccountConfig()->setNested($name.".Loan.Money",$money);
         $this->getAccountConfig()->setNested($name.".Loan.Date",date("Y/m/d",strtotime("20 day")));
+        $this->getAccountConfig()->setNested($name.".Loan.Reason",$reason);
         $this->saveAccountConfig();
         $this->addDepositBalance($name,$money);
         $this->reduceBankMoney($money);

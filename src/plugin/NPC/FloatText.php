@@ -58,7 +58,7 @@ class FloatText{
 		$bank = Bank::getInstance();
 
 		if($bank->checkLoan($name)){
-			$loan = $bank->getLoanDate();
+			$loan = $bank->getLoanDate($name);
 		}else{
 			$loan = "未契約";
 		}

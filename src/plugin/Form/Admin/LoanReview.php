@@ -25,7 +25,7 @@ class LoanReview implements Form{
         $this->loans = $bank->getApplicationLoan();
 
         foreach($this->loans as $key => $value){
-           $this->buttons[] = ['text'=>$key."さん".$value."円"];
+           $this->buttons[] = ['text'=>$key."さん".$value["Money"]."円"];
            $this->name[]= $key;
            $this->data[] = array($key => $value);
         }
@@ -56,8 +56,8 @@ class LoanDetails implements Form{
 
         switch($data[3]){
             case 0:
-                if($bank->getBankMoney() >= $this->data[$this->name]){
-                    $bank->addLoan($player->getName(),$this->data[$this->name]);
+                if($bank->getBankMoney() >= $this->data[$this->name]['Money']){
+                    $bank->addLoan($player->getName(),$this->data[$this->name]['Money'],$this->data[$this->name]['Reason']);
                     $player->sendMessage("§a[個人通知] §7ローンの申請を許可しました");
                 }else{
                     $player->sendMessage("§a[個人通知] §7ローンの金額を銀行側が支払うことが出来ません");
@@ -65,7 +65,7 @@ class LoanDetails implements Form{
             break;
 
             case 1:
-                $bank->rejecteLoan($player->getName());
+                $bank->rejecteLoan($this->name);
                 $player->sendMessage("§a[個人通知] §7ローンの申請を却下しました");
             break;
         }
@@ -85,7 +85,7 @@ class LoanDetails implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>"【契約内容】\n契約者:".$this->name."さん\n契約額:".$this->data[$this->name]."円"
+                    'text'=>"【契約内容】\n契約者:".$this->name."さん\n契約額:".$this->data[$this->name]['Money']."円\n契約理由:".$this->data[$this->name]['Reason']
                 ],
                 [
                     'type'=>'label',

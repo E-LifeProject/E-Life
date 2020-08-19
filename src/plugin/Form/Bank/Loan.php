@@ -76,7 +76,17 @@ class ApplyLoan implements Form{
         }
         $count = $data[1]+1;
         $count *= 10;
-        $bank->applicationLoan($player->getName(),$count*10000);
+
+        switch($data[0]){
+            case 0:
+                $reason = "土地購入";
+            break;
+
+            case 1:
+                $reason = "住宅建設";
+            break;
+        }
+        $bank->applicationLoan($player->getName(),$count*10000,$reason);
     }
     
     public function jsonSerialize(){
@@ -130,6 +140,7 @@ class RepaymentLoan implements Form{
                 $bank->repaymentLoan($player->getName(),intval($data[1]));
                 $bank->reduceDepositBalance($player->getName(),intval($data[1]));
                 ConfigBase::getFor(ConfigList::BANK_ACCOUNT)->setNested($player->getName().".Loan.Date",0);
+                ConfigBase::getFor(ConfigList::BANK_ACCOUNT)->setNested($player->getName().".Loan.Reason",0);
                 ConfigBase::getFor(ConfigList::BANK_ACCOUNT)->save();
                 $player->sendMessage("§a[個人通知] §7ローンを返済し終わりました");
             }else{
