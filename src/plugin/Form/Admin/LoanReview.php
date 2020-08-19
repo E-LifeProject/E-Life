@@ -8,6 +8,7 @@ use pocketmine\form\Form;
 
 #E-Life
 use plugin\Economy\Bank;
+use plugin\Economy\MoneyListener;
 
 class LoanReview implements Form{
 
@@ -53,7 +54,7 @@ class LoanDetails implements Form{
 			return;
         }
 
-        switch($data[1]){
+        switch($data[3]){
             case 0:
                 if($bank->getBankMoney() >= $this->data[$this->name]){
                     $bank->addLoan($player->getName(),$this->data[$this->name]);
@@ -75,6 +76,8 @@ class LoanDetails implements Form{
 
     public function jsonSerialize(){
         $bank = Bank::getInstance();
+        $money_instance = new MoneyListener($this->name);
+        $money = $money_instance->getMoney();
 
         return[
             'type'=>'custom_form',
@@ -82,7 +85,15 @@ class LoanDetails implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>"現在の銀行資金:".$bank->getBankMoney()."円\nローン契約者:".$this->name."さん\nローン予定金額:".$this->data[$this->name]."円\nこのローンを承認する場合は下の選択肢から選択してください"
+                    'text'=>"【契約内容】\n契約者:".$this->name."さん\n契約額:".$this->data[$this->name]."円"
+                ],
+                [
+                    'type'=>'label',
+                    'text'=>"【契約者情報】\nプレイ時間:----\n所持金:".$money."円\n銀行預金残高:".$bank->getDepositBalance($this->name)."円"
+                ],
+                [
+                    'type'=>'label',
+                    'text'=>"【貸し出し状況】\n銀行資金".$bank->getBankMoney()."円"
                 ],
                 [
                     'type'=>'dropdown',
