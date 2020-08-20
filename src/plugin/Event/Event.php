@@ -9,6 +9,7 @@ use pocketmine\math\Vector3;
 
 
 #Event
+use pocketmine\event\entity\EntityExplodeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -181,6 +182,10 @@ class Event implements Listener {
 				$player->sendForm(new BankMenu($this->main)); 
 			}
 		}
+    }
+
+    public function onExplosion(EntityExplodeEvent $event){
+        $event->setCancelled();//Entityの爆発をキャンセル
     }
 
     public function onReceive(DataPacketReceiveEvent $event){

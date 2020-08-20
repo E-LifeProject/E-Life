@@ -25,6 +25,7 @@ class ConfigBase
 			],
 			ConfigList::LOAN_REVIEW => [],
 			ConfigList::PENALTY => [],
+			ConfigList::CHESTLOOK => [],
 			ConfigList::MONEY => [
 				"max" => 50000,
 				"min" => 0

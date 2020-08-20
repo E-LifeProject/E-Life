@@ -28,9 +28,9 @@ class WithdrawalClub implements Form　{
         if($data[1] === true){
             $this->club->__unset($name);
             $this->club->save();
-            $player->sendPopUp("§a通知>>E-Clubを退会しました\n\n");
+            $player->sendMessage("§a[個人通知] §7E-Clubを退会しました");
         }else{
-            $player->sendPopUp("§a通知>>退会をキャンセルしました\n\n");
+            $player->sendMessage("§a[個人通知] §7E-Clubの退会手続きをキャンセルしました");
         }
     }
 
