@@ -47,10 +47,17 @@ class MoneyListener
 	}
 
 	public function addMoney(int $money){
-		$money += self::getMoney();
-		//if($money > $this->money_config->get("max")) return;
+		$total = self::getMoney() + $money;
+		if($total > $this->money_config->get("max")){
+			$max = 5000000;
+			$over = $total - $max;
+			$now = $this->getMoneyStorage();
+			$this->addMoneyStorage($over+$now);
+		}else{
+			$max += self::getMoney();
+		}
 		/* 最大所持金を超えていた時の処理は後々書く */
-		self::setMoney($money);
+		self::setMoney($max);
 		self::save();
 	}
 
@@ -61,6 +68,19 @@ class MoneyListener
 		/* 最低所持金を超えていた時の処理は後々書く */
 		self::setMoney($total);
 		self::save();
+	}
+
+	public function getMoneyStorage(){
+		return $this->getStorageConfig()->getNested($this->name.".Money");
+	}
+
+	public function addMoneyStorage($money){
+		$this->getStorageConfig()->setNested($this->name.".Money",$money);
+		$this->getStorageConfig()->save();
+	}
+
+	private function getStorageConfig(){
+		return ConfigBase::getFor(ConfigList::CASH_STORAGE);
 	}
 
 	public function save(){
