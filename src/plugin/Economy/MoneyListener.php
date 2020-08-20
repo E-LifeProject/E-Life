@@ -24,7 +24,6 @@ class MoneyListener
 	public function __construct(string $name){
 		$this->name = strtolower($name);
 		$this->config = PlayerConfigBase::getFor($this->name);
-		$this->money_config = ConfigBase::getFor(ConfigList::MONEY);
 	}
 
 	/** @return string **/
@@ -48,9 +47,9 @@ class MoneyListener
 
 	public function addMoney(int $money){
 		$total = self::getMoney() + $money;
-		
-		if($total > $this->money_config->get("max")){
-			$max = 5000000;
+
+		if($total > 500000){
+			$max = 500000;
 			$over = $total - $max;
 			$now = $this->getMoneyStorage();
 			$this->addMoneyStorage($over+$now);
@@ -64,8 +63,6 @@ class MoneyListener
 	public function reduceMoney(int $money){
 		$total = self::getMoney();
 		$total -= $money;
-		if($money < $this->money_config->get("min")) return;
-		/* 最低所持金を超えていた時の処理は後々書く */
 		self::setMoney($total);
 		self::save();
 	}

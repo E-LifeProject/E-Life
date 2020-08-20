@@ -36,9 +36,6 @@ class ConfigList
 
 	//銀行関連
 	const BANK = "bank";
-	
-	// お金関連
-	const MONEY = "money";
 
 	//買取価格を管理
 	const PURCHASE = "purchase";
