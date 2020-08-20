@@ -48,6 +48,7 @@ class MoneyListener
 
 	public function addMoney(int $money){
 		$total = self::getMoney() + $money;
+		
 		if($total > $this->money_config->get("max")){
 			$max = 5000000;
 			$over = $total - $max;
@@ -56,7 +57,6 @@ class MoneyListener
 		}else{
 			$max += self::getMoney();
 		}
-		/* 最大所持金を超えていた時の処理は後々書く */
 		self::setMoney($max);
 		self::save();
 	}
