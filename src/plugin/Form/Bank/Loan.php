@@ -149,11 +149,12 @@ class RepaymentLoan implements Form{
                 $bank->repaymentLoan($player->getName(),intval($data[1]));
                 $player->sendMessage("§a[個人通知] §7ローンを返済しました");
             }elseif($bank->getLoan($player->getName()) == intval($data[1])){
+                $bank_account = ConfigBase::getFor(ConfigList::BANK_ACCOUNT);
                 $bank->reduceDepositBalance($player->getName(),intval($data[1]));
                 $bank->repaymentLoan($player->getName(),intval($data[1]));
-                ConfigBase::getFor(ConfigList::BANK_ACCOUNT)->setNested($player->getName().".Loan.Date",0);
-                ConfigBase::getFor(ConfigList::BANK_ACCOUNT)->setNested($player->getName().".Loan.Reason",0);
-                ConfigBase::getFor(ConfigList::BANK_ACCOUNT)->save();
+                $bank_account->setNested($player->getName().".Loan.Date",0);
+                $bank_account->setNested($player->getName().".Loan.Reason",0);
+                $bank_account->save();
                 $player->sendMessage("§a[個人通知] §7ローンを全て返済しました");
             }else{
                 $player->sendMessage("§a[個人通知] §7ローン残高よりも返済希望額が上回っている為返済できませんでした");
