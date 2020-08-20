@@ -3,10 +3,13 @@
 namespace plugin\Form;
 
 #Basic
+use \DateTime;
 use pocketmine\Player;
 use pocketmine\form\Form;
 
 #E-Life
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
 use plugin\Economy\MoneyListener;
 use plugin\Economy\Government\GovernmentMoney;
 use plugin\Form\Government\Purchase;
@@ -34,7 +37,7 @@ class GovernmentMenu implements Form{
                 if($instance->checkMoneyStorage()){
                     $date1 = new DateTime($instance->getMoneyStorageDate());
                     $date2 = new DateTime(date("Y/m/d"));
-                    if($date1 < $data2){
+                    if($date1 < $date2){
                         $money = ConfigBase::getFor(ConfigList::CASH_STORAGE)->getNested($player->getName().".Money");
                         ConfigBase::getFor(ConfigList::CASH_STORAGE)->setNested($player->getName().".Money",0);
                         ConfigBase::getFor(ConfigList::CASH_STORAGE)->setNested($player->getName().".Date",0);

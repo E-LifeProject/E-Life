@@ -8,6 +8,7 @@ use pocketmine\form\Form;
 
 #E-Life
 use plugin\Economy\MoneyListener;
+use plugin\Economy\Bank;
 
 
 class CashReceipt implements Form{
@@ -26,7 +27,7 @@ class CashReceipt implements Form{
             return;
         }
         
-        $instance = new MoneyListener($this->name);
+        $instance = new MoneyListener($player->getName());
         $total = $data[2];
         switch($data[1]){
             case 0:
@@ -41,9 +42,10 @@ class CashReceipt implements Form{
 
             case 1:
                 $bank = Bank::getInstance();
-                if($bank->checkAccount()){
+                if($bank->checkAccount($player->getName())){
                     $instance->reduceMoneyStorage(intval($data[2]));
                     $bank->addDepositBalance($player->getName(),intval($data[2]));
+                    $player->sendMessage("§a[個人通知] §7口座に入金しました");
                 }else{
                     $player->sendMessage("§a[個人通知] §7銀行口座が開設されていません");
                 }
@@ -60,7 +62,7 @@ class CashReceipt implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>"保管金:".$instance->getMoneyStorage()."円\n保管手数料:2000円\n受け取り期限:".$instance->getMoneyStorageDate()
+                    'text'=>"保管金:".$instance->getMoneyStorage()."円\n受け取り期限:".$instance->getMoneyStorageDate()
                 ],
                 [
                     'type'=>'dropdown',
