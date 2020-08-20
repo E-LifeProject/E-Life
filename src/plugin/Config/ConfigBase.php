@@ -19,6 +19,12 @@ class ConfigBase
 			ConfigList::PLAYER => [],
 			ConfigList::CLUB => [],
 			ConfigList::COMPANY => [],
+			ConfigList::BANK_ACCOUNT => [],
+			ConfigList::BANK => [
+				"money"=> 1000000,
+			],
+			ConfigList::LOAN_REVIEW => [],
+			ConfigList::PENALTY => [],
 			ConfigList::CHESTLOOK => [],
 			ConfigList::MONEY => [
 				"max" => 50000,

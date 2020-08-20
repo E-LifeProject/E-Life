@@ -5,9 +5,13 @@ namespace plugin\Form\Admin;
 #Basic
 use pocketmine\Player;
 use pocketmine\form\Form;
+use pocketmine\utils\Config;
 
-#EoconomyAPI
-use onebone\economyapi\EconomyAPI;
+#E-Life
+use plugin\Form\Admin\LoanReview;
+use plugin\Form\Admin\CommandForm;
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
 
 class SettingForm implements Form{
 
@@ -22,9 +26,14 @@ class SettingForm implements Form{
 				$player->sendForm(new CommandForm());
 				break;
 
-			// NULL
+			// 銀行ローン審査
 			case 1:
-				break;
+				if(count(ConfigBase::getFor(ConfigList::LOAN_REVIEW)->getAll()) == 0){
+					$player->sendMessage("§a[個人通知] §7現在ローンのお申し込みはありません");
+				}else{
+					$player->sendForm(new LoanReview());
+				}
+			break;
 
 			// NULL
 			case 2:
@@ -44,7 +53,7 @@ class SettingForm implements Form{
                     'text'=>'コマンド関連'
                 ],
                 [
-                    'text'=>'NULL'
+                    'text'=>'銀行ローン審査'
                 ],
                 [
                     'text'=>'NULL'

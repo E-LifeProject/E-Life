@@ -24,6 +24,18 @@ class ConfigList
 	 *     location: string
 	 */
 	const COMPANY = "company";
+
+	//銀行口座を管理
+	const BANK_ACCOUNT = "bank_account";
+
+	//ローンを管理
+	const LOAN_REVIEW = "loan_review";
+
+	//ペナルティ管理
+	const PENALTY = "penalty";
+
+	//銀行関連
+	const BANK = "bank";
 	
 	// お金関連
 	const MONEY = "money";

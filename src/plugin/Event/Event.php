@@ -5,6 +5,8 @@ namespace plugin\Event;
 #Basic
 use DateTime;
 use pocketmine\event\Listener;
+use pocketmine\math\Vector3;
+
 
 #Event
 use pocketmine\event\entity\EntityExplodeEvent;
@@ -20,6 +22,7 @@ use pocketmine\network\mcpe\protocol\InteractPacket;
 
 #E-Life
 use plugin\Form\TermsForm;
+use plugin\Economy\Bank;
 use plugin\NPC\StatusNPC;
 use plugin\NPC\FloatText;
 use plugin\Item\OriginItemFactory;
@@ -31,6 +34,8 @@ use plugin\Item\Original\MenuBook;
 use plugin\Main;
 use plugin\NPC\GovernmentNPC;
 use plugin\Form\GovernmentMenu;
+use plugin\Form\BankMenu;
+use plugin\NPC\ATMFloatText;
 
 
 class Event implements Listener {
@@ -65,6 +70,27 @@ class Event implements Listener {
             }
         }
 
+        /**
+         * ローン支払い期日が過ぎている場合に
+         * 名前の横に⚠︎を付ける（これが付いている場合、信用が落ち鯖内で暮らしにくくなる）
+         * ただし、ローンの返済期日の表示はそのままで返済はしてもらう
+         */
+
+        //ローンの状況を確認する
+        $bank = Bank::getInstance();
+        
+        if($bank->checkLoan($name)){
+            $loanDate1 = new DateTime($bank->getLoanDate($name));
+            $loanDate2 = new DateTime(date("Y/m/d"));
+            if($loanDate1 < $loanDate2){
+                if($bank->getLoan($name) > 0){
+                    if(!ConfigBase::getFor(ConfigList::PENALTY)->exists($name)){
+                        $bank->addPenalty($name);
+                    }
+                }
+            }
+        }
+
         //StatusNPCで表示する項目を取得
         $this->eid = $this->status_text->getStatusNpcEid($player);
 
@@ -77,11 +103,20 @@ class Event implements Listener {
         $player = $event->getPlayer();
         $name = $player->getName();
 
-        //OPには♪をつける
         if($player->isOp()){
-            $player->setNameTag("§9♪"."§f".$name);
-            $player->setDisplayName("§9♪"."§f".$name);
+            $player->setNameTag("§9♪§f".$name);
+            $player->setDisplayName("§9♪§f".$name);
         }
+
+        
+        //ルール違反者もしくは、ローン支払い出来なかった人には注意マークを付ける
+        if(ConfigBase::getFor(ConfigList::PENALTY)->exists($name)){
+            if(!$player->isOp()){
+                $player->setNameTag("§9⚠︎§f".$name);
+                $player->setDisplayName("§9⚠︎§f".$name);
+            }
+        }
+    
 
         /**
          * 利用規約などを変更した時に、リストを削除して
@@ -96,10 +131,8 @@ class Event implements Listener {
             $player->sendForm(new TermsForm());
         }
 
-        //ログインしたらTitle表示
+        
         $player->sendTitle("E-Life鯖へようこそ","Welcome to E-Life",40,40,40);
-
-        //ログインメッセージの変更
         $event->setJoinMessage("§6[全体通知] §7".$name."さんがE-Lifeにログインしました");
 
         //MenuBookをインベントリに追加
@@ -112,6 +145,10 @@ class Event implements Listener {
 
         //GovernmentNPCを表示
         $this->GovernmentNPC->showNPC($player,$this->main->GovernmentNPC,175,120);
+
+        //ATMの浮き文字を表示
+        $float = new ATMFloatText();
+		$float->FloatText($player);
     }
 
 
@@ -130,8 +167,21 @@ class Event implements Listener {
         $player = $event->getPlayer();
 
         //MenuBookでタップしたらMainMenuを表示
-        if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK)
-        	$this->getOriginItemFactory()->useFor($player, $event->getItem());
+        if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK){
+            $this->getOriginItemFactory()->useFor($player, $event->getItem());
+        }
+
+        //ATMをタップしたら銀行メニューを表示
+        if($event->getAction() === PlayerInteractEvent::LEFT_CLICK_BLOCK || $event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK){
+			$block = $event->getBlock();
+            $level = $block->getLevel();
+            $target_block = $level->getBlock(new Vector3(228.5, 9, 232.5));
+
+			if($target_block === $block){
+				$player = $event->getPlayer();
+				$player->sendForm(new BankMenu($this->main)); 
+			}
+		}
     }
 
     public function onExplosion(EntityExplodeEvent $event){
