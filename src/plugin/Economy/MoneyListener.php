@@ -59,8 +59,7 @@ class MoneyListener
 		if($total > 500000){
 			$max = 500000;
 			$over = $total - $max;
-			$now = $this->getMoneyStorage();
-			$this->addMoneyStorage($over+$now);
+			$this->addMoneyStorage($over);
 			self::setMoney($max);
 			self::save();
 		}else{
@@ -76,14 +75,44 @@ class MoneyListener
 		self::save();
 	}
 
+	//保管金があるかどうか確認
+	public function checkMoneyStorage(){
+		if($this->getStorageConfig()->getNested($this->name.".Money") > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	//保管金を確認
 	public function getMoneyStorage(){
 		return $this->getStorageConfig()->getNested($this->name.".Money");
 	}
 
+	public function getMoneyStorageDate(){
+		return $this->getStorageConfig()->getNested($this->name.".Date");
+	}
+
+	//保管金を追加
 	public function addMoneyStorage($money){
-		$this->getStorageConfig()->setNested($this->name.".Money",$money);
+		$now = $this->getStorageConfig()->getNested($this->name.".Money");
+		$total = $now + $money;
+		$this->getStorageConfig()->setNested($this->name.".Money",$total);
+		if($this->getStorageConfig()->getNested($this->name.".Date") == 0){
+			$this->getStorageConfig()->setNested($this->name.".Date",date("Y/m/d",strtotime("15 day")));
+		}
 		$this->getStorageConfig()->save();
 	}
+
+	//保管金を減らす
+	public function reduceMoneyStorage($money){
+		$now = $this->getStorageConfig()->getNested($this->name.".Money");
+		$total = $now - $money;
+		$this->getStorageConfig()->setNested($this->name.".Money",$total);
+		$this->getStorageConfig()->save();
+	}
+
+
 
 	private function getStorageConfig(){
 		return ConfigBase::getFor(ConfigList::CASH_STORAGE);
