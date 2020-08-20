@@ -11,6 +11,14 @@ use plugin\Config\PlayerConfigBase;
 
 class MoneyListener
 {
+	/**
+	 * 所持金の最高限度額は50万
+	 * その額を超える所得があった場合には政府が保管庫にて
+	 * 現金を保管する。この時、プレーヤーは期日までに現金を
+	 * 保管庫から銀行口座か所持金に移行しなければ、
+	 * 1日あたり300円の現金保管料が徴収される
+	 */
+
 	/** @var string **/
 	private $name;
 
@@ -53,11 +61,12 @@ class MoneyListener
 			$over = $total - $max;
 			$now = $this->getMoneyStorage();
 			$this->addMoneyStorage($over+$now);
+			self::setMoney($max);
+			self::save();
 		}else{
-			$max += self::getMoney();
+			self::setMoney($total);
+			self::save();
 		}
-		self::setMoney($max);
-		self::save();
 	}
 
 	public function reduceMoney(int $money){
