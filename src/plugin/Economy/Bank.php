@@ -32,7 +32,7 @@ class Bank{
         return 1500;
     }
 
-    //手数料確認
+    //ATM手数料確認
     public function checkFee(){
         $now_data = intval(date("H"));
         foreach(array(21, 22, 23, 00, 01, 02, 03, 04, 05, 06) as $date){
@@ -41,6 +41,11 @@ class Bank{
             }
         }
         return 0;   
+    }
+
+    //振り込み手数料確認
+    public function checkTransferFee(){
+        return 400;
     }
 
     //預金残高

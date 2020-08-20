@@ -18,11 +18,6 @@ class CashTransfer implements Form{
     }
 
     public function handleResponse(Player $player, $data): void{
-        $bank = Bank::getInstance();
-        $money_instance = new MoneyListener($this->name);
-        $money = $money_instance->getMoney();
-        $fee = $bank->checkFee();
-
 
         if($data === null){
             return;
@@ -33,15 +28,25 @@ class CashTransfer implements Form{
             return;
         }
 
-        $total = $data[3]+$fee;
+        $bank = Bank::getInstance();
+        $money_instance = new MoneyListener($this->name);
+        $money = $money_instance->getMoney();
+        $fee = $bank->checkFee();
+        $transferFee = $bank->checkTransferFee();
+        $total = intval($data[3] + $fee + $transferFee);
+
+        /**
+         * ATM手数料と振り込み手数料は
+         * 銀行資金として充てられる
+         */
 
         switch($data[1]){
             case 0:
-                if($money>=intval($total)){
+                if($money >= $total){
                     if($bank->checkAccount($data[2])){
-                        $money_instance->reduceMoney(intval($total));
+                        $money_instance->reduceMoney($total);
                         $bank->addDepositBalance($data[2],intval($data[3]));
-                        $bank->addBankMoney($fee);
+                        $bank->addBankMoney(intval($fee + $transferFee));
                     }else{
                         $player->sendMessage("§a[個人通知] §7振込先の銀行口座が開設されていません");
                     }
@@ -51,12 +56,12 @@ class CashTransfer implements Form{
             break;
             
             case 1:
-                if($bank->checkAccount($name)){
-                    if($bank->getDepositBalance($this->name)>=intval($total)){
+                if($bank->checkAccount($this->name)){
+                    if($bank->getDepositBalance($this->name) >= $total){
                         if($bank->checkAccount($data[2])){
-                            $bank->reduceDepositBalance($this->name,intval($total));
+                            $bank->reduceDepositBalance($this->name,$total);
                             $bank->addDepositBalance($data[2],intval($data[3]));
-                            $bank->addBankMoney($fee);
+                            $bank->addBankMoney(intval($fee + $transferFee));
                         }else{
                             $player->sendMessage("§a[個人通知] §7相手先の銀行口座が開設されていません");
                         }
@@ -73,9 +78,9 @@ class CashTransfer implements Form{
     }
 
     public function jsonSerialize(){
+        $bank = Bank::getInstance();
         $money_instance = new MoneyListener($this->name);
         $money = $money_instance->getMoney();
-        $bank = Bank::getInstance();
 
         return[
             'type'=>'custom_form',
@@ -83,7 +88,7 @@ class CashTransfer implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>"預金残高:".$bank->getDepositBalance($this->name)."円\n所持金:".$money."円\nATM利用手数料:".$bank->checkFee()."円\n振り込み方法を選択してください"
+                    'text'=>"預金残高:".$bank->getDepositBalance($this->name)."円\n所持金:".$money."円\n振り込み手数料:".$bank->checkTransferFee()."円\nATM利用手数料:".$bank->checkFee()."円\n振り込み方法を選択してください"
                 ],
                 [
                     'type'=>'dropdown',
@@ -103,6 +108,10 @@ class CashTransfer implements Form{
                     'type'=>'input',
                     'text'=>'お振込金額',
                     'placeholder'=>'振り込み金額'
+                ],
+                [
+                    'type'=>'label',
+                    'text'=>"ATM利用手数料と振り込み手数料は選択したお支払い方法元から支払われる為、振り込み金額と利用手数料の合計値が所持金や預金残高よりも下回っていると振り込みできません"
                 ]
             ]
         ];

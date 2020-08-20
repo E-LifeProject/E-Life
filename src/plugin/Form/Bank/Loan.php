@@ -12,6 +12,7 @@ use plugin\Economy\Bank;
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
 
+
 class Loan implements Form{
     public function handleResponse(Player $player,$data):void{
         $bank = Bank::getInstance();
@@ -21,7 +22,6 @@ class Loan implements Form{
         }
 
         switch($data){
-
             //新規申し込み
             case 0:
                     if($bank->checkLoan($player->getName())){
@@ -67,13 +67,15 @@ class Loan implements Form{
     }
 }
 
+
 class ApplyLoan implements Form{
     public function handleResponse(Player $player,$data):void{
-        $bank = Bank::getInstance();
 
         if($data === null){
             return;
         }
+
+        $bank = Bank::getInstance();
         $count = $data[1]+1;
         $count *= 10;
 
@@ -86,12 +88,14 @@ class ApplyLoan implements Form{
                 $reason = "住宅建設";
             break;
         }
+
         $bank->applicationLoan($player->getName(),$count*10000,$reason);
         $player->sendMessage("§a[個人通知] §7ローンを申し込みました。審査が完了するまでしばらくお待ちください");
     }
     
     public function jsonSerialize(){
         $rate = Bank::getInstance()->getInterestRate()*100;
+
         return[
             'type'=>'custom_form',
             'title'=>'ローンのお申し込み',
@@ -120,6 +124,7 @@ class ApplyLoan implements Form{
     }
 }
 
+
 class RepaymentLoan implements Form{
     
     public function __construct($name){
@@ -136,19 +141,20 @@ class RepaymentLoan implements Form{
             $player->sendMessage("§a[個人通知] §7数字を入力してください");
             return;
         }
+
         //ローンは銀行口座から支払うようにする(所持金からの支払いは現時点では不可)
         if($bank->getDepositBalance($player->getName()) >= intval($data[1])){
             if($bank->getLoan($player->getName()) > intval($data[1])){
-                $bank->repaymentLoan($player->getName(),intval($data[1]));
                 $bank->reduceDepositBalance($player->getName(),intval($data[1]));
+                $bank->repaymentLoan($player->getName(),intval($data[1]));
                 $player->sendMessage("§a[個人通知] §7ローンを返済しました");
             }elseif($bank->getLoan($player->getName()) == intval($data[1])){
-                $bank->repaymentLoan($player->getName(),intval($data[1]));
                 $bank->reduceDepositBalance($player->getName(),intval($data[1]));
+                $bank->repaymentLoan($player->getName(),intval($data[1]));
                 ConfigBase::getFor(ConfigList::BANK_ACCOUNT)->setNested($player->getName().".Loan.Date",0);
                 ConfigBase::getFor(ConfigList::BANK_ACCOUNT)->setNested($player->getName().".Loan.Reason",0);
                 ConfigBase::getFor(ConfigList::BANK_ACCOUNT)->save();
-                $player->sendMessage("§a[個人通知] §7ローンを返済し終わりました");
+                $player->sendMessage("§a[個人通知] §7ローンを全て返済しました");
             }else{
                 $player->sendMessage("§a[個人通知] §7ローン残高よりも返済希望額が上回っている為返済できませんでした");
             }
@@ -169,6 +175,10 @@ class RepaymentLoan implements Form{
                 [
                     'type'=>'input',
                     'text'=>'ローン返済金額',
+                ],
+                [
+                    'type'=>'label',
+                    'text'=>'ローンは口座預金から返済される為、所持金でローンの返済を行いたい時は一度所持金を銀行口座にご入金してください'
                 ]
             ]
         ];

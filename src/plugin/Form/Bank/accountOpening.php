@@ -10,10 +10,13 @@ use pocketmine\form\Form;
 use plugin\Economy\Bank;
 use plugin\Economy\MoneyListener;
 
-class accountOpening implements Form{
+
+class AccountOpening implements Form{
+
     public function handleResponse(Player $player, $data): void{
         $name = $player->getName();
         $bank = Bank::getInstance();
+        $fee = $bank->checkAccountOpeningFee();
         $money_instance = new MoneyListener($name);
 
         if($data === null){
@@ -21,18 +24,16 @@ class accountOpening implements Form{
         }
         
         if($data[1] === true){
-            if($bank->checkAccount($name)){
-                $player->sendMessage("§a[個人通知] §7口座が既に開設されております");
+            if($money_instance->getMoney() >= $fee){
+                $bank->accountOpening($player->getName());
+                $money_instance->reduceMoney($fee);
+                $bank->addBankMoney($fee);
+                $player->sendMessage("§a[個人通知] §7口座を開設しました");
             }else{
-                if($money_instance->getMoney() >= $bank->checkAccountOpeningFee()){
-                    $bank->accountOpening($name);
-                    $player->sendMessage("§a[個人通知] §7口座を開設しました");
-                    $money_instance->reduceMoney($bank->checkAccountOpeningFee());
-                    $bank->addBankMoney($bank->checkAccountOpeningFee());
-                }else{
-                    $player->sendMessage("§a[個人通知] §7口座開設手数料を支払う事ができませんでした");
-                }
+                $player->sendMessage("§a[個人通知] §7口座開設手数料を支払う事ができませんでした");
             }
+        }else{
+            $player->sendMessage("§a[個人通知] §7口座開設を行いませんでした");
         }
     }
 
@@ -43,7 +44,7 @@ class accountOpening implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>"口座開設手数料:".Bank::getInstance()->checkAccountOpeningFee()."\n口座を開設する場合は口座開設ボタンにチェックを入れ、送信ボタンを押してください。既に口座を開設している場合は新規開設できません"
+                    'text'=>"口座開設手数料:".Bank::getInstance()->checkAccountOpeningFee()."円\n口座を開設する場合は口座開設ボタンにチェックを入れ、送信ボタンを押してください"
                 ],
                 [
                     'type'=>'toggle',

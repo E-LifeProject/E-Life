@@ -10,19 +10,18 @@ use pocketmine\form\Form;
 use plugin\Economy\Bank;
 use plugin\Form\Bank\WithdrawMoney;
 use plugin\Form\Bank\MoneyDeposit;
-use plugin\Form\Bank\BalanceInquiry;
 use plugin\Form\Bank\CashTransfer;
 use plugin\Form\Bank\Loan;
-use plugin\Form\Bank\accountOpening;
+use plugin\Form\Bank\AccountOpening;
 
 
 class BankMenu implements Form{
 
     public function handleResponse(Player $player,$data):void{
+        
         if($data === null){
             return;
         }
-
 
         /**
          * 銀行関連のFormを送る前に
@@ -48,27 +47,19 @@ class BankMenu implements Form{
                 }
             break;
 
-            //残高照会
-            case 2:
-                if(Bank::getInstance()->checkAccount($player->getName())){
-                    $player->sendForm(new BalanceInquiry($player->getName()));
-                }else{
-                    $player->sendMessage("§a[個人通知] §7口座が開設されておりません");
-                }
-            break;
 
             /**
              * 所持金と口座両方から振り込みできるように
-             * するから銀行口座の判定はこの段階では必要ない
+             * その為、銀行口座の判定はこの段階では必要ない
              */
 
             //お振込
-            case 3:
+            case 2:
                 $player->sendForm(new CashTransfer($player->getName()));
             break;
 
             //ローン関係
-            case 4:
+            case 3:
                 if(Bank::getInstance()->checkAccount($player->getName())){
                     $player->sendForm(new Loan());
                 }else{
@@ -77,8 +68,12 @@ class BankMenu implements Form{
             break;
 
             //口座開設
-            case 5:
-                $player->sendForm(new accountOpening());
+            case 4:
+                if(Bank::getInstance()->checkAccount($player->getName())){
+                    $player->sendMessage("§a[個人通知] §7既に口座が開設されております");
+                }else{
+                    $player->sendForm(new AccountOpening());
+                }
             break;
         }
     }
@@ -95,9 +90,6 @@ class BankMenu implements Form{
                 ],
                 [
                     'text'=>'お預入れ'
-                ],
-                [
-                    'text'=>'残高照会'
                 ],
                 [
                     'text'=>'お振込み'
