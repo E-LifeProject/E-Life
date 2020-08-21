@@ -17,26 +17,98 @@ class ConfigBase
 			mkdir($path,0744,true);
 		self::register([
 			ConfigList::PLAYER => [],
-			ConfigList::SHOP => [],
 			ConfigList::CLUB => [],
 			ConfigList::COMPANY => [],
-			ConfigList::STATUS_NPC => [
-				"name" => "StatusNPC",
-				"x" => 236.500000,
-				"y" => 8,
-				"z" => 234.500000,
-				"id" => 276,
-				"meta" => 0
+			ConfigList::BANK_ACCOUNT => [],
+			ConfigList::BANK => [
+				"money"=> 1000000,
 			],
-			ConfigList::MONEY => [
-				"max" => 50000,
-				"min" => 0
-			],
+			ConfigList::LOAN_REVIEW => [],
+			ConfigList::PENALTY => [],
+			ConfigList::CHESTLOOK => [],
+			ConfigList::CASH_STORAGE => [],
 			ConfigList::TAXRATE =>[
 				"consumptionTax" => 0.1,
 				"corporateTax" => 0.15,
 				"giftTaxMinimum" => 0.1,
 				"incomeTaxMinimum" => 0.1
+			],
+			ConfigList::PURCHASE =>[
+				"setItem" => "stone",
+				"stone"=>[
+					"jpnName" =>"石",
+					"name" => "stone",
+					"id" => 1,
+					"damage"=>0,
+					"price" => 1,
+				],
+				"oka"=>[
+					"jpnName"=>"オークの原木",
+					"name" => "oka",
+					"id"=> 17,
+					"damage"=> 0,
+					"price"=> 2,
+				],
+				"spruce"=>[
+					"jpnName"=>"マツの原木",
+					"name" => "spruce",
+					"id"=> 17,
+					"damage" => 1,
+					"price"=> 2,
+				],
+				"birch"=>[
+					"jpnName"=>"シラカバの原木",
+					"name" => "birch",
+					"id"=> 17,
+					"damage" => 2,
+					"price"=> 2,
+				],
+				"jungle"=>[
+					"jpnName"=>"ジャングルの原木",
+					"name" => "jungle",
+					"id"=> 17,
+					"damage" => 2,
+					"price"=> 2,
+				],
+				"acacia"=>[
+					"jpnName"=>"アカシアの原木",
+					"name" => "acacia",
+					"id"=> 162,
+					"damage" => 0,
+					"price"=> 2,
+				],
+				"dark_oka"=>[
+					"jpnName"=>"ダークオークの原木",
+					"name" => "dark_oka",
+					"id"=> 162,
+					"damage" => 1,
+					"price"=> 2,
+				],
+				"ironOre"=>[
+					"jpnName"=>"鉄鉱石",
+					"name" => "ironOre",
+					"id"=> 15,
+					"damage" => 0,
+					"price"=> 5,
+				]
+			],
+			ConfigList::GORVERNMENT => [
+				"money" => 1000000000,
+				"storehouse"=>[
+					"stone" => 0,
+					"oka" => 0,
+					"spruce" => 0,
+					"birch" => 0,
+					"jungle" => 0,
+					"acacia" => 0,
+					"dark_oka" => 0,
+					"ironOre" => 0,
+				]
+			],
+			ConfigList::LOCAL =>[
+				"city1" => [
+					"money" =>0
+					]
 			]
 		], $path);
 	}

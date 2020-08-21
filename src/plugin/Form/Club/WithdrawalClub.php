@@ -9,13 +9,13 @@ use pocketmine\Player;
 use pocketmine\form\Form;
 use pocketmine\utils\Config;
 
-class WithdrawalClub implements Form　{
+class WithdrawalClub implements Form{
 
 	/**　@var Config|null */
 	private $club;
 
-	public function __construct($club){
-        $this->club = $club = ConfigBase::getFor(ConfigList::CLUB);;
+	public function __construct(){
+        $this->club = ConfigBase::getFor(ConfigList::CLUB);;
     }
 
     //Formの処理
@@ -28,9 +28,9 @@ class WithdrawalClub implements Form　{
         if($data[1] === true){
             $this->club->__unset($name);
             $this->club->save();
-            $player->sendPopUp("§a通知>>E-Clubを退会しました\n\n");
+            $player->sendMessage("§a[個人通知] §7E-Clubを退会しました");
         }else{
-            $player->sendPopUp("§a通知>>退会をキャンセルしました\n\n");
+            $player->sendMessage("§a[個人通知] §7E-Clubの退会手続きをキャンセルしました");
         }
     }
 
@@ -42,7 +42,7 @@ class WithdrawalClub implements Form　{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>"退会する場合はしたのボタンを押してください。退会されても返金はできませんのでご了承ください。\n--------------------"
+                    'text'=>"退会する場合は下のボタンを押してください。退会されても返金はできませんのでご了承ください。\n--------------------"
                 ],
                 [
                     'type'=>'toggle',

@@ -7,6 +7,8 @@ use plugin\Config\ConfigBase;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
+use pocketmine\utils\Config;
+
 
 #E-Life
 use plugin\Event\Event;
@@ -22,11 +24,16 @@ class Main extends PluginBase implements Listener {
         date_default_timezone_set('asia/tokyo');
 
         $this->getServer()->loadLevel("nature");
+        $this->getServer()->loadLevel("life");
 
         ConfigBase::init($this);
 
         //StatusNPC管理用
-        $this->npc = mt_rand(1, 99999999999);
+        $this->StatusNPC = mt_rand(1, 99999999999);
+        $this->GovernmentNPC = mt_rand(1,9999999999999);
+
+        //闇金用のスキンデータだと思われる
+        $this->skin = new Config($this->getDataFolder() . "skinData.yml", Config::YAML);
 
         //Listenerにイベントを登録
         $this->getServer()->getPluginManager()->registerEvents(new Event($this),$this);

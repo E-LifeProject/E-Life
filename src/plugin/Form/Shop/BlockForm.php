@@ -56,7 +56,7 @@ class StoneForm implements Form{
     
     public function handleResponse(Player $player,$data): void{
         $name = $player->getName();
-        $shop = ConfigBase::getFor(ConfigList::SHOP);
+        $shop = ConfigBase::getFor(ConfigList::PURCHASE);
         $club = ConfigBase::getFor(ConfigList::CLUB);
 
         if($data === null){
@@ -71,18 +71,15 @@ class StoneForm implements Form{
 
         switch($data){
             case 0:
-                $shopData = $shop->get("石");
+                $shopData = ConfigBase::getFor(ConfigList::PURCHASE)->get("stone");
             break;
             case 1:
-                $shopData = $shop->get("丸石");
-            break;
-            case 2:
                 $shopData = $shop->get("閃緑岩");
             break;
-            case 3:
+            case 2:
                 $shopData = $shop->get("安山岩");
             break;
-            case 4:
+            case 3:
                 $shopData = $shop->get("花崗岩");
             break;
         }
@@ -99,9 +96,6 @@ class StoneForm implements Form{
             'buttons'=>[
                 [
                     'text'=>'石'
-                ],
-                [
-                    'text'=>'丸石'
                 ],
                 [
                     'text'=>'閃緑岩'
@@ -122,7 +116,7 @@ class WoodForm implements Form{
     
     public function handleResponse(Player $player,$data): void{
         $name = $player->getName();
-        $shop = ConfigBase::getFor(ConfigList::SHOP);
+        $shop = ConfigBase::getFor(ConfigList::PURCHASE);
         $club = ConfigBase::getFor(ConfigList::CLUB);
 
         if($data === null){
@@ -137,22 +131,22 @@ class WoodForm implements Form{
 
         switch($data){
             case 0:
-                $shopData = $shop->get("オークの原木");
+                $shopData = $shop->get("oka");
             break;
             case 1:
-                $shopData = $shop->get("マツの原木");
+                $shopData = $shop->get("spruce");
             break;
             case 2:
-                $shopData = $shop->get("シラカバの原木");
+                $shopData = $shop->get("birch");
             break;
             case 3:
-                $shopData = $shop->get("ジャングルの原木");
+                $shopData = $shop->get("jungle");
             break;
             case 4:
-                $shopData = $shop->get("アカシアの原木");
+                $shopData = $shop->get("acacia");
             break;
             case 5:
-                $shopData = $shop->get("ダークオークの原木");
+                $shopData = $shop->get("dark_oka");
             break;
         }
 

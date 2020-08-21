@@ -8,9 +8,8 @@ use plugin\Config\ConfigList;
 use pocketmine\Player;
 use pocketmine\form\Form;
 
-#EconomyAPI
-use onebone\economyapi\EconomyAPI;
-
+#E-Life
+use plugin\Economy\MoneyListener;
 
 class JoinClub implements Form{
 
@@ -26,8 +25,8 @@ class JoinClub implements Form{
 	    }
 
 	    $name = $player->getName();
-	    $money = EconomyAPI::getInstance()->mymoney($player);
-
+        $money_instance = new MoneyListener($name);
+        $money = $money_instance->getMoney();
 	    $club = ConfigBase::getFor(ConfigList::CLUB);
 
         switch($data[1]){
@@ -35,7 +34,7 @@ class JoinClub implements Form{
             case 0:
                 if(!$club->exists($name)){
                     if($money>=1000){
-                        EconomyAPI::getInstance()->reduceMoney($player,1000);
+                        $money_instance->reduceMoney(1000);
                         $club->set($name,date("Y/m/d",strtotime("10 day")));
                         $club->save();
                         $player->sendMessage("§a[個人通知] §710日プランでE-Clubに加入しました");
@@ -43,7 +42,7 @@ class JoinClub implements Form{
                         $player->sendMessage("§a[個人通知] §7所持金が足りません");
                     }
                 }else{
-                    $player->sendMessage("§a[個人通知] §7すでに加入されています 期限:".$this->main->club->get($name));
+                    $player->sendMessage("§a[個人通知] §7すでに加入されています 期限:".$club->get($name));
                 }
             break;
 
@@ -51,7 +50,7 @@ class JoinClub implements Form{
             case 1:
                 if(!$club->exists($name)){
                     if($money>=2000){
-                        EconomyAPI::getInstance()->reduceMoney($player,2000);
+                        $money_instance->reduceMoney(2000);
                         $club->set($name,date("Y/m/d",strtotime("20 day")));
                         $club->save();
                         $player->sendMessage("§a[個人通知] §720日プランでE-Clubに加入しました");
@@ -59,7 +58,7 @@ class JoinClub implements Form{
                         $player->sendMessage("§a[個人通知] §7所持金が足りません");
                     }
                 }else{
-                    $player->sendMessage("§a[個人通知] §7すでに加入されています 期限:".$this->main->club->get($name));
+                    $player->sendMessage("§a[個人通知] §7すでに加入されています 期限:".$club->get($name));
                 }
             break;
 
@@ -67,7 +66,7 @@ class JoinClub implements Form{
             case 2:
                 if(!$club->exists($name)){
                     if($money>=3000){
-                        EconomyAPI::getInstance()->reduceMoney($player,3000);
+                        $money_instance->reduceMoney(3000);
                         $club->set($name,date("Y/m/d",strtotime("30 day")));
                         $club->save();
                         $player->sendMessage("§a[個人通知] §730日プランでE-Clubに加入しました");
@@ -75,7 +74,7 @@ class JoinClub implements Form{
                         $player->sendMessage("§a[個人通知] §7所持金が足りません");
                     }
                 }else{
-                    $player->sendMessage("§a[個人通知] §7すでに加入されています 期限:".$this->main->club->get($name));
+                    $player->sendMessage("§a[個人通知] §7すでに加入されています 期限:".$club->get($name));
                 }
             break;
         }

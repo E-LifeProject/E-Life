@@ -15,8 +15,6 @@ class ConfigList
 
 	//税率を管理
 	const TAXRATE = "taxRate";
-
-
 	/*
 	 * 会社の情報
 	 * company_name:
@@ -27,10 +25,31 @@ class ConfigList
 	 */
 	const COMPANY = "company";
 
-	// ステータス表記のNPCの座標など
-	const STATUS_NPC = "status_npc";
+	//銀行口座を管理
+	const BANK_ACCOUNT = "bank_account";
 
-	// お金関連
-	const MONEY = "money";
+	//ローンを管理
+	const LOAN_REVIEW = "loan_review";
+
+	//ペナルティ管理
+	const PENALTY = "penalty";
+
+	//銀行関連
+	const BANK = "bank";
+
+	//買取価格を管理
+	const PURCHASE = "purchase";
+
+	//政府の財政
+	const GORVERNMENT = "government";
+
+	//地方の財政
+	const LOCAL = "local";
+
+	//所持金オーバーした分の現金を保管
+	const CASH_STORAGE = "cash_storage";
+
+	const CHESTLOOK = "chestlook";
+
 }
 ?>
