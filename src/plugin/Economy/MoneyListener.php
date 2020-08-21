@@ -16,7 +16,7 @@ class MoneyListener
 	 * その額を超える所得があった場合には政府が保管庫にて
 	 * 現金を保管する。この時、プレーヤーは期日までに現金を
 	 * 保管庫から銀行口座か所持金に移行しなければ、
-	 * 1日あたり300円の現金保管料が徴収される
+	 * 最初の15日以降一週間毎に3000円が徴収される
 	 */
 
 	/** @var string **/
@@ -76,6 +76,8 @@ class MoneyListener
 		self::save();
 	}
 
+
+
 	//保管金があるかどうか確認
 	public function checkMoneyStorage(){
 		if($this->getStorageConfig()->getNested($this->name2.".Money") > 0){
@@ -90,6 +92,7 @@ class MoneyListener
 		return $this->getStorageConfig()->getNested($this->name2.".Money");
 	}
 
+	//保管金受け取り期日を確認
 	public function getMoneyStorageDate(){
 		return $this->getStorageConfig()->getNested($this->name2.".Date");
 	}

@@ -33,17 +33,34 @@ class GovernmentMenu implements Form{
             
             //保管金受け取り
             case 1:
+                $config = ConfigBase::getFor(ConfigList::CASH_STORAGE);
                 $instance = new MoneyListener($player->getName());
+
+                /**
+                 * もしも保管金受け取り日時を超えていた場合、
+                 * 保管料を徴収し、一週間後に期限を延長
+                 * 保管料を支払う金額がない場合は、保管金を全額徴収
+                 */
+
                 if($instance->checkMoneyStorage()){
                     $date1 = new DateTime($instance->getMoneyStorageDate());
                     $date2 = new DateTime(date("Y/m/d"));
                     if($date1 < $date2){
-                        $money = ConfigBase::getFor(ConfigList::CASH_STORAGE)->getNested($player->getName().".Money");
-                        ConfigBase::getFor(ConfigList::CASH_STORAGE)->setNested($player->getName().".Money",0);
-                        ConfigBase::getFor(ConfigList::CASH_STORAGE)->setNested($player->getName().".Date",0);
-                        ConfigBase::getFor(ConfigList::CASH_STORAGE)->save();
-                        GovernmentMoney::getInstance()->addMoney($money);
-                        $player->sendMessage("§a[個人通知] §7受取可能な保管金はありません");
+                        $now = $config->getNested($player->getName().".Money");
+                        $money = $now - 3000;
+                        if($money >= 0){
+                            $config->setNested($player->getName().".Money",$money);
+                            $config->setNested($player->getName().".Date",date("Y/m/d",strtotime("7 day")));
+                            $config->save();
+                            GovernmentMoney::getInstance()->addMoney(3000);
+                            $player->sendForm(new CashReceipt($player->getName()));
+                        }else{
+                            $config->setNested($player->getName().".Money",0);
+                            $config->setNested($player->getName().".Date",0);
+                            $config->save();
+                            GovernmentMoney::getInstance()->addMoney($now);
+                            $player->sendMessage("§a[個人通知] §7受取可能な保管金はありません");
+                        }
                     }else{
                         $player->sendForm(new CashReceipt($player->getName()));
                     }
