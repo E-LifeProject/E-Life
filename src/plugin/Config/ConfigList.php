@@ -36,15 +36,15 @@ class ConfigList
 
 	//銀行関連
 	const BANK = "bank";
-	
-	// お金関連
-	const MONEY = "money";
 
 	//買取価格を管理
 	const PURCHASE = "purchase";
 
 	//政府の財政
 	const GORVERNMENT = "government";
+
+	//所持金オーバーした分の現金を保管
+	const CASH_STORAGE = "cash_storage";
 
 	const CHESTLOOK = "chestlook";
 
