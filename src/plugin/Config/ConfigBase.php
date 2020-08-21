@@ -105,12 +105,10 @@ class ConfigBase
 					"ironOre" => 0,
 				]
 			],
-			[
-				ConfigList::LOCAL =>[
-					"city1" => [
-						"money" =>0
+			ConfigList::LOCAL =>[
+				"city1" => [
+					"money" =>0
 					]
-				]
 			]
 		], $path);
 	}

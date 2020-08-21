@@ -3,8 +3,8 @@
 namespace plugin\Form\Government;
 
 #Basic
-use pocktemine\Player;
-use pocktemine\form\Form;
+use pocketmine\Player;
+use pocketmine\form\Form;
 
 class GovernmentOfficial implements Form{
     public function handleResponse(Player $player, $data): void{
