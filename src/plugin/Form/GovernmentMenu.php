@@ -15,6 +15,7 @@ use plugin\Economy\Government\GovernmentMoney;
 use plugin\Form\Government\Purchase;
 use plugin\Form\Government\CashReceipt;
 use plugin\Form\Government\GovernmentDepositBalance;
+use plugin\Form\Government\LocalFinance;
 use plugin\Form\Government\GovernmentOfficial;
 use plugin\Form\Government\AdministrativeManagement;
 
