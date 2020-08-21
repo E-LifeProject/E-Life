@@ -26,6 +26,7 @@ class JoinClub implements Form{
 
 	    $name = $player->getName();
         $money_instance = new MoneyListener($name);
+        $money = $money_instance->getMoney();
 	    $club = ConfigBase::getFor(ConfigList::CLUB);
 
         switch($data[1]){
@@ -41,7 +42,7 @@ class JoinClub implements Form{
                         $player->sendMessage("§a[個人通知] §7所持金が足りません");
                     }
                 }else{
-                    $player->sendMessage("§a[個人通知] §7すでに加入されています 期限:".$this->main->club->get($name));
+                    $player->sendMessage("§a[個人通知] §7すでに加入されています 期限:".$club->get($name));
                 }
             break;
 
@@ -57,7 +58,7 @@ class JoinClub implements Form{
                         $player->sendMessage("§a[個人通知] §7所持金が足りません");
                     }
                 }else{
-                    $player->sendMessage("§a[個人通知] §7すでに加入されています 期限:".$this->main->club->get($name));
+                    $player->sendMessage("§a[個人通知] §7すでに加入されています 期限:".$club->get($name));
                 }
             break;
 
@@ -65,7 +66,7 @@ class JoinClub implements Form{
             case 2:
                 if(!$club->exists($name)){
                     if($money>=3000){
-                        $money_instance->reduceMoney($player,3000);
+                        $money_instance->reduceMoney(3000);
                         $club->set($name,date("Y/m/d",strtotime("30 day")));
                         $club->save();
                         $player->sendMessage("§a[個人通知] §730日プランでE-Clubに加入しました");
@@ -73,7 +74,7 @@ class JoinClub implements Form{
                         $player->sendMessage("§a[個人通知] §7所持金が足りません");
                     }
                 }else{
-                    $player->sendMessage("§a[個人通知] §7すでに加入されています 期限:".$this->main->club->get($name));
+                    $player->sendMessage("§a[個人通知] §7すでに加入されています 期限:".$club->get($name));
                 }
             break;
         }

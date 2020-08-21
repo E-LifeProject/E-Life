@@ -13,6 +13,8 @@ use pocketmine\utils\UUID;
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 
 use plugin\Economy\Bank;
+use plugin\Config\ConfigBase;
+use plugin\Config\ConfigList;
 
 class FloatText{
 
@@ -56,6 +58,13 @@ class FloatText{
 	public function showText($player, $eid){
 		$name = $player->getName();
 		$bank = Bank::getInstance();
+		$club = ConfigBase::getFor(ConfigList::CLUB);
+
+		if($club->exists($name)){
+			$clubData = $club->get($name);
+		}else{
+			$clubData = "--:--";
+		}
 
 		if($bank->checkLoan($name)){
 			$loan = $bank->getLoanDate($name);
@@ -73,7 +82,7 @@ class FloatText{
 		if(isset($eid[$name])){
 			self::FloatText($player, "§l§e名前 : ".$name."", $eid[$name][0], 3);
 			self::FloatText($player, "返済期日 : ".$loan, $eid[$name][1], 2.7);
-			self::FloatText($player, "E-Club期限 : --:--", $eid[$name][2], 2.4);
+			self::FloatText($player, "E-Club期限 : ".$clubData, $eid[$name][2], 2.4);
 			self::FloatText($player, "銀行残高 : ".$money."M", $eid[$name][3], 2.1);
 		}
 	}
