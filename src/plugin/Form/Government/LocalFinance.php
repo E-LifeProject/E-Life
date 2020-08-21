@@ -1,5 +1,5 @@
 <?php
-namespace plguin\Form\Government;
+namespace plugin\Form\Government;
 
 #Basic
 use pocketmine\Player;

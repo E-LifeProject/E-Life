@@ -104,6 +104,11 @@ class ConfigBase
 					"dark_oka" => 0,
 					"ironOre" => 0,
 				]
+			],
+			ConfigList::LOCAL =>[
+				"city1" => [
+					"money" =>0
+					]
 			]
 		], $path);
 	}
