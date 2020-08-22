@@ -156,7 +156,11 @@ class ChestLookData
     }
 
     public function getCommandStatus($player){
-    		return $this->status[($player)];
+    	if(isset($this->status[($player)])) {
+			return $this->status[($player)];
+		}else{
+    		$this->status[($player)] = 0;
+		}
     }
 
     public function save()
