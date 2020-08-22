@@ -4,6 +4,8 @@ namespace plugin;
 
 #Basic
 use plugin\Config\ConfigBase;
+use plugin\Config\Data\ChestLookData;
+use plugin\Event\ChestLookEvent;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
@@ -36,9 +38,11 @@ class Main extends PluginBase implements Listener {
 
         //Listenerにイベントを登録
         $this->getServer()->getPluginManager()->registerEvents(new Event($this),$this);
+         $this->getServer()->getPluginManager()->registerEvents(new ChestLookEvent($this),$this);
 
         //scheduleRepeatingTaskにTipにステータスを表示させる為に登録
         $this->getScheduler()->scheduleRepeatingTask(new Status(),20);
+        (new ChestLookData($this));
     }
 
     public function onDisable(): void {
