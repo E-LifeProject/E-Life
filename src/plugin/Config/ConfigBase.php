@@ -21,7 +21,7 @@ class ConfigBase
 			ConfigList::COMPANY => [],
 			ConfigList::BANK_ACCOUNT => [],
 			ConfigList::BANK => [
-				"money"=> 1000000,
+				"money"=> 10000000,//1000万
 			],
 			ConfigList::LOAN_REVIEW => [],
 			ConfigList::PENALTY => [],
@@ -40,60 +40,60 @@ class ConfigBase
 					"name" => "stone",
 					"id" => 1,
 					"damage"=>0,
-					"price" => 1,
+					"price" => 10,
 				],
 				"oka"=>[
 					"jpnName"=>"オークの原木",
 					"name" => "oka",
 					"id"=> 17,
 					"damage"=> 0,
-					"price"=> 2,
+					"price"=> 4,
 				],
 				"spruce"=>[
 					"jpnName"=>"マツの原木",
 					"name" => "spruce",
 					"id"=> 17,
 					"damage" => 1,
-					"price"=> 2,
+					"price"=> 4,
 				],
 				"birch"=>[
 					"jpnName"=>"シラカバの原木",
 					"name" => "birch",
 					"id"=> 17,
 					"damage" => 2,
-					"price"=> 2,
+					"price"=> 4,
 				],
 				"jungle"=>[
 					"jpnName"=>"ジャングルの原木",
 					"name" => "jungle",
 					"id"=> 17,
 					"damage" => 2,
-					"price"=> 2,
+					"price"=> 4,
 				],
 				"acacia"=>[
 					"jpnName"=>"アカシアの原木",
 					"name" => "acacia",
 					"id"=> 162,
 					"damage" => 0,
-					"price"=> 2,
+					"price"=> 4,
 				],
 				"dark_oka"=>[
 					"jpnName"=>"ダークオークの原木",
 					"name" => "dark_oka",
 					"id"=> 162,
 					"damage" => 1,
-					"price"=> 2,
+					"price"=> 4,
 				],
 				"ironOre"=>[
 					"jpnName"=>"鉄鉱石",
 					"name" => "ironOre",
 					"id"=> 15,
 					"damage" => 0,
-					"price"=> 5,
+					"price"=> 20,
 				]
 			],
 			ConfigList::GORVERNMENT => [
-				"money" => 1000000000,
+				"money" => 100000000,//1億
 				"storehouse"=>[
 					"stone" => 0,
 					"oka" => 0,

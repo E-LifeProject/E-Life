@@ -34,7 +34,7 @@ class MainMenu implements Form{
 
             //土地に関するForm
             case 2:
-                $player->sendForm(new LandForm());
+                //$player->sendForm(new LandForm());
             break;
 
             //ショップに関するForm
@@ -85,7 +85,7 @@ class MainMenu implements Form{
                     ]
                 ],
                 [
-                    'text'=>'不動産登記',
+                    'text'=>'不動産登記(現在は使用出来ません)',
                     'image'=>[
                         'type'=>'path',
                         'data'=>'textures/ui/icon_book_writable'
