@@ -14,6 +14,7 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerLoginEvent;
+use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
 
 #Packet
@@ -182,6 +183,11 @@ class Event implements Listener {
 				$player->sendForm(new BankMenu($this->main)); 
 			}
 		}
+    }
+
+    //KeepInventory
+    public function PlayerDeath(PlayerDeathEvent $event){
+        $event->setKeepInventory(true);
     }
 
     public function onExplosion(EntityExplodeEvent $event){
