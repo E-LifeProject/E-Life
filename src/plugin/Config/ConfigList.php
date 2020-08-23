@@ -7,6 +7,9 @@ class ConfigList
 	//利用規約同意者はplayer.ymlにリストに記載
 	const PLAYER = "player";
 
+	//KeepInventoryの回数を記録
+	const KEEP_INVENTORY = "keep_inventory";
+
 	//公式ショップのブロックとアイテムの価格を管理
 	const SHOP = "price";
 

@@ -17,6 +17,7 @@ class ConfigBase
 			mkdir($path,0744,true);
 		self::register([
 			ConfigList::PLAYER => [],
+			ConfigList::KEEP_INVENTORY =>[],
 			ConfigList::CLUB => [],
 			ConfigList::COMPANY => [],
 			ConfigList::BANK_ACCOUNT => [],

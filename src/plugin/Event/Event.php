@@ -187,7 +187,44 @@ class Event implements Listener {
 
     //KeepInventory
     public function PlayerDeath(PlayerDeathEvent $event){
-        $event->setKeepInventory(true);
+        $player = $event->getPlayer();
+        $name = $player->getName();
+        $config = ConfigBase::getFor(ConfigList::KEEP_INVENTORY);
+        if($config->exists($name)){
+            $date1 = new DateTime($config->get($name.".Date"));
+            $date2 = new DateTime(date("Y/m/d"));
+            if($date1 !== $date2){
+                $config->setNested($name.".Date",date("Y/m/d"));
+                $config->setNested($name.".Count",1);
+                $config->save();
+                $event->setKeepInventory(true);
+                $player->sendMessage("§6[全体通知] §7KeepInventoryを使用しました。残り1回です");
+            }else{
+                if( 2 >= $config->getNested($name.".Count")){
+                    switch($config->getNested($name.".Count")){
+                        case 1:
+                            $event->setKeepInventory(true);
+                            $player->sendMessage("§6[全体通知] §7KeepInventoryを使用しました残り1回です");
+                            $config->setNested($name.".Count",2);
+                            $config->save();
+                        break;
+
+                        case 2:
+                            $event->setKeepInventory(true);
+                            $player->sendMessage("§6[全体通知] §7KeepInventoryを使用しました残り0回です");
+                            $config->setNested($name.".Count",3);
+                            $config->save();
+                        break;
+                    }
+                }
+            }
+        }else{
+           $config->setNested($name.".Count",1);
+           $config->setNested($name.".Date",date("Y/m/d"));
+           $config->save();
+           $event->setKeepInventory(true);
+           $player->sendMessage("§6[全体通知] §7KeepInventoryを使用しました残り1回です");
+        }
     }
 
     public function onExplosion(EntityExplodeEvent $event){
