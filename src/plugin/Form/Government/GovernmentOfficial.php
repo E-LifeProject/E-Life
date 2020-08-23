@@ -17,8 +17,11 @@ class GovernmentOfficial implements Form{
         $text = <<<EOT
         【政府関係者】
         FonSoutan
+        haya1007
         soradore
+        ribnil
         charindou
+        xtakumatutix
         Cookiettatchan
         EOT;
         
