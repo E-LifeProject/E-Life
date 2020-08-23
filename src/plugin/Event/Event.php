@@ -200,16 +200,19 @@ class Event implements Listener {
         /**
          * MenuBookをインベントリスロットの位置を固定
          * Playerがスロットを変更しようとしたらイベントキャンセル
+         * クラフトできない為一旦コメントアウト
          */
 
-        if($pk instanceof InventoryTransactionPacket){
+        /**if($pk instanceof InventoryTransactionPacket){
             if(isset($pk->actions[0])){
                 $slot = $pk->actions[0]->inventorySlot;
                 if($slot === 0){
                     $event->setCancelled();
                 }
             }
-        } elseif ($pk instanceof InteractPacket){
+        */
+
+        if ($pk instanceof InteractPacket){
             $player = $event->getPlayer();
             $eid = $pk->target;
             if($eid === null){
