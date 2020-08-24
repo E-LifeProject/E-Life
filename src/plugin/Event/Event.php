@@ -198,20 +198,20 @@ class Event implements Listener {
                 $config->setNested($name.".Count",1);
                 $config->save();
                 $event->setKeepInventory(true);
-                $player->sendMessage("§6[個人通知] §7KeepInventoryを使用しました。残り1回です");
+                $player->sendMessage("§6[全体通知] §7KeepInventoryを使用しました。残り1回です");
             }else{
                 if( 2 >= $config->getNested($name.".Count")){
                     switch($config->getNested($name.".Count")){
                         case 1:
                             $event->setKeepInventory(true);
-                            $player->sendMessage("§6[個人通知] §7KeepInventoryを使用しました残り1回です");
+                            $player->sendMessage("§6[全体通知] §7KeepInventoryを使用しました残り1回です");
                             $config->setNested($name.".Count",2);
                             $config->save();
                         break;
 
                         case 2:
                             $event->setKeepInventory(true);
-                            $player->sendMessage("§6[個人通知] §7KeepInventoryを使用しました残り0回です");
+                            $player->sendMessage("§6[全体通知] §7KeepInventoryを使用しました残り0回です");
                             $config->setNested($name.".Count",3);
                             $config->save();
                         break;
@@ -223,7 +223,7 @@ class Event implements Listener {
            $config->setNested($name.".Date",date("Y/m/d"));
            $config->save();
            $event->setKeepInventory(true);
-           $player->sendMessage("§6[個人通知] §7KeepInventoryを使用しました残り1回です");
+           $player->sendMessage("§6[全体通知] §7KeepInventoryを使用しました残り1回です");
         }
     }
 
@@ -250,6 +250,7 @@ class Event implements Listener {
         */
 
         if ($pk instanceof InteractPacket){
+
             $player = $event->getPlayer();
             $eid = $pk->target;
             if($eid === null){
@@ -258,7 +259,16 @@ class Event implements Listener {
 
             if($eid === $this->main->StatusNPC){
                 $this->status_text->showText($player, $this->eid);
-            }elseif($eid === $this->main->GovernmentNPC){
+            }
+        } elseif ($pk instanceof InventoryTransactionPacket){
+            $player = $event->getPlayer();
+            $eid = $pk->trData->entityRuntimeId ?? null;
+
+            if($eid === null){
+                return false;
+            }
+
+            if($eid === $this->main->GovernmentNPC){
                 $player->sendForm(new GovernmentMenu());
             }
         }
