@@ -37,6 +37,9 @@ class ConfigList
 	//ペナルティ管理
 	const PENALTY = "penalty";
 
+	//信頼度管理
+	const RELIABILITY = "reliability";
+
 	//銀行関連
 	const BANK = "bank";
 
