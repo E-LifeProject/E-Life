@@ -198,20 +198,20 @@ class Event implements Listener {
                 $config->setNested($name.".Count",1);
                 $config->save();
                 $event->setKeepInventory(true);
-                $player->sendMessage("§6[全体通知] §7KeepInventoryを使用しました。残り1回です");
+                $player->sendMessage("§6[個人通知] §7KeepInventoryを使用しました。残り1回です");
             }else{
                 if( 2 >= $config->getNested($name.".Count")){
                     switch($config->getNested($name.".Count")){
                         case 1:
                             $event->setKeepInventory(true);
-                            $player->sendMessage("§6[全体通知] §7KeepInventoryを使用しました残り1回です");
+                            $player->sendMessage("§6[個人通知] §7KeepInventoryを使用しました残り1回です");
                             $config->setNested($name.".Count",2);
                             $config->save();
                         break;
 
                         case 2:
                             $event->setKeepInventory(true);
-                            $player->sendMessage("§6[全体通知] §7KeepInventoryを使用しました残り0回です");
+                            $player->sendMessage("§6[個人通知] §7KeepInventoryを使用しました残り0回です");
                             $config->setNested($name.".Count",3);
                             $config->save();
                         break;
@@ -223,7 +223,7 @@ class Event implements Listener {
            $config->setNested($name.".Date",date("Y/m/d"));
            $config->save();
            $event->setKeepInventory(true);
-           $player->sendMessage("§6[全体通知] §7KeepInventoryを使用しました残り1回です");
+           $player->sendMessage("§6[個人通知] §7KeepInventoryを使用しました残り1回です");
         }
     }
 
