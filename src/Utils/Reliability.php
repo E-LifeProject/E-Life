@@ -69,7 +69,51 @@ class Reliability{
             case 30 < $count && $count <= 40:
                 return §2;
             break;
+
+            case 40 < $count && $count <= 50:
+                return §e;
+            break;
+
+            case 50 < $count && $count <= 60:
+                return §b;
+            break;
+
+            case 60 < $count && $count <= 70:
+                return §a;
+            break;
+
+            case 70 < $count && $count <= 80:
+                return §c;
+            break;
+
+            case 80 < $count && $count <= 90:
+                return §d;
+            break;
+
+            case 90 < $count && $count <= 100:
+                return §6;
+            break;
         }
+    }
+
+    /**
+     * ----信頼度計算項目----
+     * 1.プレイ時間
+     * 2.ローン返済状況
+     * 3.権限or役職
+     * 4.保有土地面積(共有は除く)
+     * 5.鯖ルール違反数
+     * 6.一週間のチャット数
+     * 7.E-Club加入状況
+     * 8.鯖貢献度（管理者が手動で設定)
+     */
+
+    //信頼度の計算を行う
+    public function reliabilityCalculation(){
+        /**
+         * プレイ時間:プレイ時間ランキングtop20
+         */
+        $account = ConfigBase::getFor(ConfigList::BANK_ACCOUNT);
     }
 
     //信頼度を追加
