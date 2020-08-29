@@ -43,6 +43,9 @@ class ConfigList
 	//銀行関連
 	const BANK = "bank";
 
+	//総プレイ時間を管理
+	const TIME = "time";
+
 	//買取価格を管理
 	const PURCHASE = "purchase";
 

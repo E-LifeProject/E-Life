@@ -20,6 +20,7 @@ class ConfigBase
 			ConfigList::KEEP_INVENTORY =>[],
 			ConfigList::CLUB => [],
 			ConfigList::COMPANY => [],
+			ConfigList::TIME =>[],
 			ConfigList::BANK_ACCOUNT => [],
 			ConfigList::BANK => [
 				"money"=> 10000000,//1000万
