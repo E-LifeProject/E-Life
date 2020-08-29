@@ -6,6 +6,7 @@ namespace plugin\Event;
 use DateTime;
 use pocketmine\event\Listener;
 use pocketmine\math\Vector3;
+use pocketmine\utils\Config;
 
 
 #Event
@@ -56,9 +57,25 @@ class Event implements Listener {
         $this->GovernmentNPC = new GovernmentNPC($main->skin);
     }
 
-    public function onLogin(PlayerLoginEvent $event) {
+    public function onLogin(PlayerLoginEvent $event){
     	$player = $event->getPlayer();
         $name = $player->getName();
+
+        //総プレイ時間記録の為の初期化
+        $this->main->time[$name] = 0;
+
+        $config = ConfigBase::getFor(ConfigList::TIME);
+        $all = $config->getAll();
+        arsort($all);
+        $i = 1;
+            foreach($all as $key => $data){
+                if($key == $name){
+                    var_dump($i);
+                    break; //ランキング順位が分かったらそれ以降の処理をスキップ
+                }else{
+                    $i += 1;
+                }
+            }
 
 	    //E-Clubの加入状況確認
 	    $club = ConfigBase::getFor(ConfigList::CLUB);
@@ -161,6 +178,17 @@ class Event implements Listener {
         $event->setQuitMessage("§6[全体通知] §7".$name."さんがE-Lifeからログアウトしました");
 
         unset($this->eid[$name]);
+        //総プレイ時間を記録
+        $config = ConfigBase::getFor(ConfigList::TIME);
+        if($config->exists($name)){
+            $data = $config->get($name);
+            $data += $this->main->time[$name];
+            $config->set($name,$data);
+            $config->save();
+        }else{
+            $config->set($name,$this->main->time[$name]);
+            $config->save();
+        }
     }
 
 

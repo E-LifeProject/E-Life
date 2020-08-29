@@ -29,6 +29,7 @@ class MoneyListener
 	 * Company constructor.
 	 * @param string $name
 	 */
+	
 	public function __construct(string $name){
 		$this->name = strtolower($name);
 		$this->name2 = $name;
@@ -45,7 +46,7 @@ class MoneyListener
 		return $this->config;
 	}
 
-	public function getMoney(): int {
+	public function getMoney():int{
 		return $this->config->get("money");
 	}
 

@@ -13,10 +13,15 @@ use plugin\Economy\MoneyListener;
 
 class Status extends Task{
 
+    public function __construct($main){
+        $this->main = $main;
+    }
+
     public function onRun($tick){
         //Player全員にTipを常時表示させる
         foreach(Server::getInstance()->getOnlinePlayers() as $player) {
             $name = $player->getName();
+            $this->main->time[$name] += 1;
             $money_instance = new MoneyListener($name);
             $money = $money_instance->getMoney();
             $echoManey=sprintf("%'-6d",$money); //ハイフンで桁を埋める

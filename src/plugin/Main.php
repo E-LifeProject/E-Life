@@ -19,6 +19,8 @@ use plugin\Task\Club;
 
 class Main extends PluginBase implements Listener {
 
+    public $time;
+
     public function onEnable(): void {
 
         date_default_timezone_set('asia/tokyo');
@@ -39,7 +41,7 @@ class Main extends PluginBase implements Listener {
         $this->getServer()->getPluginManager()->registerEvents(new Event($this),$this);
 
         //scheduleRepeatingTaskにTipにステータスを表示させる為に登録
-        $this->getScheduler()->scheduleRepeatingTask(new Status(),20);
+        $this->getScheduler()->scheduleRepeatingTask(new Status($this),20);
     }
 
     public function onDisable(): void {
