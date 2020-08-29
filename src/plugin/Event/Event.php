@@ -33,6 +33,7 @@ use plugin\Config\ConfigList;
 use plugin\Config\PlayerConfigBase;
 use plugin\Config\Data\JobCount;
 use plugin\Item\Original\MenuBook;
+use plugin\Utils\Reliability;
 use plugin\Main;
 use plugin\NPC\GovernmentNPC;
 use plugin\Form\GovernmentMenu;
@@ -64,18 +65,10 @@ class Event implements Listener {
         //総プレイ時間記録の為の初期化
         $this->main->time[$name] = 0;
 
-        $config = ConfigBase::getFor(ConfigList::TIME);
-        $all = $config->getAll();
-        arsort($all);
-        $i = 1;
-            foreach($all as $key => $data){
-                if($key == $name){
-                    var_dump($i);
-                    break; //ランキング順位が分かったらそれ以降の処理をスキップ
-                }else{
-                    $i += 1;
-                }
-            }
+        //信頼度を計算
+        $reliability = new Reliabilit($name);
+        $reliability->reliabilityCalculation();
+
 
 	    //E-Clubの加入状況確認
 	    $club = ConfigBase::getFor(ConfigList::CLUB);
