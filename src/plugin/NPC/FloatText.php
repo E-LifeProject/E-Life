@@ -15,6 +15,7 @@ use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 use plugin\Economy\Bank;
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
+use plugin\Utils\Reliability;
 
 class FloatText{
 
@@ -59,6 +60,10 @@ class FloatText{
 		$name = $player->getName();
 		$bank = Bank::getInstance();
 		$club = ConfigBase::getFor(ConfigList::CLUB);
+		$reliability = new Reliability($name);
+		$reliability->reliabilityCalculation();
+		$point = $reliability->getReliability();
+
 
 		if($club->exists($name)){
 			$clubData = $club->get($name);
@@ -83,7 +88,7 @@ class FloatText{
 			self::FloatText($player, "§l§e名前 : ".$name."", $eid[$name][0], 3);
 			self::FloatText($player, "返済期日 : ".$loan, $eid[$name][1], 2.7);
 			self::FloatText($player, "E-Club期限 : ".$clubData, $eid[$name][2], 2.4);
-			self::FloatText($player, "銀行残高 : ".$money."M", $eid[$name][3], 2.1);
+			self::FloatText($player, "信頼度 : ".$reliability->getReliabilityColour()."■§f".$point."/100", $eid[$name][3], 2.1);
 		}
 	}
 }
