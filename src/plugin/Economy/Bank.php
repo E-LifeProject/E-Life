@@ -127,11 +127,11 @@ class Bank{
     public function addLoan($name,$money,$reason){
         $this->getLoanConfig()->remove($name);
         $this->saveLoanConfig();
-        $this->getAccountConfig()->setNested($name.".Loan.Money",$money);
+        $this->getAccountConfig()->setNested($name.".Loan.Money",intval($money));
         $this->getAccountConfig()->setNested($name.".Loan.Date",date("Y/m/d",strtotime("20 day")));
         $this->getAccountConfig()->setNested($name.".Loan.Reason",$reason);
         $this->saveAccountConfig();
-        $this->addDepositBalance($name,$money);
+        $this->addDepositBalance($name,intval($money));
         $this->reduceBankMoney($money);
     }
 
