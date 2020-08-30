@@ -8,6 +8,7 @@ use pocketmine\utils\Config;
 #E-Life
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
+use plugin\Economy\Bank;
 
 
 /**
@@ -55,34 +56,34 @@ class Reliability{
         switch($count){
 
             case 0 < $count && $count <= 10:
-                return §8;
+                return "§8";
             break;
             case 10 < $count && $count <= 20:
-                return §f;
+                return "§f";
             break;
             case 20 < $count && $count <= 30:
-                return §3;
+                return "§3";
             break;
             case 30 < $count && $count <= 40:
-                return §2;
+                return "§2";
             break;
             case 40 < $count && $count <= 50:
-                return §e;
+                return "§e";
             break;
             case 50 < $count && $count <= 60:
-                return §b;
+                return "§b";
             break;
             case 60 < $count && $count <= 70:
-                return §a;
+                return "§a";
             break;
             case 70 < $count && $count <= 80:
-                return §c;
+                return "§c";
             break;
             case 80 < $count && $count <= 90:
-                return §d;
+                return "§d";
             break;
             case 90 < $count && $count <= 100:
-                return §6;
+                return "§6";
             break;
         }
     }
@@ -101,9 +102,14 @@ class Reliability{
 
     //信頼度の計算を行う
     public function reliabilityCalculation(){
-        /**
-         * ローンの返済状況に応じて点数を決定
-         */
+        $playTime = $this->playTimeCalculation();
+        $loan = $this->loanCountCalculation();
+        $club = $this->clubCalculation();
+
+        $total = $playTime + $loan + $club;
+
+        $this->getConfig()->set($this->name,$total);
+        $this->save();
     }
 
 
@@ -123,8 +129,9 @@ class Reliability{
          * 9:総プレイ時間60時間以上100時間未満
          * 10:総プレイ時間100時間以上
          */
-        $time = ConfigBase::getFor(ConfigList::TIME)->get($name);
+        $time = ConfigBase::getFor(ConfigList::TIME)->get($this->name);
         $hours = floor($time / 3600);
+        $point = 0;
         switch($hours){
             case 0 <= $hours && $hours < 2:
                 $point += 0;
@@ -177,6 +184,7 @@ class Reliability{
 
         if(Bank::getInstance()->checkAccount($this->name)){
             $count = Bank::getInstance()->getCount($this->name);
+            $point = 0;
             switch($count){
                 case 0:
                     $point = 0;
@@ -202,12 +210,13 @@ class Reliability{
     }
 
     //E-Clubに加入状況に応じて付与
-    public function clubCalculation(){
+    private function clubCalculation(){
         /**
          * 加入状況に応じて付与
          * 未加入:0
          * 加入済み:5
          */
+        $point = 0;
         $club = ConfigBase::getFor(ConfigList::CLUB);
         if($club->exists($this->name)){
             $point = 5;
@@ -216,6 +225,12 @@ class Reliability{
         }
 
         return $point;
+    }
+
+
+    //違反回数に応じて減点していく
+    private function violationCalculation(){
+
     }
 
 
