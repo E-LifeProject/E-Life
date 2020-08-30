@@ -66,8 +66,8 @@ class Event implements Listener {
         $this->main->time[$name] = 0;
 
         //信頼度を計算
-        $reliability = new Reliabilit($name);
-        $reliability->reliabilityCalculation();
+        //$reliability = new Reliabilit($name);
+        //$reliability->reliabilityCalculation();
 
 
 	    //E-Clubの加入状況確認

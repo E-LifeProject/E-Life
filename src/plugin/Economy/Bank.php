@@ -124,15 +124,15 @@ class Bank{
 
 
     //ローンの申請を許可して追加
-    public function addLoan($name,$money,$reason){
+    public function addLoan($name,$total,$money,$reason){
         $this->getLoanConfig()->remove($name);
         $this->saveLoanConfig();
-        $this->getAccountConfig()->setNested($name.".Loan.Money",intval($money));
+        $this->getAccountConfig()->setNested($name.".Loan.Money",intval($total));
         $this->getAccountConfig()->setNested($name.".Loan.Date",date("Y/m/d",strtotime("20 day")));
         $this->getAccountConfig()->setNested($name.".Loan.Reason",$reason);
         $this->saveAccountConfig();
         $this->addDepositBalance($name,intval($money));
-        $this->reduceBankMoney($money);
+        $this->reduceBankMoney(intval($money));
     }
 
     //ローンの申請を取り下げる
