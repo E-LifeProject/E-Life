@@ -84,7 +84,8 @@ class Bank{
             "DepositBalance" => 0,
             "Loan"=>[
                 "Money"=>0,
-                "Date"=>0
+                "Date"=>0,
+                "Count"=>0
             ]
             ));
         $this->saveAccountConfig();
@@ -180,6 +181,10 @@ class Bank{
     //ローンの金利
     public function getInterestRate(){
         return 0.1;
+    }
+
+    public function getCount($name){
+        return $this->getAccountConfig()->getNested($name.".Loan.Count");
     }
 
 

@@ -102,6 +102,14 @@ class Reliability{
     //信頼度の計算を行う
     public function reliabilityCalculation(){
         /**
+         * ローンの返済状況に応じて点数を決定
+         */
+    }
+
+
+    //プレイ時間に応じて点数を付与
+    private function playTimeCalculation(){
+        /**
          * プレイ時間に応じて点数を決定
          * 0:総プレイ時間2時間未満
          * 1:総プレイ時間2時間以上4時間未満
@@ -153,10 +161,64 @@ class Reliability{
             break;
         }
 
-        /**
-         * ローンの返済状況に応じて点数を決定
-         */
+        return $point;
     }
+
+    //ローン返済回数に応じて点数を付与（期限を超過した返済の場合はカウントされない)
+    private function loanCountCalculation(){
+        /**
+         * ローン返済回数に応じて点数を付与
+         * 0:0回、もしくは現在返済途中など
+         * 3:1回の返済を完了
+         * 5:2回の返済を完了
+         * 8:3回or4回の返済を完了
+         * 10:5回以上の返済を完了
+         */
+
+        if(Bank::getInstance()->checkAccount($this->name)){
+            $count = Bank::getInstance()->getCount($this->name);
+            switch($count){
+                case 0:
+                    $point = 0;
+                break;
+                case 1:
+                    $point = 3;
+                break;
+                case 2:
+                    $point = 5;
+                break;
+                case 3 or 4:
+                    $point = 8;
+                break;
+                case 5 <= $count:
+                    $point = 10;
+                break;
+            }
+        }else{
+            $point = 0;
+        }
+
+        return $point;
+    }
+
+    //E-Clubに加入状況に応じて付与
+    public function clubCalculation(){
+        /**
+         * 加入状況に応じて付与
+         * 未加入:0
+         * 加入済み:5
+         */
+        $club = ConfigBase::getFor(ConfigList::CLUB);
+        if($club->exists($this->name)){
+            $point = 5;
+        }else{
+            $point = 0;
+        }
+
+        return $point;
+    }
+
+
 
     //信頼度を追加
     public function addReliability($count){

@@ -3,6 +3,7 @@
 namespace plugin\Form\Bank;
 
 #Basic
+use DateTime;
 use pocketmine\Player;
 use pocketmine\form\Form;
 use pocketmine\utils\Config;
@@ -152,6 +153,15 @@ class RepaymentLoan implements Form{
                 $bank_account = ConfigBase::getFor(ConfigList::BANK_ACCOUNT);
                 $bank->reduceDepositBalance($player->getName(),intval($data[1]));
                 $bank->repaymentLoan($player->getName(),intval($data[1]));
+
+                //期限内に返済していたらカウント
+                $loanDate1 = new DateTime($bank->getLoanDate($player->getName()));
+                $loanDate2 = new DateTime(date("Y/m/d"));
+                if($loanDate1 >= $loanDate2){
+                    $count = $bank_account->getNested($player->getName().".Loan.Count");
+                    $count += 1;
+                    $bank_account->setNested($player->getName().".Loan.Count",$count);
+                }
                 $bank_account->setNested($player->getName().".Loan.Date",0);
                 $bank_account->setNested($player->getName().".Loan.Reason",0);
                 $bank_account->save();
