@@ -271,6 +271,7 @@ class Event implements Listener {
         */
 
         if ($pk instanceof InteractPacket){
+
             $player = $event->getPlayer();
             $eid = $pk->target;
             if($eid === null){
@@ -279,7 +280,16 @@ class Event implements Listener {
 
             if($eid === $this->main->StatusNPC){
                 $this->status_text->showText($player, $this->eid);
-            }elseif($eid === $this->main->GovernmentNPC){
+            }
+        } elseif ($pk instanceof InventoryTransactionPacket){
+            $player = $event->getPlayer();
+            $eid = $pk->trData->entityRuntimeId ?? null;
+
+            if($eid === null){
+                return false;
+            }
+
+            if($eid === $this->main->GovernmentNPC){
                 $player->sendForm(new GovernmentMenu());
             }
         }
