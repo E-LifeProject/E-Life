@@ -131,43 +131,44 @@ class Reliability{
          */
         $time = ConfigBase::getFor(ConfigList::TIME)->get($this->name);
         $hours = floor($time / 3600);
-        $point = 0;
+        var_dump($hours);
         switch($hours){
             case 0 <= $hours && $hours < 2:
-                $point += 0;
+                $point = 0;
             break;
             case 2 <= $hours && $hours < 4:
-                $point += 1;
+                $point = 1;
             break;
             case 5<= $hours && $hours < 8:
-                $point += 2;
+                $point = 2;
             break;
             case 8 <= $hours && $hours < 10:
-                $point += 3;
+                $point = 3;
             break;
             case 10 <= $hours && $hours < 15:
-                $point += 4;
+                $point = 4;
             break;
             case 15 <= $hours && $hours < 20:
-                $point += 5;
+                $point = 5;
             break;
             case 20 <= $hours && $hours < 30:
-                $point += 6;
+                $point = 6;
             break;
             case 30 <= $hours && $hours < 40:
-                $point += 7;
+                $point = 7;
             break;
             case 40 <= $hours && $hours < 60:
-                $point += 8;
+                $point = 8;
             break;
             case 60 <= $hours && $hours < 100:
-                $point += 9;
+                $point = 9;
             break;
             case 100 <= $hours:
-                $point += 10;
+                $point = 10;
             break;
         }
 
+        var_dump($point);
         return $point;
     }
 
@@ -206,6 +207,7 @@ class Reliability{
             $point = 0;
         }
 
+        var_dump($point);
         return $point;
     }
 
@@ -224,6 +226,7 @@ class Reliability{
             $point = 0;
         }
 
+        var_dump($point);
         return $point;
     }
 
