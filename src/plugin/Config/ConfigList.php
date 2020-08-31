@@ -35,7 +35,7 @@ class ConfigList
 	const LOAN_REVIEW = "loan_review";
 
 	//ペナルティ管理
-	const PENALTY = "penalty";
+	const LOAN_PENALTY = "loan_penalty";
 
 	//信頼度管理
 	const RELIABILITY = "reliability";

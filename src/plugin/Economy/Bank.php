@@ -233,7 +233,7 @@ class Bank{
     }
 
     private function getPenaltyConfig(){
-        return ConfigBase::getFor(ConfigList::PENALTY);
+        return ConfigBase::getFor(ConfigList::LOAN_PENALTY);
     }
     
     private function getAccountConfig(){

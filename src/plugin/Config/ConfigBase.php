@@ -26,7 +26,7 @@ class ConfigBase
 				"money"=> 10000000,//1000万
 			],
 			ConfigList::LOAN_REVIEW => [],
-			ConfigList::PENALTY => [],
+			ConfigList::LOAN_PENALTY => [],
 			ConfigList::RELIABILITY => [],
 			ConfigList::CHESTLOOK => [],
 			ConfigList::CASH_STORAGE => [],

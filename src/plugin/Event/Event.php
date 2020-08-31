@@ -95,7 +95,7 @@ class Event implements Listener {
             $loanDate2 = new DateTime(date("Y/m/d"));
             if($loanDate1 < $loanDate2){
                 if($bank->getLoan($name) > 0){
-                    if(!ConfigBase::getFor(ConfigList::PENALTY)->exists($name)){
+                    if(!ConfigBase::getFor(ConfigList::LOAN_PENALTY)->exists($name)){
                         $bank->addPenalty($name);
                     }
                 }
