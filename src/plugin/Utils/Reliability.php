@@ -221,6 +221,28 @@ class Reliability{
     //違反回数に応じて減点していく
     private function violationCalculation(){
 
+        /**
+         * 違反回数に応じて減点(3回の警告で入室禁止)
+         * 10:違反なし
+         * 2:1回の違反
+         * 0:２回の違反
+         */
+        $config = ConfigBase::getFor(ConfigList::PUNISHMENT);
+        if($config->exists($this->name)){
+            $count = $config->getNested($this->name."Count");
+            switch($count){
+                case 1:
+                    $point = 2;
+                break;
+                case 2:
+                    $point = 0;
+                break;
+            }
+        }else{
+            $point = 10;
+        }
+        
+        return $point;
     }
 
 
