@@ -34,8 +34,11 @@ class ConfigList
 	//ローンを管理
 	const LOAN_REVIEW = "loan_review";
 
-	//ペナルティ管理
+	//ローンペナルティ管理
 	const LOAN_PENALTY = "loan_penalty";
+
+	//警告を管理
+	const PNUISHMENT = "punishment";
 
 	//信頼度管理
 	const RELIABILITY = "reliability";

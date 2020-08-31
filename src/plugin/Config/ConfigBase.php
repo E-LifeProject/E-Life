@@ -27,6 +27,7 @@ class ConfigBase
 			],
 			ConfigList::LOAN_REVIEW => [],
 			ConfigList::LOAN_PENALTY => [],
+			ConfigList::PUNISHMENT => [],
 			ConfigList::RELIABILITY => [],
 			ConfigList::CHESTLOOK => [],
 			ConfigList::CASH_STORAGE => [],
