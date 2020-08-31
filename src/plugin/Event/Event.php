@@ -39,6 +39,7 @@ use plugin\NPC\GovernmentNPC;
 use plugin\Form\GovernmentMenu;
 use plugin\Form\BankMenu;
 use plugin\NPC\ATMFloatText;
+use plugin\Utils\Punishment;
 
 
 class Event implements Listener {
@@ -97,6 +98,8 @@ class Event implements Listener {
                 if($bank->getLoan($name) > 0){
                     if(!ConfigBase::getFor(ConfigList::LOAN_PENALTY)->exists($name)){
                         $bank->addPenalty($name);
+                        $punishment = new Punishment();
+                        $punishment->addPunishment($player,1);
                     }
                 }
             }
@@ -121,10 +124,19 @@ class Event implements Listener {
 
         
         //ルール違反者もしくは、ローン支払い出来なかった人には注意マークを付ける
-        if(ConfigBase::getFor(ConfigList::PENALTY)->exists($name)){
+        if(ConfigBase::getFor(ConfigList::PUNISHMENT)->exists($name)){
             if(!$player->isOp()){
-                $player->setNameTag("§9⚠︎§f".$name);
-                $player->setDisplayName("§9⚠︎§f".$name);
+                $count = ConfigBase::getFor(ConfigList::PUNISHMENT)->getNested($name."Count");
+                switch($count){
+                    case 1:
+                        $player->setNameTag("§9⚠︎§f".$name);
+                        $player->setDisplayName("§9⚠︎§f".$name);
+                    break;
+                    case 2:
+                        $player->setNameTag("§9⚠︎⚠︎§f".$name);
+                        $player->setDisplayName("§9⚠︎⚠︎§f".$name);
+                    break;
+                }
             }
         }
     
