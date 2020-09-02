@@ -10,6 +10,7 @@ use pocketmine\utils\Config;
 #E-Life
 use plugin\Form\Admin\LoanReview;
 use plugin\Form\Admin\CommandForm;
+use plugin\Form\Admin\PunishmentForm;
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
 
@@ -21,10 +22,10 @@ class SettingForm implements Form{
 			return;
 		}
 		switch($data){
-			// コマンド関連
+			// 違反管理
 			case 0:
-				$player->sendForm(new CommandForm());
-				break;
+				$player->sendForm(new PunishmentForm());
+			break;
 
 			// 銀行ローン審査
 			case 1:
@@ -35,9 +36,10 @@ class SettingForm implements Form{
 				}
 			break;
 
-			// NULL
+			// コマンド関連
 			case 2:
-				break;
+				$player->sendForm(new CommandForm());
+			break;
 		}
 
 	}
@@ -50,17 +52,16 @@ class SettingForm implements Form{
             'content'=>'実行したい項目を選んでください',
             'buttons'=>[
                 [
-                    'text'=>'コマンド関連'
+                    'text'=>'違反管理'
                 ],
                 [
                     'text'=>'銀行ローン審査'
                 ],
                 [
-                    'text'=>'NULL'
+                    'text'=>'コマンド関連'
                 ]
 
             ]
         ];
     }
-
 }
