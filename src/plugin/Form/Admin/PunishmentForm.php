@@ -62,7 +62,12 @@ class addPunishment implements Form{
         switch($data[2]){
             //警告
             case 0:
-                Punishment::getInstance()->addPunishment($data[0],1);
+                switch($data[1]){
+                    case 0:
+                        $reason = "暴言・誹謗中傷";
+                    break;
+                }
+                Punishment::getInstance()->addPunishment($data[0],1,$reason);
                 $player->sendMessage("§a[個人通知] §7警告を付与しました");
             break;
             //入室禁止
@@ -134,11 +139,17 @@ class withdrawalPunishment implements Form{
             case 1:
                 switch($data[1]){
                     case 0:
-                        $reason = "暴言・誹謗中傷";
+                        $reason = "誤Ban";
                     break;
                 }
-                Server::getInstance()->getNameBans()->remove($data[0]);
-                $player->sendMessage("§a[個人通知] §7入室禁止を解除しました");
+                if(Server::getInstance()->getNameBans()->isBanned()){
+                    Server::getInstance()->getNameBans()->remove($data[0]);
+                    Punishment::getInstance()->cancelPunishment($data[0],1,"Reason");
+                    $player->sendMessage("§a[個人通知] §7入室禁止を解除しました");
+                }else{
+                    $player->sendMessage("§a[個人通知] §7入室禁止プレーヤーではありません");
+                }
+                
             break;
         }
         
