@@ -4,6 +4,7 @@ namespace plugin\Utils;
 
 #Basic
 use pocketmine\Player;
+use pocketmine\Server;
 
 #E-Life
 use plugin\Config\ConfigBase;
@@ -17,15 +18,23 @@ class Punishment{
      * 連想配列にしてある
      */
 
+    static $instance;
+    
+    public static function getInstance(){
+        if(!isset(self::$instance)){
+            self::$instance = new Punishment();
+        }
+        return self::$instance;
+    }
+
      //ペナルティを追加
-    public function addPunishment($player,$count){
-        $name = $player->getName();
+    public function addPunishment($name,$count){
         
         if($this->getConfig()->exists($name)){
-            $point = $this->getConfig()->getNested($name."Count");
+            $point = $this->getConfig()->getNested($name.".Count");
             $point += $count;
             if($point >= 3){
-                $player->setBanned();
+                Server::getInstance()->getNameBans()->addBan($name,"警告が3回目に到達したのでBan");
                 $this->getConfig()->remove($name);
             }else{
                 $this->getConfig()->setNested($name.".Count",$point);
@@ -38,8 +47,7 @@ class Punishment{
     }
 
     //ペナルティを解除
-    public function cancelPunishment($player,$count){
-        $name = $player->getName();
+    public function cancelPunishment($name,$count){
 
         $point = $this->getConfig()->getNested($name.".Count");
         $point -= $count;
