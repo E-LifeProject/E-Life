@@ -144,7 +144,7 @@ class withdrawalPunishment implements Form{
                 }
                 if(Server::getInstance()->getNameBans()->isBanned()){
                     Server::getInstance()->getNameBans()->remove($data[0]);
-                    Punishment::getInstance()->cancelPunishment($data[0],1,"Reason");
+                    Punishment::getInstance()->cancelPunishment($data[0],1);
                     $player->sendMessage("§a[個人通知] §7入室禁止を解除しました");
                 }else{
                     $player->sendMessage("§a[個人通知] §7入室禁止プレーヤーではありません");

@@ -54,8 +54,8 @@ class Punishment{
     }
 
     //ペナルティを解除
-    public function cancelPunishment($name,$count,$type = null){
-        if($type === "Release"){
+    public function cancelPunishment($name,$count){
+        if($this->getConfig()->getNested($name.".Count") == 3){
             $this->getConfig()->removeNested($name.".Reason.3");
             $this->getConfig()->setNested($name.".Ban",false);
             $this->getConfig()->setNested($name.".Count",2);
