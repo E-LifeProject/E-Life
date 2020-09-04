@@ -13,11 +13,6 @@ use plugin\Config\ConfigList;
 
 class Punishment{
 
-    /**
-     * 後から理由も保存できるように
-     * 連想配列にしてある
-     */
-
     static $instance;
     
     public static function getInstance(){
@@ -28,28 +23,39 @@ class Punishment{
     }
 
      //ペナルティを追加
-    public function addPunishment($name,$count,$reason){
+    public function addPunishment($target,$count,$reason,$source){
         
-        if($this->getConfig()->exists($name)){
-            if($this->getConfig()->getNested($name.".Ban") === false){
-                $point = $this->getConfig()->getNested($name.".Count");
+        if($this->getConfig()->exists($target)){
+                $point = $this->getConfig()->getNested($target.".Count");
                 $point += $count;
-                if($point = 3){
-                    $this->getConfig()->setNested($name.".Count",3);
-                    $this->getConfig()->setNested($name.".Reason.3",$reason);
-                    Server::getInstance()->getNameBans()->addBan($name,"警告が3回目に到達したのでBan");
-                    $this->getConfig()->setNested($name.".Ban",true);
+
+                if($point = 3){//もし警告上限回数なら
+                    $reasonArray = $this->getConfig()->getNested($target.".Reason");
+                    $arrayCount = count($reasonArray);
+
+                    switch($arrayCount){
+                        case 1:
+                            $text = "1.".$reasonArray[1]."\n2.".$reason;
+                        break;
+                        case 2:
+                            $text = "1.".$reasonArray[1]."\n2.".$reasonArray[2]."\n3.".$reason;
+                        break;
+                    }
+
+                    Server::getInstance()->getNameBans()->addBan($target,$text,null,$source);
+                    $this->getConfig()->remove($target);
+                    $this->getConfig()->save();
                 }else{
-                    $this->getConfig()->setNested($name.".Count",$point);
-                    $this->getConfig()->setNested($name.".Reason.".intval($point),$reason);
+                    $this->getConfig()->setNested($target.".Count",$point);
+                    $this->getConfig()->setNested($target.".Reason.2",$reason);
+                    $this->getConfig()->save();
                 }
+        }else{
+            if(!Server::getInstance()->getNameBans()->isBanned($name)){
+                $this->getConfig()->setNested($target.".Count",$count);
+                $this->getConfig()->setNested($target.".Reason.1",$reason);
                 $this->getConfig()->save();
             }
-        }else{
-            $this->getConfig()->setNested($name.".Count",$count);
-            $this->getConfig()->setNested($name.".Reason.".intval($count),$reason);
-            $this->getConfig()->setNested($name.".Ban",false);
-            $this->getConfig()->save();
         }
     }
 
@@ -69,6 +75,14 @@ class Punishment{
                 $this->getConfig()->setNested($name.".Count",$point);
             }
             $this->getConfig()->save();
+        }
+    }
+
+    public function checkPunishment($name){
+        if($this->getConfig()->exists($name)){
+            return true;
+        }else{
+            return false;
         }
     }
 
