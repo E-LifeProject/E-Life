@@ -44,7 +44,7 @@ class PunishmentForm implements Form{
                 ],
                 [
                     'text'=>'違反取下げ'
-                ]
+                ],
             ]
         ];
     }
@@ -53,33 +53,31 @@ class PunishmentForm implements Form{
 //違反追加
 class addPunishment implements Form{
     public function handleResponse(Player $player, $data) : void{
+        $name = $player->getName();
+
 		if($data === null){
 			return;
         }
         
         $config = ConfigBase::getFor(ConfigList::PUNISHMENT);
 
+        switch($data[1]){
+            case 0:
+                $reason = "暴言・誹謗中傷";
+            break;
+        }
+
         switch($data[2]){
             //警告
             case 0:
-                switch($data[1]){
-                    case 0:
-                        $reason = "暴言・誹謗中傷";
-                    break;
-                }
-                Punishment::getInstance()->addPunishment($data[0],1,$reason,$player->getName());
+                Punishment::getInstance()->addPunishment($data[0],$reason,$name);
                 $player->sendMessage("§a[個人通知] §7警告を付与しました");
             break;
             //入室禁止
             case 1:
-                switch($data[1]){
-                    case 0:
-                        $reason = "暴言・誹謗中傷";
-                    break;
-                }
-                Server::getInstance()->getNameBans()->addBan($data[0],$reason,null,$player->getName());
-                if(Punishment::getInstance()->checkPunishment($name)){
-                    $config->remove($name);
+                Punishment::getInstance()->addPunishment($data[0],$reason,$name);
+                if(!$config->exists($data[0])){
+                    Punishment::getInstance()->addPunishment($data[0],$reason,$name);
                 }
                 $player->sendMessage("§a[個人通知] §7入室禁止にしました");
             break;
@@ -121,71 +119,13 @@ class addPunishment implements Form{
 
 //違反取下げ
 class withdrawalPunishment implements Form{
+
     public function handleResponse(Player $player, $data) : void{
 		if($data === null){
 			return;
         }
         
-        $config = ConfigBase::getFor(ConfigList::PUNISHMENT);
-
-        switch($data[2]){
-            //警告解除
-            case 0:
-                if(Server::getInstance()->getNameBans()->isBanned($data[0])){
-                    $player->sendMessage("§a[個人通知] §7そのプレーヤーは入室禁止者です");
-                }else{
-                    if($config->exists($data[0])){
-                        Punishment::getInstance()->cancelPunishment($data[0],1);
-                        $player->sendMessage("§a[個人通知] §7警告を解除しました");
-                    }else{
-                        $player->sendMessage("§a[個人通知] §7そのプレーヤーは警告プレーヤーではありません");
-                    }
-                }
-            break;
-            //入室禁止解除(警告2)
-            case 1:
-                switch($data[1]){
-                    case 0:
-                        $reason = "誤Ban";
-                    break;
-                }
-                if(Server::getInstance()->getNameBans()->isBanned($data[0])){
-                    Server::getInstance()->getNameBans()->remove($data[0]);
-                    Punishment::getInstance()->addPunishment($data[0],2,$reason,$player->getName());
-                    $player->sendMessage("§a[個人通知] §7入室禁止を解除しました");
-                }else{
-                    $player->sendMessage("§a[個人通知] §7入室禁止プレーヤーではありません");
-                }
-            break;
-            case 3://入室禁止解除(警告1)
-                switch($data[1]){
-                    case 0:
-                        $reason = "誤Ban";
-                    break;
-                }
-                if(Server::getInstance()->getNameBans()->isBanned($data[0])){
-                    Server::getInstance()->getNameBans()->remove($data[0]);
-                    Punishment::getInstance()->addPunishment($data[0],1,$reason,$player->getName());
-                    $player->sendMessage("§a[個人通知] §7入室禁止を解除しました");
-                }else{
-                    $player->sendMessage("§a[個人通知] §7入室禁止プレーヤーではありません");
-                }
-            break;
-            case 4://入室禁止解除(警告なし)
-                switch($data[1]){
-                    case 0:
-                        $reason = "誤Ban";
-                    break;
-                }
-                if(Server::getInstance()->getNameBans()->isBanned($data[0])){
-                    Server::getInstance()->getNameBans()->remove($data[0]);
-                    $player->sendMessage("§a[個人通知] §7入室禁止を解除しました");
-                }else{
-                    $player->sendMessage("§a[個人通知] §7入室禁止プレーヤーではありません");
-                }
-            break;
-        }
-        
+        $player->sendForm(new confirmationPunishment($data));
 	}
 
 	//表示するForm
@@ -212,10 +152,70 @@ class withdrawalPunishment implements Form{
                     'text'=>'実行する項目選択',
                     'options'=>[
                         '警告解除',
-                        '入室禁止解除(警告2)',
-                        '入室禁止解除(警告1)',
-                        '入室禁止解除(警告なし)'
-                    ]
+                        '入室禁止解除'
+                    ],
+                ]
+            ]
+        ];
+    }
+}
+
+
+
+class confirmationPunishment implements Form{
+
+    public function __construct($data){
+        $this->data = $data;
+    }
+
+    public function handleResponse(Player $player, $data) : void{
+        $name = $player->getName();
+		if($data === null){
+			return;
+        }
+        
+        switch($this->data[2]){
+            case 0:
+                if(!Server::getInstance()->getNameBans()->isBanned($target)){
+                    Punishment::getInstance()->cancelPunishment($this->data[0],$this->key[$data[0]],$name);
+                    $player->sendMessage("§a[個人通知] §7警告解除しました");
+                }else{
+                    $player->sendMessage("§a[個人通知] §7入室禁止になっていないプレーヤーです");
+                }
+            break;
+            case 1:
+                if(Server::getInstance()->getNameBans()->isBanned($target)){
+                    Server::getInstance()->getNameBans()->remove($target);
+                    Punishment::getInstance()->cancelPunishment($this->data[0],$this->key[$data[0]],$name);
+                    $player->sendMessage("§a[個人通知] §7入室禁止を解除しました");
+                }else{
+                    $player->sendMessage("§a[個人通知] §7入室禁止になっていないプレーヤーです");
+                }
+            break;
+        }
+	}
+
+	//表示するForm
+    public function jsonSerialize(){
+        $config = ConfigBase::getFor(ConfigList::PUNISHMENT);
+        $this->configData = $config->getNested($this->data[0].".Reason");
+
+        $i = 1;
+        foreach($this->configData as $key => $reason){
+            $buttons[] = $i.$reason;
+            $this->key[] = $key;
+            $i++;
+        }
+
+        return[
+            'type'=>'custom_form',
+            'title'=>'取下げ違反項目',
+            'content'=>[
+                [
+                    'type'=>'dropdown',
+                    'text'=>'取下げ項目',
+                    'options'=>$buttons,
+                    'default'=> 0
                 ]
             ]
         ];

@@ -37,6 +37,8 @@ class ConfigList
 	//ローンペナルティ管理
 	const LOAN_PENALTY = "loan_penalty";
 
+	const XUID = "xuid";
+
 	//警告を管理
 	const PUNISHMENT = "punishment";
 

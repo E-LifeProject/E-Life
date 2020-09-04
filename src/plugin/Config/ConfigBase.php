@@ -29,6 +29,7 @@ class ConfigBase
 			ConfigList::LOAN_PENALTY => [],
 			ConfigList::PUNISHMENT => [],
 			ConfigList::RELIABILITY => [],
+			ConfigList::XUID => [],
 			ConfigList::CHESTLOOK => [],
 			ConfigList::CASH_STORAGE => [],
 			ConfigList::TAXRATE =>[

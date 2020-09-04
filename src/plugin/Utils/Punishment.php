@@ -13,6 +13,10 @@ use plugin\Config\ConfigList;
 
 class Punishment{
 
+    /**
+     * 違反警告3回で強制的にBanされる
+     */
+
     static $instance;
     
     public static function getInstance(){
@@ -23,53 +27,45 @@ class Punishment{
     }
 
      //ペナルティを追加
-    public function addPunishment($target,$count,$reason,$source){
-        
-        if($this->getConfig()->exists($target)){
-                $point = $this->getConfig()->getNested($target.".Count");
-                $point += $count;
+    public function addPunishment($target,$reason,$source){
+        $config = $this->getConfig();
 
-                if($point = 3){//もし警告上限回数なら
-                    $reasonArray = $this->getConfig()->getNested($target.".Reason");
-                    $arrayCount = count($reasonArray);
+        if(!Server::getInstance()->getNameBans()->isBanned($target)){
 
-                    switch($arrayCount){
-                        case 1:
-                            $text = "1.".$reasonArray[1]."\n2.".$reason;
-                        break;
-                        case 2:
-                            $text = "1.".$reasonArray[1]."\n2.".$reasonArray[2]."\n3.".$reason;
-                        break;
-                    }
-
-                    Server::getInstance()->getNameBans()->addBan($target,$text,null,$source);
-                    $this->getConfig()->remove($target);
-                    $this->getConfig()->save();
-                }else{
-                    $this->getConfig()->setNested($target.".Count",$point);
-                    $this->getConfig()->setNested($target.".Reason.2",$reason);
-                    $this->getConfig()->save();
-                }
-        }else{
-            if(!Server::getInstance()->getNameBans()->isBanned($name)){
-                $this->getConfig()->setNested($target.".Count",$count);
-                $this->getConfig()->setNested($target.".Reason.1",$reason);
-                $this->getConfig()->save();
+            //configに存在していたら最低でもカウントは1
+            if($config->exists($target)){
+                $config->setNested($target.".Count",2);
+                $config->setNested($target.".Reason.2",$reason);
+                Server::getInstance()->getNameBans()->addBan($target,"計2回の警告により入室禁止",null,$source);
+            }else{
+                $config->setNested($target.".Count",1);
+                $config->setNested($target.".Reason.1",$reason);
             }
+            $config->save();
+        }
+    }
+    
+    //ペナルティを解除
+    public function cancelPunishment($target,$number,$source){
+        $config = $this->getConfig();
+
+        if($number == 1){
+            $data = $config->getNested($target.".Reason.2");
+            $config->removeNested($target.".Reason.2");
+            $config->setNested($target.".Reason.1",$data);
+        }
+        
+        if($config->getNested($target.".Count" === 2)){
+            Server::getInstance()->getNameBans()->remove($target);
+            $config->removeNested($target.".Reason.".$number);
+            $config->setNested($target.".Count",1);
+        }else{
+            $config->remove($target);
         }
     }
 
-    //ペナルティを解除
-    public function cancelPunishment($name,$count){
-        $targetCount = $this->getConfig()->getNested($name."Count");
-        $targetCount -= $count;
-        if($targetCount <= 0){
-            $this->getConfig()->remove($name);
-        }else{
-            $this->getConfig()->removeNested($name."Reason.2");
-            $this->getConfig()->setNested($name.".Count",1);
-        }
-        $this->getConfig()->save();
+    public function getReason($name){
+        return $this->getConfig()->getNested($name.".Reason");
     }
 
     public function checkPunishment($name){
