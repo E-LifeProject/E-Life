@@ -61,21 +61,15 @@ class Punishment{
 
     //ペナルティを解除
     public function cancelPunishment($name,$count){
-        if($this->getConfig()->getNested($name.".Count") == 3){
-            $this->getConfig()->removeNested($name.".Reason.3");
-            $this->getConfig()->setNested($name.".Ban",false);
-            $this->getConfig()->setNested($name.".Count",2);
-            $this->getConfig()->save();
+        $targetCount = $this->getConfig()->getNested($name."Count");
+        $targetCount -= $count;
+        if($targetCount <= 0){
+            $this->getConfig()->remove($name);
         }else{
-            $point = $this->getConfig()->getNested($name.".Count");
-            $point -= $count;
-            if($point == 0){
-                $this->getConfig()->remove($name);
-            }else{
-                $this->getConfig()->setNested($name.".Count",$point);
-            }
-            $this->getConfig()->save();
+            $this->getConfig()->removeNested($name."Reason.2");
+            $this->getConfig()->setNested($name.".Count",1);
         }
+        $this->getConfig()->save();
     }
 
     public function checkPunishment($name){
