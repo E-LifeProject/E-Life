@@ -30,44 +30,31 @@ class Punishment{
     public function addPunishment($target,$reason,$source){
         $config = $this->getConfig();
 
-        if(!Server::getInstance()->getNameBans()->isBanned($target)){
-
-            //configに存在していたら最低でもカウントは1
-            if($config->exists($target)){
-                $config->setNested($target.".Count",2);
-                $config->setNested($target.".Reason.2",$reason);
-                Server::getInstance()->getNameBans()->addBan($target,"計2回の警告により入室禁止",null,$source);
-            }else{
-                $config->setNested($target.".Count",1);
-                $config->setNested($target.".Reason.1",$reason);
-            }
-            $config->save();
+        if($config->exists($target)){//既にペナルティが付与されている場合
+            $data = "1/".$config->getNested($target.".Reason.1")."2/".$reason;
+            Server::getInstance()->getNameBans()->addBan($target,$data,null,$source);
+            $config->remove($target);
+        }else{//ペナルティ初回付与時
+            $config->setNested($target.".Count",1);
+            $config->setNested($target.".Reason.1",$reason);
         }
+        $config->save();
     }
     
-    //ペナルティを解除
-    public function cancelPunishment($target,$number,$source){
-        $config = $this->getConfig();
 
-        if($number == 1){
-            $data = $config->getNested($target.".Reason.2");
-            $config->removeNested($target.".Reason.2");
-            $config->setNested($target.".Reason.1",$data);
-        }
-        
-        if($config->getNested($target.".Count" === 2)){
-            Server::getInstance()->getNameBans()->remove($target);
-            $config->removeNested($target.".Reason.".$number);
-            $config->setNested($target.".Count",1);
-        }else{
-            $config->remove($target);
-        }
+    //ペナルティを解除
+    public function cancelPunishment($target){
+        $config = $this->getConfig();
+        $config->remove($target);
+        $config->save();
     }
 
+    //警告理由
     public function getReason($name){
         return $this->getConfig()->getNested($name.".Reason");
     }
 
+    //警告対象のチェック
     public function checkPunishment($name){
         if($this->getConfig()->exists($name)){
             return true;
