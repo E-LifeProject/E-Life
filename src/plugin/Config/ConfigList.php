@@ -39,6 +39,8 @@ class ConfigList
 
 	const XUID = "xuid";
 
+	const PUNISHMENT_LOG = "punishment_log";
+
 	//警告を管理
 	const PUNISHMENT = "punishment";
 
