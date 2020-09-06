@@ -62,15 +62,21 @@ class Event implements Listener {
     public function onLogin(PlayerLoginEvent $event){
     	$player = $event->getPlayer();
         $name = $player->getName();
+        $xuid = $player->getXuid();
+        $config = ConfigBase::getFor(ConfigList::XUID);
+
+        //Xboxの名前変更は認めない
+        if($config->exists($xuid)){
+            if($config->get($xuid) !== $name){
+                $player->kick("名前が異なる為ログイン出来ません",false);
+            }
+        }else{
+            $config->set($xuid,$name);
+            $config->save();
+        }
 
         //総プレイ時間記録の為の初期化
         $this->main->time[$name] = 0;
-
-        var_dump(ConfigBase::getFor(ConfigList::PUNISHMENT)->get("t"));
-        //信頼度を計算
-        //$reliability = new Reliabilit($name);
-        //$reliability->reliabilityCalculation();
-
 
 	    //E-Clubの加入状況確認
 	    $club = ConfigBase::getFor(ConfigList::CLUB);
