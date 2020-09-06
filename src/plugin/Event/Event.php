@@ -66,6 +66,7 @@ class Event implements Listener {
         //総プレイ時間記録の為の初期化
         $this->main->time[$name] = 0;
 
+        var_dump(ConfigBase::getFor(ConfigList::PUNISHMENT)->get("t"));
         //信頼度を計算
         //$reliability = new Reliabilit($name);
         //$reliability->reliabilityCalculation();

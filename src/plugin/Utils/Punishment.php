@@ -27,26 +27,38 @@ class Punishment{
     }
 
      //ペナルティを追加
-    public function addPunishment($target,$reason,$source){
+    public function addPunishment($target,$count,$reason,$source){
         $config = $this->getConfig();
 
-        if($config->exists($target)){//既にペナルティが付与されている場合
-            $data = "1/".$config->getNested($target.".Reason.1")."2/".$reason;
-            Server::getInstance()->getNameBans()->addBan($target,$data,null,$source);
-            $config->remove($target);
-        }else{//ペナルティ初回付与時
-            $config->setNested($target.".Count",1);
+        if($config->exists($target)){//既に警告がされている場合
+            $total = $config->getNested($target.".Count") + $count;
+            if($total >= 3){//3回目の警告で自動的に入室禁止
+                $reasonCount = Count($config->getNested($target.".Reason"));
+                switch($reasonCount){
+                    case 1:
+                        $data = "1:".$config->getNested($target.".Reason.1")."2:".$reason;
+                    break;
+                    case 2:
+                        $data = "1:".$config->getNested($target.".Reason.1")."2:".$config->getNested($target.".Reason.2")."3:".$reason;
+                    break;
+                }
+                Server::getInstance()->getNameBans()->addBan($target,$data,null,$source);
+                $config->remove($target);
+            }else{//警告回数が2回の時
+                $config->setNested($target.".Count",$total);
+                $config->setNested($target.".Reason.2",$reason);
+            }
+        }else{//初回警告(初回で3回警告はするな。入室禁止にさせる)
+            $config->setNested($target.".Count",$count);
             $config->setNested($target.".Reason.1",$reason);
         }
+
         $config->save();
     }
     
 
     //ペナルティを解除
     public function cancelPunishment($target){
-        $config = $this->getConfig();
-        $config->remove($target);
-        $config->save();
     }
 
     //警告理由

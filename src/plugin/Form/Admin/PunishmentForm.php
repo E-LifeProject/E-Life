@@ -13,26 +13,27 @@ use plugin\Utils\Punishment;
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
 
+
+
 class PunishmentForm implements Form{
+
     public function handleResponse(Player $player, $data) : void{
 		if($data === null){
 			return;
 		}
 		switch($data){
-			// 違反管理
+			//警告付与
 			case 0:
 				$player->sendForm(new addPunishment());
-			break;
-
-			// 違反取下げ
-			case 1:
-				$player->sendForm(new withdrawalPunishment());
-			break;
+            break;
+            
+            //入室禁止
+            case 1:
+                $player->sendForm(new addBan());
+            break;
 		}
-
 	}
 
-	//表示するForm
     public function jsonSerialize(){
         return[
             'type'=>'form',
@@ -40,10 +41,10 @@ class PunishmentForm implements Form{
             'content'=>'実行したい項目を選んでください',
             'buttons'=>[
                 [
-                    'text'=>'警告付与・入室禁止'
+                    'text'=>'警告付与'
                 ],
                 [
-                    'text'=>'違反取下げ'
+                    'text'=>'入室禁止'
                 ],
             ]
         ];
@@ -67,17 +68,19 @@ class addPunishment implements Form{
         }
 
         switch($data[2]){
-            //警告
             case 0:
-                $punishment->addPunishment($data[0],$reason,$name);
-                $player->sendMessage("§a[個人通知] §7".$data[0]."に警告を付与しました");
+                $count = 1;
             break;
-
-            //入室禁止
             case 1:
-                Server::getInstance()->getNameBans()->addBan($data[0],$reason,null,$name);
-                $player->sendMessage("§a[個人通知] §7".$data[0]."を入室禁止にしました");
+                $count = 2;
             break;
+        }
+
+        if(Server::getInstance()->getNameBans()->isBanned($data[0])){//入室禁止であったら
+            $player->sendMessage("§a[個人通知] §7".$data[0]."は入室禁止措置が取られています");
+        }else{
+            $punishment->addPunishment($data[0],$count,$reason,$name);
+            $player->sendMessage("§a[個人通知] §7".$data[0]."に警告を付与しました");
         }
 	}
 
@@ -102,10 +105,10 @@ class addPunishment implements Form{
                 ],
                 [
                     'type'=>'dropdown',
-                    'text'=>'処罰選択',
+                    'text'=>'違反点数',
                     'options'=>[
-                        '警告付与',
-                        '入室禁止'
+                        '1',
+                        '2'
                     ]
                 ]
             ]
@@ -113,10 +116,8 @@ class addPunishment implements Form{
     }
 }
 
-
-
-//違反取下げ
-class withdrawalPunishment implements Form{
+//入室禁止者追加
+class addBan implements Form{
 
     public function handleResponse(Player $player, $data) : void{
 		if($data === null){
@@ -125,16 +126,22 @@ class withdrawalPunishment implements Form{
         $instance = Server::getInstance()->getNameBans();
         $punishment = Punishment::getInstance();
 
-        if($instance->isBanned($data[0])){//もしBanされていたら
-            $instance->remove($data[0]);
-            $player->sendMessage("§a[個人通知] §7".$data[0]."の入室禁止を解除しました");
+        switch($data[1]){
+            case 0:
+                $reason = "暴言・誹謗中傷";
+            break;
+        }
+
+        if($instance->isBanned($data[0])){//既に入室禁止であったら
+            $player->sendMessage("§a[個人通知] §7".$data[0]."は既に入室禁止措置が取られています");
         }else{
-            if($punishment->checkPunishment($data[0])){
-                $punishment->cancelPunishment($data[0]);
-                $player->sendMessage("§a[個人通知] §7".$data[0]."の警告を解除しました");
-            }else{
-                $player->sendMessage("§a[個人通知] §7".$data[0]."は処罰が課せられておりません");
+            if($punishment->checkPunishment($data[0])){//もし警告付与者なら警告データを削除
+                $config = ConfigBase::getFor(ConfigList::PUNISHMENT);
+                $config->remove($data[0]);
+                $config->save();
             }
+            $instance->addBan($data[0],$reason,null,$player->getName());
+            $player->sendMessage("§a[個人通知] §7".$data[0]."に入室禁止措置を取りました");
         }
 	}
 
@@ -146,14 +153,14 @@ class withdrawalPunishment implements Form{
             'content'=>[
                 [
                     'type'=>'input',
-                    'text'=>'違反取下げプレーヤー',
-                    'placeholder'=>'違反取下げ者名'
+                    'text'=>'入室禁止プレーヤー',
+                    'placeholder'=>'違反者名'
                 ],
                 [
                     'type'=>'dropdown',
-                    'text'=>'取下げ理由',
+                    'text'=>'入室禁止理由',
                     'options'=>[
-                        '誤Ban',
+                        '暴言・誹謗中傷',
                     ],
                     'default'=> 0
                 ]
