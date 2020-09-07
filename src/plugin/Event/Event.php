@@ -15,12 +15,14 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerLoginEvent;
+use pocketmine\event\player\PlayerPreLoginEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
 
 #Packet
 use pocketmine\network\mcpe\protocol\InventoryTransactionPacket;
 use pocketmine\network\mcpe\protocol\InteractPacket;
+use pocketmine\network\mcpe\protocol\LoginPacket;
 
 #E-Life
 use plugin\Form\TermsForm;
@@ -62,18 +64,8 @@ class Event implements Listener {
     public function onLogin(PlayerLoginEvent $event){
     	$player = $event->getPlayer();
         $name = $player->getName();
-        $xuid = $player->getXuid();
-        $config = ConfigBase::getFor(ConfigList::XUID);
-
-        //Xboxの名前変更は認めない
-        if($config->exists($xuid)){
-            if($config->get($xuid) !== $name){
-                $player->kick("名前が異なる為ログイン出来ません",false);
-            }
-        }else{
-            $config->set($xuid,$name);
-            $config->save();
-        }
+        
+        
 
         //総プレイ時間記録の為の初期化
         $this->main->time[$name] = 0;
@@ -124,6 +116,24 @@ class Event implements Listener {
         $player = $event->getPlayer();
         $name = $player->getName();
 
+
+        $xuid = $player->getXuid();
+        $config = ConfigBase::getFor(ConfigList::XUID);
+
+        
+        if($config->exists($xuid)){
+            if($config->get($xuid) !== $name){
+                $player->kick("名前が異なる為ログインする事ができません",false);
+                return;
+            }
+        }else{
+            $config->set($xuid,$name);
+            $config->save();
+        }
+
+        //MenuBookをインベントリに追加
+        $player->getInventory()->setItem(0, new MenuBook());
+
         if($player->isOp()){
             $player->setNameTag("§9♪§f".$name);
             $player->setDisplayName("§9♪§f".$name);
@@ -161,13 +171,6 @@ class Event implements Listener {
             $player->sendForm(new TermsForm());
         }
 
-        
-        $player->sendTitle("E-Life鯖へようこそ","Welcome to E-Life",40,40,40);
-        $event->setJoinMessage("§6[全体通知] §7".$name."さんがE-Lifeにログインしました");
-
-        //MenuBookをインベントリに追加
-        $player->getInventory()->setItem(0, new MenuBook());
-
         //StatusNPCを表示
         $npc = new StatusNPC();
         $npc->showNPC($player, $this->main->StatusNPC, 155, 155);
@@ -179,6 +182,9 @@ class Event implements Listener {
         //ATMの浮き文字を表示
         $float = new ATMFloatText();
 		$float->FloatText($player);
+
+        $player->sendTitle("E-Life鯖へようこそ","Welcome to E-Life",40,40,40);
+        $event->setJoinMessage("§6[全体通知] §7".$name."さんがE-Lifeにログインしました");
     }
 
 
@@ -288,7 +294,6 @@ class Event implements Listener {
                 }
             }
         */
-
         if ($pk instanceof InteractPacket){
 
             $player = $event->getPlayer();
