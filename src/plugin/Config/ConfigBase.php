@@ -33,6 +33,7 @@ class ConfigBase
 			ConfigList::XUID => [],
 			ConfigList::CHESTLOOK => [],
 			ConfigList::CASH_STORAGE => [],
+			ConfigList::CHATCOUNT => [],
 			ConfigList::TAXRATE =>[
 				"consumptionTax" => 0.1,
 				"corporateTax" => 0.15,

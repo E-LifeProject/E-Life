@@ -41,6 +41,8 @@ class ConfigList
 
 	const PUNISHMENT_LOG = "punishment_log";
 
+	const CHATCOUNT = "chatcount";
+
 	//警告を管理
 	const PUNISHMENT = "punishment";
 

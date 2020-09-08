@@ -4,6 +4,8 @@ namespace plugin\Utils;
 
 #Basic
 use pocketmine\utils\Config;
+use pocketmine\Server;
+use DateTime;
 
 #E-Life
 use plugin\Config\ConfigBase;
@@ -46,7 +48,7 @@ class Reliability{
 
     //信頼度を返す
     public function getReliability(){
-        return $this->getConfig()->get($this->name);
+        return $this->getConfig()->getNested($this->name.".Total");
     }
 
     //信頼度の色の§を返す
@@ -90,14 +92,14 @@ class Reliability{
 
     /**
      * ----信頼度計算項目----
-     * 1.プレイ時間
-     * 2.ローン返済状況
-     * 3.権限or役職
+     * 1.プレイ時間/10　　　長期的な要素
+     * 2.ローン返済状況/10
+     * 3.権限or役職/5
      * 4.保有土地面積(共有は除く)
-     * 5.鯖ルール違反数
-     * 6.一週間のチャット数
-     * 7.E-Club加入状況
-     * 8.鯖貢献度（管理者が手動で設定)初期値が10
+     * 5.鯖ルール違反数/10
+     * 6.一週間のチャット数(初回ログインの最初の一週間は0)　直近の要素
+     * 7.E-Club加入状況/5
+     * 8.鯖貢献度（管理者が手動で設定)初期値が10/30
      */
 
     //信頼度の計算を行う
@@ -105,11 +107,25 @@ class Reliability{
         $playTime = $this->playTimeCalculation();
         $loan = $this->loanCountCalculation();
         $club = $this->clubCalculation();
+        $punishment = $this->violationCalculation();
+        $authority = $this->authorityCalculation();
+        $chat = $this->chatCalculation();
 
-        $total = $playTime + $loan + $club;
+        $total = $playTime + $loan + $club + $punishment + $authority + $chat;
 
-        $this->getConfig()->set($this->name,$total);
-        $this->save();
+        $config = $this->getConfig();
+
+        //鯖貢献度(初期値)
+        if(!$config->exists($this->name)){//初回ログイン時
+           $total += 10;
+           $config->setNested($this->name.".Manual",10);
+
+        }else{
+            $total += $config->getNested($this->name.".Manual");
+        }
+
+        $config->setNested($this->name.".Total",intval($total));
+        $config->save();
     }
 
 
@@ -131,7 +147,6 @@ class Reliability{
          */
         $time = ConfigBase::getFor(ConfigList::TIME)->get($this->name);
         $hours = floor($time / 3600);
-        var_dump($hours);
         if(0 <= $hours && $hours < 2){
             $point = 0;
         }elseif(2 <= $hours && $hours < 4){
@@ -229,7 +244,7 @@ class Reliability{
          */
         $config = ConfigBase::getFor(ConfigList::PUNISHMENT);
         if($config->exists($this->name)){
-            $count = $config->getNested($this->name."Count");
+            $count = $config->getNested($this->name.".Count");
             switch($count){
                 case 1:
                     $point = 2;
@@ -241,9 +256,73 @@ class Reliability{
         }else{
             $point = 10;
         }
-        
+        var_dump($point);
         return $point;
     }
+
+    //権限に応じて加点
+    private function authorityCalculation(){
+
+        /**
+         * 権限に応じて加点
+         * 5:OP
+         */
+
+        if(Server::getInstance()->isOp($this->name)){
+            $point = 5;
+        }else{
+            $point = 0;
+        }
+        var_dump($point);
+        return $point;
+    }
+
+    //一週間のチャット数に応じて加点
+    private function chatCalculation(){
+        $config = ConfigBase::getFor(ConfigList::CHATCOUNT);
+        $configReliability = $this->getConfig();
+
+        if($config->exists($this->name)){
+            $date1 = new DateTime($config->getNested($this->name.".Start"));
+            $date2 = new DateTime(date("Y/m/d"));
+            $date3 = new DateTime($config->getNested($this->name.".End"));
+
+            if($date1 < $date2){
+                if($date2 > $date3){
+                    $configReliability->setNested($this->name.".Chat",$config->getNested($this->name.".Count"));
+                    $configReliability->save();
+                }else{
+                    $config->setNested($this->name.".Count",0);
+                    $configReliability->setNested($this->name.".Chat",0);
+                    $config->setNested($this->name.".Start",date("Y/m/d",strtotime("7 day")));//一週間後
+                    $config->setNested($this->name.".End",date("Y/m/d",strtotime("14 day")));//二週間後
+                }
+            }else{
+                $config->setNested($this->name.".Count",0);
+                $configReliability->setNested($this->name.".Chat",0);
+                $config->setNested($this->name.".Start",date("Y/m/d",strtotime("7 day")));//一週間後
+                $config->setNested($this->name.".End",date("Y/m/d",strtotime("14 day")));//二週間後
+            }
+        }else{
+            $config->setNested($this->name.".Count",0);
+            $configReliability->setNested($this->name.".Chat",0);
+            $config->setNested($this->name.".Start",date("Y/m/d",strtotime("7 day")));//一週間後
+            $config->setNested($this->name.".End",date("Y/m/d",strtotime("14 day")));//二週間後
+        }
+        $configReliability->save();
+        $config->save();
+    }
+
+    //鯖貢献度（手動部分）
+    public function setManual($point){
+        $config = $this->getConfig();
+
+        if($config->exists($this->name)){
+            $config->setNested($this->name.".Manual",intval($point));
+            $config->save();
+        }
+    }
+
 
 
 

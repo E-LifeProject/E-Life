@@ -11,6 +11,7 @@ use pocketmine\utils\Config;
 use plugin\Form\Admin\LoanReview;
 use plugin\Form\Admin\CommandForm;
 use plugin\Form\Admin\PunishmentForm;
+use plugin\Form\Admin\ReliabilityForm;
 use plugin\Config\ConfigBase;
 use plugin\Config\ConfigList;
 
@@ -36,8 +37,14 @@ class SettingForm implements Form{
 				}
 			break;
 
-			// コマンド関連
+			//　信用度の手動設定
 			case 2:
+				$player->sendForm(new ReliabilityForm());
+			break;
+
+
+			// コマンド関連
+			case 3:
 				$player->sendForm(new CommandForm());
 			break;
 		}
@@ -56,7 +63,10 @@ class SettingForm implements Form{
                 ],
                 [
                     'text'=>'銀行ローン審査'
-                ],
+				],
+				[
+					'text'=>'信用度設定'
+				],
                 [
                     'text'=>'コマンド関連'
                 ]

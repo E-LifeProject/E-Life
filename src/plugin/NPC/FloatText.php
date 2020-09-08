@@ -88,7 +88,7 @@ class FloatText{
 			self::FloatText($player, "§l§e名前 : ".$name."", $eid[$name][0], 3);
 			self::FloatText($player, "返済期日 : ".$loan, $eid[$name][1], 2.7);
 			self::FloatText($player, "E-Club期限 : ".$clubData, $eid[$name][2], 2.4);
-			self::FloatText($player, "信頼度 : ".$reliability->getReliabilityColour()."■§f".$point."/100", $eid[$name][3], 2.1);
+			self::FloatText($player, "信用度 : ".$reliability->getReliabilityColour()."■§f".$point."/100", $eid[$name][3], 2.1);
 		}
 	}
 }
