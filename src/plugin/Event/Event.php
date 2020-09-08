@@ -15,14 +15,12 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerLoginEvent;
-use pocketmine\event\player\PlayerPreLoginEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
 
 #Packet
 use pocketmine\network\mcpe\protocol\InventoryTransactionPacket;
 use pocketmine\network\mcpe\protocol\InteractPacket;
-use pocketmine\network\mcpe\protocol\LoginPacket;
 
 #E-Life
 use plugin\Form\TermsForm;
