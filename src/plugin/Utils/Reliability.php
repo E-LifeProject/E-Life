@@ -109,7 +109,9 @@ class Reliability{
         $club = $this->clubCalculation();
         $punishment = $this->violationCalculation();
         $authority = $this->authorityCalculation();
-        $chat = $this->chatCalculation();
+        $this->chatCalculation();
+
+        $chat = $this->getConfig()->getNested($this->name.".Chat.Count");
 
         $total = $playTime + $loan + $club + $punishment + $authority + $chat;
 
@@ -277,40 +279,54 @@ class Reliability{
         return $point;
     }
 
-    //一週間のチャット数に応じて加点
+    //1週間のチャット数に応じて加点
     private function chatCalculation(){
         $config = ConfigBase::getFor(ConfigList::CHATCOUNT);
-        $configReliability = $this->getConfig();
+        
+        if($config->exists($this->name)){//過去にログインした事がある
+            $date = new DateTime(date('Y/m/d',strtotime($this->getConfig()->getNested($this->name.".Chat.Date"))));
+            $now = new DateTime();
+            if($date <= $now){//期限切れ
+                $start = new DateTime($config->getNested($this->name.".Date.Start"));
+                $end = new DateTime($config->getNested($this->name.".Date.End"));
+                if($start <= $now || $end < $date){//記録していた値が先週のものであれば
+                    $count = $config->getNested($this->name.".Count");
 
-        if($config->exists($this->name)){
-            $date1 = new DateTime($config->getNested($this->name.".Start"));
-            $date2 = new DateTime(date("Y/m/d"));
-            $date3 = new DateTime($config->getNested($this->name.".End"));
+                    if(0 <= $count && $count < 25){
+                        $point = 0;
+                    }elseif(25 <= $count && $count < 50){
+                        $point = 1;
+                    }elseif(50 <= $count && $count < 100){
+                        $point = 2;
+                    }
 
-            if($date1 < $date2){
-                if($date2 > $date3){
-                    $configReliability->setNested($this->name.".Chat",$config->getNested($this->name.".Count"));
-                    $configReliability->save();
-                }else{
+                    $this->getConfig()->setNested($this->name.".Chat.Count",$point);
+                    $this->getConfig()->setNested($this->name.".Chat.Date",$config->getNested($this->name.".Date.End"));
+
+                    $end = $config->getNested($this->name.".Date.End");
+                    $config->setNested($this->name.".Date.Start",$end);
+                    $config->setNested($this->name.".Date.End",date("Y/m/d",strtotime($end."+1 week")));
                     $config->setNested($this->name.".Count",0);
-                    $configReliability->setNested($this->name.".Chat",0);
-                    $config->setNested($this->name.".Start",date("Y/m/d",strtotime("7 day")));//一週間後
-                    $config->setNested($this->name.".End",date("Y/m/d",strtotime("14 day")));//二週間後
+                }else{//先週のものでなければ
+                    $this->getConfig()->setNested($this->name.".Count",0);
+                    $this->getConfig()->setNested($this->name.".Chat.Date",date("Y/m/d"));
+
+                    $config->setNested($this->name.".Count",0);//来週に反映される今週のチャット回数を記録する
+                    $config->setNested($this->name.".Date.Start",date("Y/m/d",strtotime("+1 week")));
+                    $config->setNested($this->name.".Date.End",date("Y/m/d",strtotime("+2 week")));
                 }
-            }else{
-                $config->setNested($this->name.".Count",0);
-                $configReliability->setNested($this->name.".Chat",0);
-                $config->setNested($this->name.".Start",date("Y/m/d",strtotime("7 day")));//一週間後
-                $config->setNested($this->name.".End",date("Y/m/d",strtotime("14 day")));//二週間後
-            }
-        }else{
-            $config->setNested($this->name.".Count",0);
-            $configReliability->setNested($this->name.".Chat",0);
-            $config->setNested($this->name.".Start",date("Y/m/d",strtotime("7 day")));//一週間後
-            $config->setNested($this->name.".End",date("Y/m/d",strtotime("14 day")));//二週間後
+            }//期限がまだ切れていない場合はそのまま
+        }else{//初回ログイン時
+            $config->setNested($this->name.".Count",0);//来週に反映される今週のチャット回数を記録する
+            $config->setNested($this->name.".Date.Start",date("Y/m/d",strtotime("+1 week")));
+            $config->setNested($this->name.".Date.End",date("Y/m/d",strtotime("+2 week")));
+
+            $this->getConfig()->setNested($this->name.".Chat.Count",0);
+            $this->getConfig()->setNested($this->name.".Chat.Date",date("Y/m/d",strtotime("+1 week")));//一週間後にはカウントの数値（信用度）を上書きする
         }
-        $configReliability->save();
+
         $config->save();
+        $this->getConfig()->save();
     }
 
     //鯖貢献度（手動部分）
