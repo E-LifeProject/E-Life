@@ -16,6 +16,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerDeathEvent;
+use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
 
 #Packet
@@ -227,6 +228,22 @@ class Event implements Listener {
 				$player->sendForm(new BankMenu($this->main)); 
 			}
 		}
+    }
+
+    public function onChat(PlayerChatEvent $event){
+        $player = $event->getPlayer();
+        $name = $player->getName();
+        $config = ConfigBase::getFor(ConfigList::CHATCOUNT);
+        
+        $start = new DateTime($config->getNested($name.".Date.Start"));
+        $end = new DateTime($config->getNested($name.".Date.End"));
+        $now = new DateTime();
+        if($start <= $now || $now < $end ){//記録していた値が先週のものであれば
+            $count = $config->getNested($name.".Count");
+            $count += 1;
+            $config->setNested($name.".Count",$count);
+            $config->save();
+        }
     }
 
     //KeepInventory
