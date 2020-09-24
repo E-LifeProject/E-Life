@@ -30,20 +30,43 @@ class Purchase implements Form{
         if($data === null){
             return;
         }
-
-        $player->sendForm(new PurchaseConfirmation($data[1],$this->itemData));
+        $player->sendForm(new PurchaseConfirmation($this->value[$data[1]],$data[2]));
     }
 
     public function jsonSerialize(){
         $config = ConfigBase::getFor(ConfigList::PURCHASE);
-        $this->itemData = $config->get($config->get("setItem"));
+        $this->itemData = $config->get($config->get("setType"));
+        foreach($this->itemData as $key => $value){
+            $this->key[] = $key;
+            $this->value[] = $value;
+            $this->jpnName[] = $config->getNested("setType.".$key.".jpnName");
+        }
+
+        $itemText = <<<EOT
+        【現在の買取アイテム】
+        {$this->value[0]["jpnName"]}
+        {$this->value[1]["jpnName"]}
+        {$this->value[2]["jpnName"]}
+        {$this->value[3]["jpnName"]}
+        EOT;
+
         return[
             'type'=>'custom_form',
             'title'=>'資源買取フォーム',
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>'現在買取アイテム: '.$this->itemData['jpnName']."\n上記以外のアイテムは現在買取は行っておりません。"
+                    'text'=>$itemText
+                ],
+                [
+                    'type'=>'dropdown',
+                    'text'=>'買取品目',
+                    'options'=>[
+                        $this->value[0]["jpnName"],
+                        $this->value[1]["jpnName"],
+                        $this->value[2]["jpnName"],
+                        $this->value[3]["jpnName"]
+                    ]
                 ],
                 [
                     'type'=>'slider',
@@ -60,10 +83,10 @@ class Purchase implements Form{
 
 class PurchaseConfirmation implements Form{
 
-    public function __construct($count,$itemData){
+    public function __construct($value,$count){
+        $this->value = $value;
         $this->count = $count;
-        $this->itemData = $itemData;
-        $this->totalPrice = $itemData['price']*$this->count;
+        $this->totalPrice = $value['price']*$this->count;
     }
 
     public function handleResponse(Player $player,$data):void{
@@ -74,16 +97,16 @@ class PurchaseConfirmation implements Form{
         
         $haveCount = 0;
         foreach ($player->getInventory()->getContents() as $item){
-			if($this->itemData['id' ] == $item->getId()){
-                if($this->itemData['damage'] == $item->getDamage()){
+			if($this->value['id' ] == $item->getId()){
+                if($this->value['damage'] == $item->getDamage()){
 					$haveCount += $item->getCount();
 				}
 			}
         }
-        $item=Item::get($this->itemData['id'],$this->itemData['damage'],$this->count);
+        $item=Item::get($this->value['id'],$this->value['damage'],$this->count);
         if($haveCount >= $this->count){
             $player->getInventory()->removeItem($item);
-            Storehouse::getInstance()->addItemCount($this->itemData["name"],$this->count);
+            Storehouse::getInstance()->addItemCount($this->value["name"],$this->count);
             $money_instance = new MoneyListener($player->getName());
             $money_instance->addMoney($this->totalPrice);
             GovernmentMoney::getInstance()->reduceMoney($this->totalPrice);
@@ -100,7 +123,7 @@ class PurchaseConfirmation implements Form{
             'content'=>[
                 [
                     'type'=>'label',
-                    'text'=>'買取品目:'.$this->itemData['jpnName']."\n買取数:".$this->count."個\n買取値段:".$this->itemData['price']."円/個\n--------------------\n買取合計金額:".$this->totalPrice.'円'
+                    'text'=>'買取品目:'.$this->value['jpnName']."\n買取数:".$this->count."個\n買取値段:".$this->value['price']."円/個\n--------------------\n買取合計金額:".$this->totalPrice.'円'
                 ],
                 [
                     'type'=>'label',

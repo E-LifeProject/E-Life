@@ -88,55 +88,22 @@ class ItemChange implements Form{
 
         $config = ConfigBase::getFor(ConfigList::PURCHASE);
         switch($data[0]){
-
-            //石
+            //タイプ１
             case 0:
-                $config->set("setItem","stone");
-                $config->save();
+                $config->set("setType","type1");
             break;
 
-            //オークの原木
+            //タイプ２
             case 1:
-                $config->set("setItem","oka");
-                $config->save();
+                $config->set("setType","type2");
             break;
 
-            //マツの原木
+            //タイプ3
             case 2:
-                $config->set("setItem","spruce");
-                $config->save();
-            break;
-
-            //シラカバの原木
-            case 3:
-                $config->set("setItem","birch");
-                $config->save();
-            break;
-
-            //ジャングルの原木
-            case 4:
-                $config->set("setItem","jungle");
-                $config->save();
-            break;
-
-            //アカシアの原木
-            case 5:
-                $config->set("setItem","acacia");
-                $config->save();
-            break;
-
-            //ダークオークの原木
-            case 6:
-                $config->set("setItem","dark_oka");
-                $config->save();
-            break;
-            
-            //鉄鉱石
-            case 7:
-                $config->set("setItem","ironOre");
-                $config->save();
+                $config->set("setType","type3");
             break;
         }
+        $config->save();
     }
 
     public function jsonSerialize(){
@@ -148,14 +115,9 @@ class ItemChange implements Form{
                     'type'=>'dropdown',
                     'text'=>'買取品目を選択してください',
                     'options'=>[
-                        '石',
-                        'オークの原木',
-                        'マツの原木',
-                        'シラカバの原木',
-                        'ジャングルの原木',
-                        'アカシアの原木',
-                        'ダークオークの原木',
-                        '鉄鉱石'
+                        'タイプ1',
+                        'タイプ2',
+                        'タイプ3'
                     ],
                     'default'=>2
                 ]
