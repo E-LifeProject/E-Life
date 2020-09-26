@@ -10,8 +10,8 @@ class ConfigList
 	//KeepInventoryの回数を記録
 	const KEEP_INVENTORY = "keep_inventory";
 
-	//公式ショップのブロックとアイテムの価格を管理
-	const SHOP = "price";
+	//アイテムの売値・買値を管理
+	const ITEM_DATA = "item_data";
 
 	//E-Clubの会員情報を管理
 	const CLUB = "club";

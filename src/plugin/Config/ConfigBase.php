@@ -43,93 +43,143 @@ class ConfigBase
 			ConfigList::PURCHASE =>[
 				"setType" => "type1",
 				"type1" => [
-					"stone"=>[
-						"jpnName" =>"石",
-						"name" => "stone",
-						"id" => 1,
-						"damage"=>0,
-						"price" => 10,
-					],
-					"birch"=>[
-						"jpnName"=>"シラカバの原木",
-						"name" => "birch",
-						"id"=> 17,
-						"damage" => 2,
-						"price"=> 4,
-					],
-					"dark_oka"=>[
-						"jpnName"=>"ダークオークの原木",
-						"name" => "dark_oka",
-						"id"=> 162,
-						"damage" => 1,
-						"price"=> 4,
-					],
-					"ironOre"=>[
-						"jpnName"=>"鉄鉱石",
-						"name" => "ironOre",
-						"id"=> 15,
-						"damage" => 0,
-						"price"=> 20,
-					]
+					"stone",
+					"birch",
+					"dark_oka",
+					"ironOre"
 				],
 				"type2" => [
-					"oka"=>[
-						"jpnName"=>"オークの原木",
-						"name" => "oka",
-						"id"=> 17,
-						"damage"=> 0,
-						"price"=> 4,
-					],
-					"jungle"=>[
-						"jpnName"=>"ジャングルの原木",
-						"name" => "jungle",
-						"id"=> 17,
-						"damage" => 2,
-						"price"=> 4,
-					],
-					"acacia"=>[
-						"jpnName"=>"アカシアの原木",
-						"name" => "acacia",
-						"id"=> 162,
-						"damage" => 0,
-						"price"=> 4,
-					],
-					"coal" => [
-						"jpnName"=>"石炭",
-						"name"=>"coal",
-						"id"=> 263,
-						"damege" => 0,
-						"price" => 3,
-					]
+					"oka",
+					"jungle",
+					"acacia",
+					"coal"
 				],
 				"type3" => [
-					"spruce"=>[
-						"jpnName"=>"マツの原木",
-						"name" => "spruce",
-						"id"=> 17,
-						"damage" => 1,
-						"price"=> 4,
-					],
-					"acacia"=>[
-						"jpnName"=>"アカシアの原木",
-						"name" => "acacia",
-						"id"=> 162,
-						"damage" => 0,
-						"price"=> 4,
-					],
-					"glass"=>[
-						"jpnName"=>"ガラス",
-						"name"=>"glass",
-						"id"=> 20,
-						"damage"=> 0,
-						"price"=> 4
-					],
-					"concrete"=>[
-						"jpnName"=>"コンクリート",
-						"name"=>"concrete",
-						"id"=>236,
-						"damege"=>0,
-						"price"=>10
+					"spruce",
+					"acacia",
+					"glass",
+					"concrete"
+				]
+			],
+			ConfigList::ITEM_DATA => [
+				"stone"=>[
+					"jpnName" =>"石",
+					"name" => "stone",
+					"id" => 1,
+					"damage"=>0,
+					"price" => [
+						"purchase" => 10,
+						"selling" => 15
+					]
+				],
+				"concrete"=>[
+					"jpnName"=>"コンクリート",
+					"name"=>"concrete",
+					"id"=>236,
+					"damege"=>0,
+					"price"=> [
+						"purchase" => 10,
+						"selling" => 15
+					]
+				],
+				"glass"=>[
+					"jpnName"=>"ガラス",
+					"name"=>"glass",
+					"id"=> 20,
+					"damage"=> 0,
+					"price"=> [
+						"purchase" => 10,
+						"selling" => 15, 
+					]
+				],
+				"oka"=>[
+					"jpnName"=>"オークの原木",
+					"name" => "oka",
+					"id"=> 17,
+					"damage"=> 0,
+					"price"=> [
+						"purchase" => 4,
+						"selling" => 8
+					]
+				],
+				"birch"=>[
+					"jpnName"=>"シラカバの原木",
+					"name" => "birch",
+					"id"=> 17,
+					"damage" => 2,
+					"price"=> [
+						"purchase" => 4,
+						"selling" => 8
+					]
+				],
+				"dark_oka"=>[
+					"jpnName"=>"ダークオークの原木",
+					"name" => "dark_oka",
+					"id"=> 162,
+					"damage" => 1,
+					"price"=> [
+						"purchase" => 4,
+						"selling" => 8
+					]
+				],
+				"jungle"=>[
+					"jpnName"=>"ジャングルの原木",
+					"name" => "jungle",
+					"id"=> 17,
+					"damage" => 2,
+					"price"=> [
+						"purchase" => 4,
+						"selling" => 8
+					]
+				],
+				"acacia"=>[
+					"jpnName"=>"アカシアの原木",
+					"name" => "acacia",
+					"id"=> 162,
+					"damage" => 0,
+					"price"=> [
+						"purchase" => 4,
+						"selling" => 8
+					]
+				],
+				"spruce"=>[
+					"jpnName"=>"マツの原木",
+					"name" => "spruce",
+					"id"=> 17,
+					"damage" => 1,
+					"price"=> [
+						"purchase" => 4,
+						"selling" => 8
+					]
+				],
+				"acacia"=>[
+					"jpnName"=>"アカシアの原木",
+					"name" => "acacia",
+					"id"=> 162,
+					"damage" => 0,
+					"price"=> [
+						"purchase" => 4,
+						"selling" => 8
+					]
+				],
+				"coal" => [
+					"jpnName"=>"石炭",
+					"name"=>"coal",
+					"id"=> 263,
+					"damege" => 0,
+					"price" => [
+						"purchase" => 3,
+						"selling" => 5
+					]
+				],
+				"ironOre"=>[
+					"jpnName"=>"鉄鉱石",
+					"name" => "ironOre",
+					"id"=> 15,
+					"damage" => 0,
+					"price"=> [
+						"purchase" => 4,
+						"selling" => 8
 					]
 				]
 			],
