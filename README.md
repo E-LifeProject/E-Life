@@ -1,5 +1,5 @@
 # E-Life Server
-- E-Lifeとは、MinecraftBEサーバーソフトウェアPMMP向けに作成されたPluginです。あなたが自由気ままに生活できる場所を
+- E-Lifeとは、MinecraftBEサーバーソフトウェアPMMP向けに作成されたPluginです
 - 開発者は自由にコミットする事が出来、新要素の追加については一度報告をお願いします
 
 ## 前提プラグイン
